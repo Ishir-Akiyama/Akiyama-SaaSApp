@@ -1,5 +1,7 @@
 var bodyParser = require('body-parser'); 	// get body-parser
-var User       = require('../models/user');
+var User = require('../models/user');
+var Client = require('../controller/client.server.controller');
+
 var jwt        = require('jsonwebtoken');
 var config     = require('../../config');
 
@@ -249,10 +251,10 @@ module.exports = function(app, express) {
 		    Client.findById(req, res);
 		})
 
-		// update the client with this id
-		//.put(function (req, res) {
-
-		//})
+		 //update the client with this id
+		.put(function (req, res) {
+		    Client.update(req, res);
+		})
 
 		// delete the client with this id
 		.delete(function (req, res) {
