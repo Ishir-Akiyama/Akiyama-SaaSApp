@@ -1,0 +1,48 @@
+<div class="page-header">
+	<h1>
+		Clients 
+		<a href="/clients/create" class="btn btn-default">
+			<span class="glyphicon glyphicon-plus"></span> 
+			New Client
+		</a>
+	</h1>
+
+</div>
+
+<div class="jumbotron text-center" ng-show="client.processing">
+	<span class="glyphicon glyphicon-repeat spinner"></span>
+	<p>Loading Clients...</p>
+</div>
+
+<table class="table table-bordered table-striped" ng-show="client.clients">
+	<thead>
+		<tr>
+			<th>_id</th>
+			<th>Name</th>
+			<th>Address1</th>
+            <th>Address2</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip</th>
+            <th>Country</th>
+            <th>Status</th>
+			<th class="col-sm-1"></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="cl in client.clients">
+			<td>{{ cl._id }}</td>
+			<td>{{ cl.name }}</td>
+			<td>{{ cl.address1 }}</td>
+            <td>{{ cl.address2 }}</td>
+            <td>{{ cl.city }}</td>
+            <td>{{ cl.state }}</td>
+            <td>{{ cl.zip }}</td>
+            <td>{{ cl.country }}</td>
+            <td><input type="checkbox" ng-model="cl.isActive"></td>
+			<td class="col-sm-1">
+				<a ng-href="/clients/{{ cl._id }}" class="btn btn-danger">Edit</a>
+			</td>
+		</tr>
+	</tbody>
+</table>

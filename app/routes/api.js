@@ -216,6 +216,55 @@ module.exports = function(app, express) {
 			});
 		});
 
+
+    // on routes that end in /clients
+    // ----------------------------------------------------
+	apiRouter.route('/clients')
+		// create a client (accessed at POST http://localhost:8080/api/clients)
+		.post(function (req, res) {
+		    Client.create(req, res);
+		})
+
+		// get all the clients (accessed at GET http://localhost:8080/api/clients)
+		.get(function (req, res) {
+		    Client.all(req, res);
+		});
+
+
+    // on routes that end in /activeClients
+    // ----------------------------------------------------
+	apiRouter.route('/activeClients')
+
+		// get all the active clients (accessed at GET http://localhost:8080/api/activeClients)
+		.get(function (req, res) {
+		    Client.allActive(req, res);
+		});
+
+    // on routes that end in /clients/:client_id
+    // ----------------------------------------------------
+	apiRouter.route('/clients/:client_id')
+
+		// get the client with that id
+		.get(function (req, res) {
+		    Client.findById(req, res);
+		})
+
+		// update the client with this id
+		//.put(function (req, res) {
+
+		//})
+
+		// delete the client with this id
+		.delete(function (req, res) {
+		    Client.remove({
+		        _id: req.params.client_id
+		    }, function (err, client) {
+		        if (err) res.send(err);
+
+		        res.json({ message: 'Successfully deleted' });
+		    });
+		});
+
 	// api endpoint to get user information
 	apiRouter.get('/me', function(req, res) {
 		res.send(req.decoded);

@@ -22,10 +22,12 @@
 	<!-- controllers -->
 	<script src="app/controllers/mainCtrl.js"></script>
 	<script src="app/controllers/userCtrl.js"></script>
-
+    <script src="app/controllers/clientCtrl.js"></script>
 	<!-- services -->
 	<script src="app/services/authService.js"></script>
 	<script src="app/services/userService.js"></script>
+    <script src="app/services/clientService.js"></script>
+    <script src="app/services/commonService.js"></script>
 
 	<!-- main Angular app files -->
 	<script src="app/app.routes.js"></script>
@@ -42,6 +44,7 @@
 		</div>	
 		<ul class="nav navbar-nav">
 			<li><a href="/users"><span class="glyphicon glyphicon-user"></span> Users</a></li>
+            <li><a href="/clients"><span class="glyphicon glyphicon-user"></span> Clients</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
 			<li ng-if="!main.loggedIn"><a href="/login">Login</a></li>
