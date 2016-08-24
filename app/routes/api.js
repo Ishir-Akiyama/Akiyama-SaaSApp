@@ -4,7 +4,12 @@ var Client = require('../controller/client.server.controller');
 
 var jwt        = require('jsonwebtoken');
 var config     = require('../../config');
-
+//for email
+var express = require('express');
+var nodemailer = require("nodemailer");
+var mail = require('../sendmail');
+var app = express();
+var randonPassword = "";
 // super secret for creating tokens
 var superSecret = config.secret;
 
@@ -138,27 +143,66 @@ module.exports = function(app, express) {
 	apiRouter.route('/users')
 
 		// create a user (accessed at POST http://localhost:8080/users)
-		.post(function(req, res) {
-			
-			var user = new User();		// create a new instance of the User model
-			user.name = req.body.name;  // set the users name (comes from the request)
-			user.username = req.body.username;  // set the users username (comes from the request)
-			user.password = req.body.password;  // set the users password (comes from the request)
+		 .post(function (req, res) {
+		     var user = new User();          // create a new instance of the User model
+		     randonPassword = (req.body.password == undefined || req.body.password == "") ? user.randomPassword(8) : req.body.password;
 
-			user.save(function(err) {
-				if (err) {
-					// duplicate entry
-					if (err.code == 11000) 
-						return res.json({ success: false, message: 'A user with that username already exists. '});
-					else 
-						return res.send(err);
-				}
+		     //var user = new User();		// create a new instance of the User model
+		     user.firstname = req.body.firstname;  // set the users firstname (comes from the request)
+		     user.lastname = req.body.lastname;    // set the users lastname (comes from the request)
+		     user.username = req.body.username;  // set the users username (comes from the request)
+		     user.email = req.body.email;
+		     user.password = randonPassword;     // set the users password (comes from the request)
+		     user.isadmin = req.body.isadmin;
+		     if (user.isadmin == true) {
+		         user.isadmin = true;
+		     }
+		     else {
+		         user.isadmin = false;
+		     }
+		     if (req.body.role == "Client") {
+		         user.clientname = req.body.clientname;
+		     }
+		     else {
+		         user.clientname = "Not A Client";
+		     }
+		     user.isactive = req.body.isactive;
 
-				// return a message
-				res.json({ message: 'User created!' });
-			});
+		     user.save(function (err) {
+		         if (err) {
+		             console.log(err);
+		             // duplicate entry
+		             if (err.code == 11000)
+		                 return res.json({ success: false, message: 'A user with that username already exists. ' });
+		             else
+		                 return res.send(err);
+		         }
 
-		})
+		         // return a message
+		         res.json({ message: 'User created!' });
+		         //
+		         //query with mongoose
+		         User.findOne({ 'username': req.body.username }, function (err, user) {
+
+		             // if there is no chris user, create one
+		             console.log(user);
+		             var smtp = new mail();
+
+		             smtp.from = "manmohantayal9@gmail.com";
+		             smtp.useremail = user.email;
+		             smtp.subject = "Registration Mail For User";
+		             smtp.text = "New File";
+		             smtp.html = "Hello" + user.firstname + " " + user.lastname + " your password for first login is " + randonPassword + "&nbsp;<br/><a href='http://localhost:8080/'>Click Here For Login</a>",
+
+                     smtp.sendMail(smtp.from, smtp.useremail, smtp.subject, smtp.text, smtp.html);
+
+		         });
+
+		         //
+		     });
+
+
+		 })
 
 		// get all the users (accessed at GET http://localhost:8080/api/users)
 		.get(function(req, res) {
@@ -192,10 +236,11 @@ module.exports = function(app, express) {
 				if (err) res.send(err);
 
 				// set the new user information if it exists in the request
-				if (req.body.name) user.name = req.body.name;
+				if (req.body.firstname) user.firstname = req.body.firstname;
+				if (req.body.lastname) user.lastname = req.body.lastname;
 				if (req.body.username) user.username = req.body.username;
 				if (req.body.password) user.password = req.body.password;
-
+				if (req.body.isactive) user.isactive = req.body.isactive;
 				// save the user
 				user.save(function(err) {
 					if (err) res.send(err);
