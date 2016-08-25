@@ -1,8 +1,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-
+var AutoIncrement = require('mongoose-sequence');
 // client schema 
 var ClientSchema = new Schema({
+    ClientId: Number,
     name: String,
     address1: String,
     address2: String,
@@ -14,7 +15,8 @@ var ClientSchema = new Schema({
     isActive: Boolean,
 });
 
-
-
 module.exports = mongoose.model('clients', ClientSchema);
+ClientSchema.plugin(AutoIncrement, { inc_field: 'ClientId' });
+
+
 

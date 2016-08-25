@@ -15,23 +15,33 @@
 </div>
 
 <table class="table table-bordered table-striped" ng-show="user.users">
-	<thead>
-		<tr>
-			<th>_id</th>
-			<th>Name</th>
-			<th>Username</th>
-			<th class="col-sm-2"></th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr ng-repeat="person in user.users">
-			<td>{{ person._id }}</td>
-			<td>{{ person.name }}</td>
-			<td>{{ person.username }}</td>
-			<td class="col-sm-2">
-				<a ng-href="/users/{{ person._id }}" class="btn btn-danger">Edit</a>
-				<a href="#" ng-click="user.deleteUser(person._id)" class="btn btn-primary">Delete</a>
-			</td>
-		</tr>
-	</tbody>
+    <thead>
+        <tr>
+            <th>_id</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>Username</th>
+            <th>EmailId</th>
+            <th>clientname</th>
+            <th>IsAdmin</th>
+            <th>IsActive</th>
+            <th class="col-sm-2"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="person in user.users">
+            <td>{{ person._id }}</td>
+            <td>{{ person.firstname }}</td>
+            <td>{{ person.lastname }}</td>
+            <td>{{ person.username }}</td>
+            <td>{{person.email}}</td>
+            <td>{{ person.clientname }}</td>
+            <td>{{ person.isadmin }}</td>
+            <td>{{ person.isactive }}</td>
+            <td class="col-sm-2">
+                <a ng-href="/users/{{ person._id }}" class="btn btn-danger">Edit</a>
+                <a href="#" ng-click="user.deleteUser(person._id)" class="btn btn-primary">Delete</a>
+            </td>
+        </tr>
+    </tbody>
 </table>
