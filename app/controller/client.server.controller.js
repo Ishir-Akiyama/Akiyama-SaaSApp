@@ -12,7 +12,17 @@ exports.create = function (request, response) {
         country: request.body.country,
         isActive: request.body.isActive
     });
-    entry.save();
+    entry.save(function (err) {
+        if (err) {
+            // duplicate entry
+            //if (err.code == 11000) 
+            //    return res.json({ success: false, message: 'A user with that username already exists. '});
+            //else 
+            return response.send(err);
+        }
+        // return a message
+        response.json({ message: 'Client created!' });
+    });
     console.log(response);
 };
 
@@ -47,22 +57,21 @@ exports.findById = function (request, response) {
 // Edit Client
 exports.update = function (request, response) {
     Client.findById(request.params.client_id, function (err, Client) {
-        if (err) res.send(err);
+        if (err) response.send(err);
         // set the new client information if it exists in the request
-        if (req.body.name) client.name = req.body.name;
-        if (req.body.address1) client.address1 = req.body.address1;
-        if (req.body.address2) client.address2 = req.body.address2;
-        if (req.body.city) client.city = req.body.city;
-        if (req.body.state) client.state = req.body.state;
-        if (req.body.zip) client.zip = req.body.zip;
-        if (req.body.country) client.country = req.body.country;
-
+        if (request.body.name) Client.name = request.body.name;
+        if (request.body.address1) Client.address1 = request.body.address1;
+        if (request.body.address2) Client.address2 = request.body.address2;
+        if (request.body.city) Client.city = request.body.city;
+        if (request.body.state) Client.state = request.body.state;
+        if (request.body.zip) Client.zip = request.body.zip;
+        if (request.body.country) Client.country = request.body.country;
+        if (request.body.isActive) Client.isActive = request.body.isActive;
         // save the client
-        client.save(function (err) {
-            if (err) res.send(err);
-
+        Client.save(function (err) {
+            if (err) response.send(err);
             // return a message
-            res.json({ message: 'Client updated!' });
+            response.json({ message: 'Client updated!' });
         });
     });
 }

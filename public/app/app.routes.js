@@ -58,6 +58,20 @@ angular.module('app.routes', ['ngRoute'])
         templateUrl: 'app/views/pages/clients/single.html',
         controller: 'clientEditController',
         controllerAs: 'client'
+    })
+
+    // show all images
+    .when('/images', {
+        templateUrl: 'app/views/pages/images/all.html',
+        controller: 'imageController',
+        controllerAs: 'image'
+    })
+
+    // form to create a new image
+    .when('/images/create', {
+        templateUrl: 'app/views/pages/images/single.html',
+        controller: 'imageCreateController',
+        controllerAs: 'image'
     });
 
     $locationProvider.html5Mode(true);
