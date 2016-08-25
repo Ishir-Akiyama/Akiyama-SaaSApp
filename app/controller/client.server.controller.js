@@ -11,7 +11,9 @@ exports.create = function (request, response) {
         zip: request.body.zip,
         country: request.body.country,
         isActive: request.body.isActive
+       
     });
+
     entry.save(function(err) {
         if (err) {
             // duplicate entry

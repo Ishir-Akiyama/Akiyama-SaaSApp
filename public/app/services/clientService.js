@@ -20,9 +20,7 @@ angular.module('clientService', [])
 	clientFactory.create = function (clientData) {
 	    debugger;
 	    return $http.post('/api/clients/', clientData);
-	};
-
-    
+	};    
 
     // update a client
 	clientFactory.update = function (id, clientData) {
