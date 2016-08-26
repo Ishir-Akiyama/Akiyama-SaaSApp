@@ -195,7 +195,6 @@ module.exports = function(app, express) {
 		             smtp.html = "Hello" + user.firstname + " " + user.lastname + " your password for first login is " + randonPassword + "&nbsp;<br/><a href='http://localhost:8080/'>Click Here For Login</a>",
 
                      smtp.sendMail(smtp.from, smtp.useremail, smtp.subject, smtp.text, smtp.html);
-
 		         });
 
 		         //

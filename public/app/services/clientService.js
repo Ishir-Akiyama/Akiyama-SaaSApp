@@ -12,13 +12,11 @@ angular.module('clientService', [])
 
     // get all client
 	clientFactory.all = function () {
-	    debugger;
 	    return $http.get('/api/clients/');
 	};
 
     //// create a client
 	clientFactory.create = function (clientData) {
-	    debugger;
 	    return $http.post('/api/clients/', clientData);
 	};    
 

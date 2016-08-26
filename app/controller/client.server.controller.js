@@ -10,8 +10,7 @@ exports.create = function (request, response) {
         state: request.body.state,
         zip: request.body.zip,
         country: request.body.country,
-        isActive: request.body.isActive
-       
+        isActive: request.body.isActive       
     });
 
     entry.save(function(err) {
@@ -77,16 +76,3 @@ exports.update = function (request, response) {
         });
     });
 }
-
-//function getNextSequence(name) {
-//    var ret = db.counters.findAndModify(
-//           {
-//               query: { _id: name },
-//               update: { $inc: { seq: 1 } },
-//               new: true
-//           }
-//    );
-//    return ret.seq;
-//}
-
-

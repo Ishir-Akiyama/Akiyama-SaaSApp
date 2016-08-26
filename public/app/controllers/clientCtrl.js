@@ -1,7 +1,6 @@
 angular.module('clientCtrl', ['clientService','commonService'])
 
 .controller('clientController', function(Client) {
-    debugger;
 	var vm = this;
 
 	// set a processing variable to show loading things
@@ -10,9 +9,8 @@ angular.module('clientCtrl', ['clientService','commonService'])
 	// grab all the clients at page load
 	Client.all()
 		.success(function(data) {
-
 			// when all the clients come back, remove the processing variable
-			vm.processing = false;
+		    vm.processing = false;
 
 			// bind the clients that come back to vm.clients
 			vm.clients = data;
@@ -24,7 +22,6 @@ angular.module('clientCtrl', ['clientService','commonService'])
 
 		Client.delete(id)
 			.success(function(data) {
-
 				// get all clients to update the table
 				// you can also set up your api 
 				// to return the list of clients with the delete call
@@ -33,7 +30,6 @@ angular.module('clientCtrl', ['clientService','commonService'])
 						vm.processing = false;
 						vm.clients = data;
 					});
-
 			});
 	};
     
@@ -41,16 +37,13 @@ angular.module('clientCtrl', ['clientService','commonService'])
 
 // controller applied to client creation page
 .controller('clientCreateController', function(Client) {
-    debugger;
 	var vm = this;
-
 	// variable to hide/show elements of the view
 	// differentiates between create or edit pages
 	vm.type = 'create';
 
 	// function to create a user
 	vm.saveClient = function () {
-	    debugger;
 		vm.processing = true;
 		vm.message = '';
 
@@ -75,7 +68,6 @@ angular.module('clientCtrl', ['clientService','commonService'])
 .controller('clientEditController', function($routeParams, Client) {
 
 	var vm = this;
-
 	// variable to hide/show elements of the view
 	// differentiates between create or edit pages
 	vm.type = 'edit';

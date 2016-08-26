@@ -1,37 +1,44 @@
+
 <div class="row col-md-6 col-md-offset-3">
-	
-	<!--<div class="alert alert-info">
-		<p>Test Info</p>
-		<p><strong>Username</strong>: chris</p>
-		<p><strong>Password</strong>: supersecret</p>
-		<p><a href="#" ng-click="login.createSampleUser()" class="btn btn-sm btn-primary">Create Sample User</a></p>
-	</div>-->
-
-	<div class="jumbotron">
-		<h1>Login</h1>		
-
-		<form ng-submit="login.doLogin()">
-			
-			<div class="form-group">
-				<label>Username</label>
-				<input type="text" class="form-control" ng-model="login.loginData.username">
-			</div>
-
-			<div class="form-group">
-				<label>Password</label>
-				<input type="password" class="form-control" ng-model="login.loginData.password">
-			</div>
-
-			<div class="alert alert-danger" ng-if="login.error">
-				{{ login.error }}
-			</div>
-
-			<button type="submit" class="btn btn-block btn-primary">
-				<span ng-if="!login.processing">Login</span>
-				<span ng-if="login.processing" class="spinner"><span class="glyphicon glyphicon-repeat"></span></span>
-			</button>
-
-		</form>
-	</div>
-	
+    <!--<div class="alert alert-info">
+        <p>Test Info</p>
+        <p><strong>Username</strong>: chris</p>
+        <p><strong>Password</strong>: supersecret</p>
+        <p><a href="#" ng-click="login.createSampleUser()" class="btn btn-sm btn-primary">Create Sample User</a></p>
+    </div>-->
+    <div class="jumbotron">
+        <h1>Login to your account</h1>
+        <form ng-submit="login.doLogin()">
+            <div class="form-group">
+                <!--<label>Username</label>-->
+                <i class="glyphicon glyphicon-user"></i>
+                <input type="text" class="form-control" ng-model="login.loginData.username">
+            </div>
+            <div class="form-group">
+                <!--<label>Password</label>-->
+                <i class="glyphicon glyphicon-lock"></i>
+                <input type="password" class="form-control" ng-model="login.loginData.password">
+            </div>
+            <div class="alert alert-danger" ng-if="login.error">
+                {{ login.error }}
+            </div>
+            <div class="row col-md-6 col-md-offset-0" style="padding:0px">
+                <div class="form-group checkcls">
+                    <input type="checkbox" checked>
+                    <label>Remember me?</label>
+                </div>
+            </div>
+            <div class="row col-md-4 col-md-offset-0" style="margin-right:0; float:right; padding:0px;">
+                <button type="submit" class="btn btn-block btn-login">
+                    <span ng-if="!login.processing">Login</span>
+                    <span ng-if="login.processing" class="spinner">
+                        <span class="glyphicon glyphicon-repeat"></span>
+                    </span>
+                </button>
+                <div class="clearfix"></div>
+            </div>
+        </form>
+    </div>
+    <div class="clearfix"></div>
+    <div class="forgotpassword"><a href="#">Forgot Password?</a></div>
 </div>

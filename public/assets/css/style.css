@@ -1,11 +1,11 @@
-main 					{
-	padding-top:30px;	
+main {
+    padding-top: 20px;
 }
 
 /* HEADER 
 ===================== */
-header .navbar 		{ 
-	border-radius:0;
+header .navbar {
+    border-radius: 0;
 }
 
 /* NGANIMATE
@@ -13,30 +13,365 @@ header .navbar 		{
 
 /* show and hide */
 .show-hide-message.ng-hide-remove {
-	-webkit-animation:zoomIn 0.3s both ease;
-	-moz-animation:zoomIn 0.3s both ease;
-	animation:zoomIn 0.3s both ease;
+    -webkit-animation: zoomIn 0.3s both ease;
+    -moz-animation: zoomIn 0.3s both ease;
+    animation: zoomIn 0.3s both ease;
 }
 
 /* ANIMATIONS
 ====================== */
 .spinner {
-	-webkit-animation:spin 1s infinite;
-	-moz-animation:spin 1s infinite;
-	animation:spin 1s infinite;
+    -webkit-animation: spin 1s infinite;
+    -moz-animation: spin 1s infinite;
+    animation: spin 1s infinite;
 }
 
 @keyframes spin {
-	from 	{ transform:rotate(0deg); }
-	to 	{ transform:rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @-webkit-keyframes spin {
-	from 	{ -webkit-transform:rotate(0deg); }
-	to 	{ -webkit-transform:rotate(360deg); }
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+
+    to {
+        -webkit-transform: rotate(360deg);
+    }
 }
 
 @-moz-keyframes spin {
-	from 	{ -moz-transform:rotate(0deg); }	
-	to 	{ -moz-transform:rotate(360deg); }
+    from {
+        -moz-transform: rotate(0deg);
+    }
+
+    to {
+        -moz-transform: rotate(360deg);
+    }
+}
+
+/*css added on 22/08/2016*/
+.alert-info {
+    display: none;
+}
+
+.login {
+    background: url(../img/bg-1.jpg) top left repeat-x #03435c;
+    margin: 0px;
+    padding: 10px 0 0 0;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    background: #f6f6f6;
+}
+
+.loginPage {
+    background: url(../img/bg-1.jpg) top left repeat-x #03435c;
+    margin: 0px;
+    padding: 0px;
+}
+
+.logoArea {
+    height: 140px;
+    padding-top: 10px;
+    text-align: center;
+}
+
+.container .jumbotron, .container-fluid .jumbotron {
+    background: url(../img/akiyama-strip.jpg) top left repeat-x #ffffff;
+    padding: 0 60px 30px 60px;
+    margin: 120px 0 0 0;
+}
+
+.jumbotron h1 {
+    font-size: 18px;
+    color: #03435c;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0px;
+    padding: 45px 0 35px 0;
+}
+
+.container .jumbotron, .container-fluid .jumbotron {
+    border-radius: 0px;
+}
+
+textarea, textarea.form-control, input.form-control, input[type="text"], input[type="password"], input[type="email"], input[type="number"], .form-control[type="text"], .form-control[type="password"], .form-control[type="email"], .form-control[type="tel"] {
+    padding: 10px 10px 10px 40px;
+    height: 55px;
+    border: 1px solid #d6d6d6;
+    border-radius: 5px;
+    background: url(../img/fild-cls.jpg) top left repeat-x;
+}
+
+.checkcls label {
+    font-size: 16px;
+    font-weight: normal;
+    margin-top: 20px;
+}
+
+.checkcls input[type="checkbox"] {
+    padding: 5px;
+    background: #000000;
+    margin-right: 5px;
+}
+
+.btn-login {
+    background: #7da91b;
+    padding: 10px 0;
+    margin-top: 15px;
+    color: #FBFBFB;
+    text-transform: uppercase;
+    font-size: 17px;
+    float: right;
+    height: 52px;
+}
+
+.forgotpassword {
+    padding: 20px 0;
+    text-align: center;
+    background: #e4e4e4;
+    font-size: 16px;
+    width: 100%;
+}
+
+    .forgotpassword a {
+        color: #3a3a3a;
+    }
+
+.fotterlingCls {
+    background: url(../img/fotter-ling-img.jpg) top left repeat-x #03435c;
+    margin: 115px 0 0 0;
+    padding: 30px 0;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.glyphicon {
+    display: inline-block;
+    font-family: "Glyphicons Halflings";
+    font-style: normal;
+    font-weight: normal;
+    left: 15px;
+    line-height: 1;
+    position: absolute;
+    top: 20px;
+    color: #03435c;
+}
+
+textarea:focus, textarea.form-control:focus, input.form-control:focus, input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus, input[type="number"]:focus, .form-control[type="text"]:focus, .form-control[type="password"]:focus, .form-control[type="email"]:focus, .form-control[type="tel"]:focus {
+    box-shadow: 0 -2px 0 #e4e4e4 inset;
+}
+
+.navbar-inverse {
+    background: none;
+}
+
+.navbar-brand {
+    height: auto;
+    padding: 0px;
+}
+
+.navbar {
+    border-bottom: 2px solid #025378;
+    box-shadow: 0 0px 0px rgba(0, 0, 0, 0.3);
+    background: #fff;
+}
+
+.page-header h1, .h1 {
+    font-size: 35px;
+}
+
+.btn {
+    position: relative !important;
+}
+
+    .btn > .glyphicon {
+        left: 0;
+        position: relative;
+        top: 0;
+        color: #fff;
+    }
+
+.btn-default {
+    background: #7da91b;
+    color: #fff;
+}
+
+    .btn-default:hover, .btn-default:focus, .btn-default.focus, .btn-default:active, .btn-default.active, .open > .dropdown-toggle.btn-default {
+        background: #03435c;
+        color: #fff;
+    }
+
+.navbar-inverse .navbar-text {
+    color: #666666;
+    padding: 11px 8px;
+    margin: 0px;
+    font-size: 14px;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #666666;
+    padding: 11px 0px;
+    font-size: 14px;
+}
+
+    .navbar-inverse .navbar-nav > li > a:hover {
+        color: #666666;
+    }
+
+.btn-danger {
+    background: #025378;
+    color: #fff;
+}
+
+.btn-primary {
+    background: #7da91b;
+}
+
+
+/*dashboard css*/
+.container {
+    padding: 0px 15px;
+    position: relative;
+}
+
+.imguploadbx {
+    width: 100%;
+    padding: 0px;
+    margin: 20px 0 0 0;
+}
+
+    .imguploadbx h1 {
+        background: url(../img/akiyama-strip.jpg) top left repeat-x #025378;
+        padding: 20px 0 10px 15px;
+        margin: 0px;
+        color: #fff;
+        font-size: 18px;
+        text-transform: uppercase;
+    }
+
+.grfbx {
+    background: #ffffff;
+    border-bottom: #d5d5d5 solid 1px;
+    border-left: #d5d5d5 solid 1px;
+    border-right: #d5d5d5 solid 1px;
+    width: 100%;
+    margin-bottom: 30px;
+    -webkit-box-shadow: 0 4px 4px -6px #666;
+    -moz-box-shadow: 0 4px 4px -6px #666;
+    box-shadow: 0 4px 4px -6px #666;
+    padding-bottom: 20px;
+}
+
+.grfbx1 {
+    background: #ffffff;
+    border-bottom: #d5d5d5 solid 1px;
+    border-left: #d5d5d5 solid 1px;
+    border-right: #d5d5d5 solid 1px;
+    width: 100%;
+    margin-bottom: 30px;
+    -webkit-box-shadow: 0 4px 4px -6px #666;
+    -moz-box-shadow: 0 4px 4px -6px #666;
+    box-shadow: 0 4px 4px -6px #666;
+}
+
+.graf-bx1 {
+    margin: 0px;
+    padding: 30px 0 20px 0;
+    text-align: center;
+}
+
+    .graf-bx1 h2 {
+        margin: 0px;
+        padding: 0px 0 15px 0;
+        font-size: 18px;
+        color: #535353;
+        text-transform: uppercase;
+    }
+
+.cerc-bx1 {
+    padding: 20px 0;
+    margin: 0px;
+    text-align: center;
+}
+
+    .cerc-bx1 img {
+        display: inline-block;
+    }
+
+.fotterlingCls1 {
+    background: #f6f6f6;
+    margin: 20px 0 0 0;
+    padding: 30px 0;
+    text-align: center;
+    color: #666666;
+    font-size: 14px;
+}
+
+.welcomeBox {
+    width: 50%;
+    margin: 0px auto;
+    padding: 8.9% 0;
+}
+
+.tobCls {
+    margin: 0px;
+    padding: 0px;
+    position: absolute;
+    top: 57px;
+    right: 0px;
+}
+
+    .tobCls ul {
+        margin: 0px;
+        padding: 0px;
+    }
+
+        .tobCls ul li {
+            display: inline;
+            list-style: none;
+            padding: 13px 20px;
+            background: #025378;
+            margin-right: 5px;
+            -webkit-border-top-left-radius: 10px;
+            -webkit-border-top-right-radius: 10px;
+            -moz-border-radius-topleft: 10px;
+            -moz-border-radius-topright: 10px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            position: relative;
+        }
+
+            .tobCls ul li a {
+                font-size: 16px;
+                text-decoration: none;
+                text-transform: uppercase;
+                color: #fff;
+                font-weight: bold;
+                padding-left: 15px;
+            }
+
+.glyphicon-edit, .glyphicon-picture, .glyphicon-user, .glyphicon-dashboard {
+    color: #fff !important;
+    margin-top: -8px;
+}
+
+.nav > li > a > img {
+    margin-top: -2px;
+    max-width: none;
 }

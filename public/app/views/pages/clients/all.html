@@ -17,10 +17,11 @@
 <table class="table table-bordered table-striped" ng-show="client.clients">
 	<thead>
 		<tr>
-			<th>_id</th>
+            <th style="display:none;">_id</th>
+            <th>Client Id</th>
 			<th>Name</th>
-			<th>Address1</th>
-            <th>Address2</th>
+			<th>Address 1</th>
+            <th>Address 2</th>
             <th>City</th>
             <th>State</th>
             <th>Zip</th>
@@ -31,7 +32,8 @@
 	</thead>
 	<tbody>
 		<tr ng-repeat="cl in client.clients">
-			<td>{{ cl._id }}</td>
+            <td style="display:none">{{ cl._id }}</td>
+            <td>{{ cl.ClientId }}</td>
 			<td>{{ cl.name }}</td>
 			<td>{{ cl.address1 }}</td>
             <td>{{ cl.address2 }}</td>

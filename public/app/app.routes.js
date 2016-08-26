@@ -16,6 +16,25 @@ angular.module('app.routes', ['ngRoute'])
 		    controllerAs: 'login'
 		})
 
+        // show all users
+		.when('/dashboard', {
+		    templateUrl: 'app/views/pages/dashboard.html'
+		   // controller: 'userController',
+		    //controllerAs: 'user'
+		})
+
+        //// login header
+        //.when('/loginheader', {
+        //    templateUrl: 'app/views/pages/outer-header.html',
+        //    controller:''
+        //})
+
+        //// login footer
+        //.when('/loginfooter', {
+        //    templateUrl: 'app/views/pages/outer-footer.html',
+        //    controller: ''
+        //})
+
 		// show all users
 		.when('/users', {
 		    templateUrl: 'app/views/pages/users/all.html',
