@@ -41,9 +41,25 @@ module.exports = function (app, express) {
 			}
 
 		});
-
 	});
 
+    //forgot password find user data
+    apiRouter.post('/forgot', function (req, res) {
+        User.findOne({ username: req.body.username }, function (err, user) {
+            console.log(user);
+            randonPassword = (user.password == undefined || user.password == "") ? user.randomPassword(user.password) : req.body.password;
+            var smtp = new mail();
+
+            smtp.from = "manmohantayal9@gmail.com";
+            smtp.useremail = user.email;
+            smtp.subject = "Registration Mail For User Password Information";
+            smtp.text = "New File";
+            smtp.html = "Hello" + user.firstname + " " + user.lastname + " your password for login is " + randonPassword + "&nbsp;<br/><a href='http://localhost:8080/'>Click Here For Login</a>",
+
+            smtp.sendMail(smtp.from, smtp.useremail, smtp.subject, smtp.text, smtp.html);
+        });
+       
+    });
 	// route to authenticate a user (POST http://localhost:8080/api/authenticate)
     apiRouter.post('/authenticate', function (req, res) {
 
@@ -148,9 +164,10 @@ module.exports = function (app, express) {
 		     randonPassword = (req.body.password == undefined || req.body.password == "") ? user.randomPassword(8) : req.body.password;
 			
 		     //var user = new User();		// create a new instance of the User model
+		     user.UserId = req.body.UserId;
 		     user.firstname = req.body.firstname;  // set the users firstname (comes from the request)
 		     user.lastname = req.body.lastname;    // set the users lastname (comes from the request)
-			user.username = req.body.username;  // set the users username (comes from the request)
+			 user.username = req.body.username;  // set the users username (comes from the request)
 		     user.email = req.body.email;
 		     user.password = randonPassword;     // set the users password (comes from the request)
 		     user.isadmin = req.body.isadmin;
@@ -160,7 +177,7 @@ module.exports = function (app, express) {
 		     else {
 		         user.isadmin = false;
 		     }
-		     if (req.body.role == "Client") {
+		     if (req.body.isadmin == false) {
 		         user.clientname = req.body.clientname;
 		     }
 		     else {

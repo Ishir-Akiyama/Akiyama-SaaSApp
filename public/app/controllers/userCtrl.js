@@ -1,4 +1,4 @@
-angular.module('userCtrl', ['userService'])
+angular.module('userCtrl', ['userService', 'commonService'])
 
 .controller('userController', function(User) {
 
@@ -40,10 +40,15 @@ angular.module('userCtrl', ['userService'])
 })
 
 // controller applied to user creation page
-.controller('userCreateController', function(User) {
+.controller('userCreateController', function (User, Common) {
 	
 	var vm = this;
-
+    //show active clients
+	Common.GetClientList()
+          .success(function (data) {
+              vm.processing = false;
+              vm.clients = data;
+          });
 	// variable to hide/show elements of the view
 	// differentiates between create or edit pages
 	vm.type = 'create';
@@ -66,10 +71,17 @@ angular.module('userCtrl', ['userService'])
 })
 
 // controller applied to user edit page
-.controller('userEditController', function($routeParams, User) {
+.controller('userEditController', function ($routeParams, User, Common) {
 
 	var vm = this;
 
+    //show active clients
+	Common.GetClientList()
+           .success(function (data) {
+               vm.processing = false;
+               vm.clients = data;
+
+           });
 	// variable to hide/show elements of the view
 	// differentiates between create or edit pages
 	vm.type = 'edit';

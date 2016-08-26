@@ -60,6 +60,12 @@ angular.module('app.routes', ['ngRoute'])
         controllerAs: 'client'
     })
 
+    //for forgot password
+     .when('/forgotPassword', {
+         templateUrl: 'app/views/pages/forgotPassword.html',
+         controller: 'forgotpasswordController',
+         controllerAs: 'forgotPassword'
+     })
     // show all images
     .when('/images', {
         templateUrl: 'app/views/pages/images/all.html',

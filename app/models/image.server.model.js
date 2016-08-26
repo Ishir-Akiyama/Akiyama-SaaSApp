@@ -2,11 +2,11 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // client schema 
-var ImagesSchema = new Images({
+var ImagesSchema = new Schema({
     name: String,
     size: Number,
     type: String,
-    byte: Binary,
+    byte: String,
     client: String,
     user: String,
     uploadedOn: { type: Date, default: Date.now },

@@ -1,4 +1,4 @@
-﻿var Image = require('../models/images.server.model');
+﻿var Image = require('../models/image.server.model');
 
 //create new client
 exports.create = function (request, response) {

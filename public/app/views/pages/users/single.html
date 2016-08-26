@@ -4,7 +4,7 @@
 </div>
 
 <form class="form-horizontal" ng-submit="user.saveUser()">
-    <div class="form-group">
+    <!--<div class="form-group">
         <label class="col-sm-2 control-label">Role</label>
         <div class="col-sm-6">
             <select name="type" ng-model="user.userData.role" ng-dropdown required ng-change="changeme()">
@@ -12,23 +12,8 @@
                 <option ng-option value="Admin">Admin</option>
                 <option ng-option value="Client">Client</option>
             </select>
-            <!--Selected Value is:{{user.userData.role}}-->
         </div>
-    </div>
-
-    <div class="form-group" id="cash" ng-if="user.userData.role == 'Client'">
-        <div>
-            <label class="col-sm-2 control-label">Client List</label>
-            <select name="type" ng-model="user.userData.clientname">
-                <option value="">--Select--</option>
-                <option ng-option value="A">A</option>
-                <option ng-option value="B">B</option>
-                <option ng-option value="C">C</option>
-                <option ng-option value="D">D</option>
-            </select>
-            <!--Selected Value is:{{user.userData.clientname}}-->
-        </div>
-    </div>
+    </div>-->
 
     <div class="form-group">
         <label class="col-sm-2 control-label">FirstName</label>
@@ -59,12 +44,23 @@
     </div>
 
     <div class="form-group">
-        <label class="col-sm-2 control-label">IsAdmin</label>
+        <label class="col-sm-2 control-label">Is Admin</label>
         <div class="col-sm-6">
             <input type="checkbox" ng-model="user.userData.isadmin">
         </div>
-
     </div>
+
+    <div class="form-group" id="cash" ng-hide="user.userData.isadmin">
+        <div>
+            <label class="col-sm-2 control-label">Client List</label>
+
+            <select ng-model="user.userData.clientname">
+                <option value="">--Select--</option>
+                <option data-ng-repeat="data in user.clients" value="{{data.name}}">{{data.name}}</option>
+            </select>
+        </div>
+    </div>
+    
     <div class="form-group">
         <label class="col-sm-2 control-label">IsActive</label>
         <div class="col-sm-6">
