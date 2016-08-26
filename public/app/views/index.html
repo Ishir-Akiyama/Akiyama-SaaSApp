@@ -19,11 +19,13 @@
     <script src="app/controllers/mainCtrl.js"></script>
     <script src="app/controllers/userCtrl.js"></script>
     <script src="app/controllers/clientCtrl.js"></script>
+    <script src="app/controllers/imageCtrl.js"></script>
     <!-- services -->
     <script src="app/services/authService.js"></script>
     <script src="app/services/userService.js"></script>
     <script src="app/services/clientService.js"></script>
     <script src="app/services/commonService.js"></script>
+    <script src="app/services/imageService.js"></script>
     <!-- main Angular app files -->
     <script src="app/app.routes.js"></script>
     <script src="app/app.js"></script>
@@ -42,21 +44,21 @@
                 <div class="navbar-header"> <a href="/" class="navbar-brand"><img src="assets/img/logo-inner.jpg" alt=""></a> </div>
                 <ul class="nav navbar-nav navbar-right">
                     <li ng-if="!main.loggedIn"><a href="/login">Login</a></li>
-                    <li ng-if="main.loggedIn" class="navbar-text">Welcome  {{ main.user.username }}! |</li>
+                    <li ng-if="main.loggedIn" class="navbar-text">Welcome {{ main.user.username}}! |</li>
                     <li ng-if="main.loggedIn"><a href="#" ng-click="main.doLogout()"><img src="assets/img/logout-img.jpg" alt=""> Logout</a></li>
                 </ul>
                 <div class="tobCls text-right">
                     <ul>
-                        <li><a href="/users"><i class="glyphicon glyphicon-user"></i>User Management</a></li>
-                        <li><a href="/clients">Client Management</a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-picture"></i>Upload Images</a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-edit"></i>Reports</a></li>
                         <li><a href="/dashboard"><i class="glyphicon glyphicon-dashboard"></i>Dashboard</a></li>
+                        <li ng-if="main.user.isadmin"><a href="/clients">Client Management</a></li>
+                        <li ng-if="main.user.isadmin"><a href="/users"><i class="glyphicon glyphicon-user"></i>User Management</a></li>
+                        <li ng-if="!main.user.isadmin"><a href="#"><i class="glyphicon glyphicon-picture"></i>Upload Images</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-edit"></i>Reports</a></li>
                     </ul>
                 </div>
             </div>
         </div>
-    </header>    
+    </header>
     <main class="container">
         <!-- ANGULAR VIEWS -->
         <div ng-view></div>

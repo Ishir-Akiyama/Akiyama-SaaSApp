@@ -10,10 +10,9 @@ exports.create = function (request, response) {
         state: request.body.state,
         zip: request.body.zip,
         country: request.body.country,
-        isActive: request.body.isActive       
+        isActive: request.body.isActive
     });
-
-    entry.save(function(err) {
+    entry.save(function (err) {
         if (err) {
             // duplicate entry
             //if (err.code == 11000) 

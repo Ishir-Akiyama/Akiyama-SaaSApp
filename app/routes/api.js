@@ -1,7 +1,7 @@
 var bodyParser = require('body-parser'); 	// get body-parser
 var User = require('../models/user');
 var Client = require('../controller/client.server.controller');
-
+var Image = require('../controller/image.server.controller');
 var jwt        = require('jsonwebtoken');
 var config     = require('../../config');
 //for email
@@ -13,15 +13,15 @@ var randonPassword = "";
 // super secret for creating tokens
 var superSecret = config.secret;
 
-module.exports = function(app, express) {
+module.exports = function (app, express) {
 
 	var apiRouter = express.Router();
 
 	// route to generate sample user
-	apiRouter.post('/sample', function(req, res) {
+    apiRouter.post('/sample', function (req, res) {
 
 		// look for the user named chris
-		User.findOne({ 'username': 'chris' }, function(err, user) {
+        User.findOne({ 'username': 'chris' }, function (err, user) {
 
 			// if there is no chris user, create one
 			if (!user) {
@@ -41,16 +41,32 @@ module.exports = function(app, express) {
 			}
 
 		});
-
 	});
 
-	// route to authenticate a user (POST http://localhost:8080/api/authenticate)
-	apiRouter.post('/authenticate', function(req, res) {
+    //forgot password find user data
+    apiRouter.post('/forgot', function (req, res) {
+        User.findOne({ username: req.body.username }, function (err, user) {
+            console.log(user);
+            randonPassword = (user.password == undefined || user.password == "") ? user.randomPassword(user.password) : req.body.password;
+            var smtp = new mail();
 
+            smtp.from = "manmohantayal9@gmail.com";
+            smtp.useremail = user.email;
+            smtp.subject = "Registration Mail For User Password Information";
+            smtp.text = "New File";
+            smtp.html = "Hello" + user.firstname + " " + user.lastname + " your password for login is " + randonPassword + "&nbsp;<br/><a href='http://localhost:8080/'>Click Here For Login</a>",
+
+            smtp.sendMail(smtp.from, smtp.useremail, smtp.subject, smtp.text, smtp.html);
+        });
+       
+    });
+
+	// route to authenticate a user (POST http://localhost:8080/api/authenticate)
+    apiRouter.post('/authenticate', function (req, res) {
 	  // find the user
 	  User.findOne({
 	    username: req.body.username
-	  }).select('name username password').exec(function(err, user) {
+        }).select('name username password isadmin firstname lastname').exec(function (err, user) {
 
 	    if (err) throw err;
 
@@ -70,13 +86,15 @@ module.exports = function(app, express) {
 	        	message: 'Authentication failed. Wrong password.' 
 	      	});
 	      } else {
-
 	        // if user is found and password is right
 	        // create a token
-	        var token = jwt.sign({
+	          var token = jwt.sign({
 	        	name: user.name,
-	        	username: user.username
-	        }, superSecret, {
+	        	username: user.username,
+	        	isadmin: user.isadmin,
+                firstname:user.firstname
+	        },
+            superSecret, {
 	          expiresIn: '24h' // expires in 24 hours
 	        });
 
@@ -87,14 +105,12 @@ module.exports = function(app, express) {
 	          token: token
 	        });
 	      }   
-
 	    }
-
 	  });
 	});
 
 	// route middleware to verify a token
-	apiRouter.use(function(req, res, next) {
+    apiRouter.use(function (req, res, next) {
 		// do logging
 		console.log('Somebody just came to our app!');
 
@@ -105,7 +121,7 @@ module.exports = function(app, express) {
 	  if (token) {
 
 	    // verifies secret and checks exp
-	    jwt.verify(token, superSecret, function(err, decoded) {      
+            jwt.verify(token, superSecret, function (err, decoded) {
 
 	      if (err) {
 	        res.status(403).send({ 
@@ -134,7 +150,7 @@ module.exports = function(app, express) {
 
 	// test route to make sure everything is working 
 	// accessed at GET http://localhost:8080/api
-	apiRouter.get('/', function(req, res) {
+    apiRouter.get('/', function (req, res) {
 		res.json({ message: 'hooray! welcome to our api!' });	
 	});
 
@@ -146,11 +162,12 @@ module.exports = function(app, express) {
 		 .post(function (req, res) {
 		     var user = new User();          // create a new instance of the User model
 		     randonPassword = (req.body.password == undefined || req.body.password == "") ? user.randomPassword(8) : req.body.password;
-
+			
 		     //var user = new User();		// create a new instance of the User model
+		     user.UserId = req.body.UserId;
 		     user.firstname = req.body.firstname;  // set the users firstname (comes from the request)
 		     user.lastname = req.body.lastname;    // set the users lastname (comes from the request)
-		     user.username = req.body.username;  // set the users username (comes from the request)
+			 user.username = req.body.username;  // set the users username (comes from the request)
 		     user.email = req.body.email;
 		     user.password = randonPassword;     // set the users password (comes from the request)
 		     user.isadmin = req.body.isadmin;
@@ -160,7 +177,7 @@ module.exports = function(app, express) {
 		     else {
 		         user.isadmin = false;
 		     }
-		     if (req.body.role == "Client") {
+		     if (req.body.isadmin == false) {
 		         user.clientname = req.body.clientname;
 		     }
 		     else {
@@ -169,17 +186,17 @@ module.exports = function(app, express) {
 		     user.isactive = req.body.isactive;
 
 		     user.save(function (err) {
-		         if (err) {
+				if (err) {
 		             console.log(err);
-		             // duplicate entry
-		             if (err.code == 11000)
+					// duplicate entry
+					if (err.code == 11000) 
 		                 return res.json({ success: false, message: 'A user with that username already exists. ' });
-		             else
-		                 return res.send(err);
-		         }
+					else 
+						return res.send(err);
+				}
 
-		         // return a message
-		         res.json({ message: 'User created!' });
+				// return a message
+				res.json({ message: 'User created!' });
 		         //
 		         //query with mongoose
 		         User.findOne({ 'username': req.body.username }, function (err, user) {
@@ -198,15 +215,15 @@ module.exports = function(app, express) {
 		         });
 
 		         //
-		     });
+			});
 
 
-		 })
+		})
 
 		// get all the users (accessed at GET http://localhost:8080/api/users)
-		.get(function(req, res) {
+		.get(function (req, res) {
 
-			User.find({}, function(err, users) {
+		    User.find({}, function (err, users) {
 				if (err) res.send(err);
 
 				// return the users
@@ -219,8 +236,8 @@ module.exports = function(app, express) {
 	apiRouter.route('/users/:user_id')
 
 		// get the user with that id
-		.get(function(req, res) {
-			User.findById(req.params.user_id, function(err, user) {
+		.get(function (req, res) {
+		    User.findById(req.params.user_id, function (err, user) {
 				if (err) res.send(err);
 
 				// return that user
@@ -229,8 +246,8 @@ module.exports = function(app, express) {
 		})
 
 		// update the user with this id
-		.put(function(req, res) {
-			User.findById(req.params.user_id, function(err, user) {
+		.put(function (req, res) {
+		    User.findById(req.params.user_id, function (err, user) {
 
 				if (err) res.send(err);
 
@@ -241,7 +258,7 @@ module.exports = function(app, express) {
 				if (req.body.password) user.password = req.body.password;
 				if (req.body.isactive) user.isactive = req.body.isactive;
 				// save the user
-				user.save(function(err) {
+		        user.save(function (err) {
 					if (err) res.send(err);
 
 					// return a message
@@ -252,10 +269,10 @@ module.exports = function(app, express) {
 		})
 
 		// delete the user with this id
-		.delete(function(req, res) {
+		.delete(function (req, res) {
 			User.remove({
 				_id: req.params.user_id
-			}, function(err, user) {
+		    }, function (err, user) {
 				if (err) res.send(err);
 
 				res.json({ message: 'Successfully deleted' });
@@ -311,8 +328,57 @@ module.exports = function(app, express) {
 		    });
 		});
 
+
+    // on routes that end in /images
+    // ----------------------------------------------------
+    apiRouter.route('/images')
+		// create a image (accessed at POST http://localhost:8080/api/images)
+		.post(function (req, res) {
+		    Image.create(req, res);
+		})
+
+		// get all the images (accessed at GET http://localhost:8080/api/images)
+		.get(function (req, res) {
+		    Image.all(req, res);
+		});
+
+
+    // on routes that end in /activeImages
+    // ----------------------------------------------------
+    apiRouter.route('/activeImages')
+
+		// get all the active clients (accessed at GET http://localhost:8080/api/activeImages)
+		.get(function (req, res) {
+		    Image.allActive(req, res);
+		});
+
+    // on routes that end in /images/:image_name
+    // ----------------------------------------------------
+    apiRouter.route('/images/:image_name')
+
+		// get the image with that id
+		.get(function (req, res) {
+		    Image.findByName(req, res);
+		})
+
+    // update the client with this id
+    //.put(function (req, res) {
+
+    //})
+
+    // delete the client with this id
+    //.delete(function (req, res) {
+    //    Client.remove({
+    //        _id: req.params.client_id
+    //    }, function (err, client) {
+    //        if (err) res.send(err);
+
+    //        res.json({ message: 'Successfully deleted' });
+    //    });
+    //});
+
 	// api endpoint to get user information
-	apiRouter.get('/me', function(req, res) {
+    apiRouter.get('/me', function (req, res) {
 		res.send(req.decoded);
 	});
 

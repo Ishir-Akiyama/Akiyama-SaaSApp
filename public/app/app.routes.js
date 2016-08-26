@@ -21,19 +21,7 @@ angular.module('app.routes', ['ngRoute'])
 		    templateUrl: 'app/views/pages/dashboard.html'
 		   // controller: 'userController',
 		    //controllerAs: 'user'
-		})
-
-        //// login header
-        //.when('/loginheader', {
-        //    templateUrl: 'app/views/pages/outer-header.html',
-        //    controller:''
-        //})
-
-        //// login footer
-        //.when('/loginfooter', {
-        //    templateUrl: 'app/views/pages/outer-footer.html',
-        //    controller: ''
-        //})
+		})        
 
 		// show all users
 		.when('/users', {
@@ -77,6 +65,26 @@ angular.module('app.routes', ['ngRoute'])
         templateUrl: 'app/views/pages/clients/single.html',
         controller: 'clientEditController',
         controllerAs: 'client'
+    })
+
+    //for forgot password
+     .when('/forgotPassword', {
+         templateUrl: 'app/views/pages/forgotPassword.html',
+         controller: 'forgotpasswordController',
+         controllerAs: 'forgotPassword'
+     })
+    // show all images
+    .when('/images', {
+        templateUrl: 'app/views/pages/images/all.html',
+        controller: 'imageController',
+        controllerAs: 'image'
+    })
+
+    // form to create a new image
+    .when('/images/create', {
+        templateUrl: 'app/views/pages/images/single.html',
+        controller: 'imageCreateController',
+        controllerAs: 'image'
     });
 
     $locationProvider.html5Mode(true);

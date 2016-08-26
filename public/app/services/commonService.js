@@ -8,4 +8,5 @@ angular.module('commonService', [])
     commonFactory.GetClientList = function () {
         return $http.get('/api/activeClients/');
     };
+    return commonFactory;
 });
