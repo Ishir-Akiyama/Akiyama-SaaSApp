@@ -10,6 +10,8 @@ var ImageSchema = new Schema({
     client: String,
     user: String,
     uploadedOn: { type: Date, default: Date.now },
+    status: Number,
+
 });
 
 

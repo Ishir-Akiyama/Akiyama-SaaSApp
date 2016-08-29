@@ -14,7 +14,7 @@ exports.create = function (request, response) {
         client: request.body.client,
         user: request.body.user,
         uploadedOn: request.body.uploadedOn,
-        isActive: request.body.isActive
+        status: '-1'
     });
     entry.save(function (err) {
         debugger;

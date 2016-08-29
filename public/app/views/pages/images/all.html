@@ -14,34 +14,38 @@
 <table class="table table-bordered table-striped" ng-show="image.images">
     <thead>
         <tr>
-            <th>Id</th>
             <th>Name</th>
             <th>Size</th>
             <th>Type</th>
             <th>Client</th>
             <th>User</th>
             <th>Uploaded On</th>
+            <th>Status</th>
             <th>Image</th>
-
         </tr>
     </thead>
     <tbody>
         <tr ng-repeat="im in image.images | orderBy:im.uploadedOn:sort.ascending">
-            <td>{{ im._id }}</td>
-            <td>{{ im.name }}</td>
+            <td>
+                {{ im.name }}
+
+            </td>
             <td>{{ im.size }}</td>
             <td>{{ im.type }}</td>
             <td>{{ im.client }}</td>
             <td>{{ im.user }}</td>
             <td>{{ im.uploadedOn }}</td>
+
+            <td>{{ im.status }}</td>
             <td>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-6">
+                <div ng-controller="ShowHideCtrl">
+
+                    <input  type="button" value="{{btnText}} " ng-click="ShowHide()" />
+                    <div ng-show="IsVisible">
                         <img data-ng-src="{{im.byte}}" data-err-src="images/png/avatar.png" height="200" width="200" />
                     </div>
                 </div>
             </td>
-          
         </tr>
     </tbody>
 </table>

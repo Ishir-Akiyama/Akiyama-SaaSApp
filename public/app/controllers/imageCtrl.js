@@ -10,7 +10,6 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
     // grab all the clients at page load
     Image.all()
 		.success(function (data) {
-
 		    // when all the clients come back, remove the processing variable
 		    vm.processing = false;
 
@@ -18,26 +17,21 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
 		    vm.images = data;
 		});
 
-    // function to delete a client
-    //vm.deleteClient = function(id) {
-    //	vm.processing = true;
 
-    //	Client.delete(id)
-    //		.success(function(data) {
-
-    //			// get all clients to update the table
-    //			// you can also set up your api 
-    //			// to return the list of clients with the delete call
-    //			Client.all()
-    //				.success(function(data) {
-    //					vm.processing = false;
-    //					vm.clients = data;
-    //				});
-
-    //		});
-    //};
 
 })
+
+    .controller('ShowHideCtrl', function ($scope) {
+        $scope.btnText = "Show Image";
+
+        //This will hide the DIV by default.
+        $scope.IsVisible = false;
+        $scope.ShowHide = function () {
+            //If DIV is visible it will be hidden and vice versa.
+            $scope.IsVisible = $scope.IsVisible ? false : true;
+            $scope.btnText = $scope.IsVisible ? 'Hide Image' : 'Show Image';
+        }
+    })
 
 // controller applied to client creation page
 .controller('imageCreateController', function (Image) {
@@ -64,16 +58,12 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
 			    vm.message = data.message;
 			})
         .error(function (data, status) {
-            
+
             vm.message = data.message;
         })
         //;
     };
-    //vm.setFile = function (element) {
-    //    $scope.$apply(function ($scope) {
-    //        vm.imageData.file = element.files[0].name;
-    //    });
-    //};
+
 
 })
 
@@ -106,12 +96,10 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
           $scope.$apply(function () {
               $scope.stepsModel.push(e.target.result);
               $scope.image.imageData.file = e.target.result;
-              $scope.image.imageData.loading = true;
 
           });
       }
   })
-
 
 
 // controller applied to client edit page
