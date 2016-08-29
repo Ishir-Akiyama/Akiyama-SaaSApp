@@ -237,7 +237,7 @@ module.exports = function (app, express) {
 		        user.clientname = req.body.clientname;
 		    }
 		    else {
-		        user.clientname = "Not A Client";
+		        user.clientname = "";
 		    }
 		    user.isactive = true;
 		    user.isdefault = true;
