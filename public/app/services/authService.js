@@ -125,3 +125,16 @@ angular.module('authService', [])
 	return interceptorFactory;
 	
 });
+
+
+//authFactory.forgotPassword = function (username, password) {
+//    // return the promise object and its data
+//    return $http.post('/api/authenticate', {
+//        username: username,
+//        password: password
+//    })
+//        .success(function (data) {
+//            AuthToken.setToken(data.token);
+//            return data;
+//        });
+//};

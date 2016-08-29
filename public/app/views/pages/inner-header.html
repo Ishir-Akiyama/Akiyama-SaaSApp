@@ -1,0 +1,15 @@
+<header>
+  <div class="navbar navbar-inverse" ng-if="main.loggedIn">
+    <div class="container">
+      <div class="navbar-header"> <a href="/" class="navbar-brand"><img src="assets/img/logo-inner.jpg" alt=""></a> </div>
+      <ul class="nav navbar-nav" style="display:none;">
+        <li><a href="/users"><span class="glyphicon glyphicon-user"></span> Users</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li ng-if="!main.loggedIn"><a href="/login">Login</a></li>
+        <li ng-if="main.loggedIn" class="navbar-text">Welcome  {{ main.user.username }}! |</li>
+        <li ng-if="main.loggedIn"><a href="#" ng-click="main.doLogout()"><img src="assets/img/logout-img.jpg" alt=""> Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</header>

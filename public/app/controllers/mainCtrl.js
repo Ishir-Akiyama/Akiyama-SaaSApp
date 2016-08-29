@@ -29,10 +29,14 @@ angular.module('mainCtrl', [])
 				vm.processing = false;			
 
 				// if a user successfully logs in, redirect to users page
-				if (data.success)			
-					$location.path('/dashboard');
-				else 
-					vm.error = data.message;				
+				if (data.success) {
+				    if (data.isdefault)
+				        $location.path('/changepassword')
+				    else
+				        $location.path('/dashboard');
+				}
+				else
+				    vm.error = data.message;
 			});
 	};
 
@@ -49,14 +53,23 @@ angular.module('mainCtrl', [])
 	};
 })
 
-.controller('forgotpasswordController', function (User, Auth) {
+.controller('forgotpasswordController', function (Auth) {
     var vm = this;
 
-    vm.type = 'forgot';
+    //vm.type = 'forgot';
 
     vm.doforgotPassword = function () {
         debugger;
-        Auth.forgotUser(vm.userData.username);
+        Auth.forgotPassword(vm.userData.username, vm.userData.password)
+        .success(function(data)
+        {
+            vm.processing = false;	
+            // if a user successfully logs in, redirect to users page
+            if (data.success)			
+                $location.path('/login');
+            else 
+                vm.error = data.message;	
+        });
     };
 
 });
