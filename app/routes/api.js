@@ -43,22 +43,62 @@ module.exports = function (app, express) {
         });
     });
 
-    //forgot password find user data
-    apiRouter.post('/forgot', function (req, res) {
-        User.findOne({ username: req.body.username }, function (err, user) {
-            console.log(user);
-            randonPassword = (user.password == undefined || user.password == "") ? user.randomPassword(user.password) : req.body.password;
-            var smtp = new mail();
+    apiRouter.post('/authenticateUser', function (req, res) {
 
-            smtp.from = "manmohantayal9@gmail.com";
-            smtp.useremail = user.email;
-            smtp.subject = "Registration Mail For User Password Information";
-            smtp.text = "New File";
-            smtp.html = "Hello" + user.firstname + " " + user.lastname + " your password for login is " + randonPassword + "&nbsp;<br/><a href='http://localhost:8080/'>Click Here For Login</a>",
+        // find the user
+        User.findOne({
+            username: req.body.username
+        }).select('username').exec(function (err, user) {
+            if (err) throw err;
 
-            smtp.sendMail(smtp.from, smtp.useremail, smtp.subject, smtp.text, smtp.html);
+            // no user with that username was found
+            if (!user) {
+                console.log(user);
+                res.json({
+                    success: false,
+                    message: 'User not exist.'
+                });
+            }
+            else {
+                console.log(user);
+                User.findById(user._id, function (err, user) {
+
+                    if (err) res.send(err);
+                    console.log(1);
+                    console.log(user.password);
+                    console.log(2);
+                    NewPassword = user.randomPassword(8);
+                    // update the user information if it exists in the request
+                    if (user.password) user.password = NewPassword;
+                    console.log(321);
+                    console.log(user.password);
+                    console.log(321);
+                    if (req.body.password) user.password = NewPassword;
+                    console.log("checking for update-----")
+                    // save the user
+                    user.save(function (err) {
+                        console.log(err)
+                        if (err) {
+
+                            res.send(err);
+                        }
+                        var smtp = new mail();
+
+                        smtp.from = "manmohantayal9@gmail.com";
+                        smtp.useremail = user.email;
+                        smtp.subject = "Registration Mail For User";
+                        smtp.text = "New File";
+                        smtp.html = "Hello " + user.firstname + " " + user.lastname + " your password for login is " + NewPassword + "&nbsp;<br/><a href='http://localhost:8080/'>Click Here For Login</a>",
+
+                        smtp.sendMail(smtp.from, smtp.useremail, smtp.subject, smtp.text, smtp.html);
+
+                        // return a message
+                        res.json({ message: 'Password Updated Check Your Registered Email-ID' });
+                    });
+
+                });
+            }
         });
-
     });
 
     // route to authenticate a user (POST http://localhost:8080/api/authenticate)
@@ -160,66 +200,80 @@ module.exports = function (app, express) {
     apiRouter.route('/users')
 
 		// create a user (accessed at POST http://localhost:8080/users)
-		 .post(function (req, res) {
-		     var user = new User();          // create a new instance of the User model
-		     randonPassword = (req.body.password == undefined || req.body.password == "") ? user.randomPassword(8) : req.body.password;
+		.post(function (req, res) {
+		    var user = new User();          // create a new instance of the User model
+		    randonPassword = (req.body.password == undefined || req.body.password == "") ? user.randomPassword(8) : req.body.password;
+		    console.log(randonPassword);
+		    //var user = new User();		// create a new instance of the User model
+		    user.UserId = req.body.UserId;
+		    if (req.body.firstname == "" || req.body.firstname == undefined)
+		        return res.json({ success: false, message: 'Please fill First Name.' });
+		    else
+		        user.firstname = req.body.firstname;  // set the users firstname (comes from the request)
 
-		     //var user = new User();		// create a new instance of the User model
-		     user.UserId = req.body.UserId;
-		     user.firstname = req.body.firstname;  // set the users firstname (comes from the request)
-		     user.lastname = req.body.lastname;    // set the users lastname (comes from the request)
-		     user.username = req.body.username;  // set the users username (comes from the request)
-		     user.email = req.body.email;
-		     user.password = randonPassword;     // set the users password (comes from the request)
-		     user.isadmin = req.body.isadmin;
-		     if (user.isadmin == true) {
-		         user.isadmin = true;
-		     }
-		     else {
-		         user.isadmin = false;
-		     }
-		     if (req.body.isadmin == false) {
-		         user.clientname = req.body.clientname;
-		     }
-		     else {
-		         user.clientname = "Not A Client";
-		     }
-		     user.isactive = req.body.isactive;
+		    if (req.body.lastname == "" || req.body.lastname == undefined)
+		        return res.json({ success: false, message: 'Please fill Last Name.' });
+		    else
+		        user.lastname = req.body.lastname;    // set the users lastname (comes from the request)
 
-		     user.save(function (err) {
-		         if (err) {
-		             console.log(err);
-		             // duplicate entry
-		             if (err.code == 11000)
-		                 return res.json({ success: false, message: 'A user with that username already exists. ' });
-		             else
-		                 return res.send(err);
-		         }
+		    if (req.body.username == "" || req.body.username == undefined)
+		        return res.json({ success: false, message: 'Please fill User Name.' });
+		    else
+		        user.username = req.body.username;  // set the users username (comes from the request)
 
-		         // return a message
-		         res.json({ message: 'User created!' });
-		         //
-		         //query with mongoose
-		         User.findOne({ 'username': req.body.username }, function (err, user) {
+		    if (req.body.email == "" || req.body.email == undefined)
+		        return res.json({ success: false, message: 'Please fill Email Id.' });
+		    else
+		        user.email = req.body.email;
+		    user.password = randonPassword;     // set the users password (comes from the request)
+		    user.isadmin = req.body.isadmin;
+		    if (user.isadmin == true) {
+		        user.isadmin = true;
+		    }
+		    else {
+		        user.isadmin = false;
+		    }
+		    if (user.isadmin == false) {
+		        user.clientname = req.body.clientname;
+		    }
+		    else {
+		        user.clientname = "Not A Client";
+		    }
+		    user.isactive = true;
+		    user.isdefault = true;
 
-		             // if there is no chris user, create one
-		             console.log(user);
-		             var smtp = new mail();
+		    user.save(function (err) {
+		        if (err) {
+		            console.log(err);
+		            // duplicate entry
+		            if (err.code == 11000)
+		                return res.json({ success: false, message: 'A user with that username already exists. ' });
+		            else
+		                return res.send(err);
+		        }
 
-		             smtp.from = "manmohantayal9@gmail.com";
-		             smtp.useremail = user.email;
-		             smtp.subject = "Registration Mail For User";
-		             smtp.text = "New File";
-		             smtp.html = "Hello" + user.firstname + " " + user.lastname + " your password for first login is " + randonPassword + "&nbsp;<br/><a href='http://localhost:8080/'>Click Here For Login</a>",
+		        // return a message
+		        res.json({ message: 'User created!' });
+		        //
+		        //query with mongoose
+		        User.findOne({ 'username': req.body.username }, function (err, user) {
+		            console.log(user);
+		            var smtp = new mail();
 
-                     smtp.sendMail(smtp.from, smtp.useremail, smtp.subject, smtp.text, smtp.html);
-		         });
+		            smtp.from = "manmohantayal9@gmail.com";
+		            smtp.useremail = user.email;
+		            smtp.subject = "Registration Mail For User";
+		            smtp.text = "New File";
+		            smtp.html = "Hello " + user.firstname + " " + user.lastname + " your password for first login is " + randonPassword + "&nbsp;<br/><a href='http://localhost:8080/'>Click Here For Login</a>",
+                    smtp.sendMail(smtp.from, smtp.useremail, smtp.subject, smtp.text, smtp.html);
 
-		         //
-		     });
+		        });
+
+		        //
+		    });
 
 
-		 })
+		})
 
 		// get all the users (accessed at GET http://localhost:8080/api/users)
 		.get(function (req, res) {

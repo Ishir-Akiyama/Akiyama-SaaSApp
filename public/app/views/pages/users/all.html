@@ -17,30 +17,30 @@
 <table class="table table-bordered table-striped" ng-show="user.users">
     <thead>
         <tr>
-            <th>_id</th>
-            <th>FirstName</th>
-            <th>LastName</th>
-            <th>Username</th>
-            <th>EmailId</th>
-            <th>clientname</th>
-            <th>IsAdmin</th>
-            <th>IsActive</th>
+            <th>User</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>User Name</th>
+            <th>Email Id</th>
+            <th>Client Name</th>
+            <!--<th>Is Admin</th>
+            <th>Is Active</th>-->
             <th class="col-sm-2"></th>
         </tr>
     </thead>
     <tbody>
         <tr ng-repeat="person in user.users">
-            <td>{{ person._id }}</td>
+            <td style="display:none;">{{ person._id }}</td>
+            <td>{{ person.UserId }}</td>
             <td>{{ person.firstname }}</td>
             <td>{{ person.lastname }}</td>
             <td>{{ person.username }}</td>
             <td>{{person.email}}</td>
             <td>{{ person.clientname }}</td>
-            <td>{{ person.isadmin }}</td>
-            <td>{{ person.isactive }}</td>
-            <td class="col-sm-2">
+            <!--<td>{{ person.isadmin }}</td>
+            <td>{{ person.isactive }}</td>-->
+            <td class="col-sm-1">
                 <a ng-href="/users/{{ person._id }}" class="btn btn-danger">Edit</a>
-                <a href="#" ng-click="user.deleteUser(person._id)" class="btn btn-primary">Delete</a>
             </td>
         </tr>
     </tbody>

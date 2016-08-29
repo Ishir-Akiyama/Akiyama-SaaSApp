@@ -16,13 +16,6 @@ angular.module('app.routes', ['ngRoute'])
 		    controllerAs: 'login'
 		})
 
-        // show all users
-		.when('/dashboard', {
-		    templateUrl: 'app/views/pages/dashboard.html'
-		    // controller: 'userController',
-		    //controllerAs: 'user'
-		})
-
 		// show all users
 		.when('/users', {
 		    templateUrl: 'app/views/pages/users/all.html',
@@ -43,20 +36,6 @@ angular.module('app.routes', ['ngRoute'])
 		    templateUrl: 'app/views/pages/users/single.html',
 		    controller: 'userEditController',
 		    controllerAs: 'user'
-		})
-
-         //for change password
-         .when('/changepassword', {
-             templateUrl: 'app/views/pages/change-password.html',
-             controller: 'changePasswordController',
-             controllerAs: 'changePassword'
-         })
-
-        // page to forgot password
-		.when('/forgot/:username', {
-		    templateUrl: 'app/views/pages/forgotPassword.html',
-		    controller: 'forgotPasswordController',
-		    controllerAs: 'forgotPassword'
 		})
 
     // show all clients
@@ -87,9 +66,6 @@ angular.module('app.routes', ['ngRoute'])
          controller: 'forgotpasswordController',
          controllerAs: 'forgotPassword'
      })
-
-
-
     // show all images
     .when('/images', {
         templateUrl: 'app/views/pages/images/all.html',
