@@ -52,6 +52,11 @@ angular.module('authService', [])
 		$http.post('/api/sample');
 	};
 
+    //forgot password
+	authFactory.forgotUser = function (username) {
+        $http.post('/api/forgot', { username: username });
+	};
+
 	// return auth factory object
 	return authFactory;
 

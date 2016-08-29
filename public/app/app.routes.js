@@ -16,6 +16,13 @@ angular.module('app.routes', ['ngRoute'])
 		    controllerAs: 'login'
 		})
 
+        // show all users
+		.when('/dashboard', {
+		    templateUrl: 'app/views/pages/dashboard.html'
+		   // controller: 'userController',
+		    //controllerAs: 'user'
+		})        
+
 		// show all users
 		.when('/users', {
 		    templateUrl: 'app/views/pages/users/all.html',
@@ -60,6 +67,12 @@ angular.module('app.routes', ['ngRoute'])
         controllerAs: 'client'
     })
 
+    //for forgot password
+     .when('/forgotPassword', {
+         templateUrl: 'app/views/pages/forgotPassword.html',
+         controller: 'forgotpasswordController',
+         controllerAs: 'forgotPassword'
+     })
     // show all images
     .when('/images', {
         templateUrl: 'app/views/pages/images/all.html',
