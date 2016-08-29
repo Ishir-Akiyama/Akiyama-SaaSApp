@@ -2,7 +2,10 @@
     <h1>Add Image</h1>
 
 </div>
-
+<div class="jumbotron text-center" ng-show="image.processing">
+    <span class="glyphicon glyphicon-repeat spinner"></span>
+    <p>Uploading Image...</p>
+</div>
 <form class="form-horizontal" ng-submit="image.saveImage()">
 
 
