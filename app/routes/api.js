@@ -100,7 +100,7 @@ module.exports = function (app, express) {
 
 	  // check header or url parameters or post parameters for token
 	  var token = req.body.token || req.query.token || req.headers['x-access-token'];
-
+	  debugger;
 	  // decode token
 	  if (token) {
 
@@ -269,6 +269,7 @@ module.exports = function (app, express) {
 	apiRouter.route('/clients')
 		// create a client (accessed at POST http://localhost:8080/api/clients)
 		.post(function (req, res) {
+		    consi.log("test");
 		    Client.create(req, res);
 		})
 
@@ -318,6 +319,7 @@ module.exports = function (app, express) {
     apiRouter.route('/images')
 		// create a image (accessed at POST http://localhost:8080/api/images)
 		.post(function (req, res) {
+		    console.log("image");
 		    Image.create(req, res);
 		})
 

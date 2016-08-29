@@ -6,4 +6,6 @@ angular.module('userApp', ['ngAnimate', 'app.routes', 'authService', 'mainCtrl',
 	// attach our auth interceptor to the http requests
 	$httpProvider.interceptors.push('AuthInterceptor');
 
-});
+})
+
+
