@@ -1,0 +1,51 @@
+<div class="page-header">
+    <h1>
+        Images
+        <a href="/images/create" class="btn btn-default">
+            <span class="glyphicon glyphicon-plus"></span>
+            New Image
+        </a>
+    </h1>
+</div>
+<div class="jumbotron text-center" ng-show="image.processing">
+    <span class="glyphicon glyphicon-repeat spinner"></span>
+    <p>Loading Images...</p>
+</div>
+<table class="table table-bordered table-striped" ng-show="image.images">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Size</th>
+            <th>Type</th>
+            <th>Client</th>
+            <th>User</th>
+            <th>Uploaded On</th>
+            <th>Active</th>
+            <th>Image</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="im in image.images">
+            <td>{{ im._id }}</td>
+            <td>{{ im.name }}</td>
+            <td>{{ im.size }}</td>
+            <td>{{ im.type }}</td>
+            <td>{{ im.client }}</td>
+            <td>{{ im.user }}</td>
+            <td>{{ im.uploadedOn }}</td>
+            <td><input type="checkbox" ng-model="im.isActive"></td>
+            <td>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-6">
+                        <img data-ng-src="{{im.byte}}" data-err-src="images/png/avatar.png" height="100" width="100" />
+                    </div>
+                </div>
+            </td>
+            <!--<td class="col-sm-1">
+                <a ng-href="/images/{{ im._id }}" class="btn btn-danger">Edit</a>
+            </td>-->
+        </tr>
+    </tbody>
+</table>

@@ -14,7 +14,8 @@ var path 	   = require('path');
 // ====================================
 // use body parser so we can grab information from POST requests
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50mb', type: 'application/json' }));
+//app.use(bodyParser.json());
 
 // configure our app to handle CORS requests
 app.use(function(req, res, next) {
