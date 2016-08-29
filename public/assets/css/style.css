@@ -366,7 +366,7 @@ textarea:focus, textarea.form-control:focus, input.form-control:focus, input[typ
                 padding-left: 15px;
             }
 
-.glyphicon-edit, .glyphicon-picture, .glyphicon-user, .glyphicon-dashboard {
+.glyphicon-edit, .glyphicon-picture, .glyphicon-dashboard {
     color: #fff !important;
     margin-top: -8px;
 }

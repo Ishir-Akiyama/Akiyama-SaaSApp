@@ -30,7 +30,7 @@
     <script src="app/app.routes.js"></script>
     <script src="app/app.js"></script>
 </head>
-<body ng-app="userApp" ng-controller="mainController as main">
+<body ng-app="userApp" ng-controller="mainController as main" id="mainId" ng-class="{login: !main.loggedIn}">
     <!-- NAVBAR -->
     <header>
         <div class="login" ng-if="!main.loggedIn">
