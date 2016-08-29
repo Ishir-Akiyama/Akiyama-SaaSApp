@@ -16,6 +16,13 @@ angular.module('app.routes', ['ngRoute'])
 		    controllerAs: 'login'
 		})
 
+        // show all users
+		.when('/dashboard', {
+		    templateUrl: 'app/views/pages/dashboard.html'
+		    // controller: 'userController',
+		    //controllerAs: 'user'
+		})
+
 		// show all users
 		.when('/users', {
 		    templateUrl: 'app/views/pages/users/all.html',
@@ -78,6 +85,13 @@ angular.module('app.routes', ['ngRoute'])
         templateUrl: 'app/views/pages/images/single.html',
         controller: 'imageCreateController',
         controllerAs: 'image'
+    })
+
+    // login page
+    .when('/changePassword', {
+        templateUrl: 'app/views/pages/change-password.html'
+        //controller: 'mainController',
+        //controllerAs: 'login'
     });
 
     $locationProvider.html5Mode(true);

@@ -40,7 +40,7 @@ angular.module('userCtrl', ['userService', 'commonService'])
 })
 
 // controller applied to user creation page
-.controller('userCreateController', function(User) {
+.controller('userCreateController', function (User, Common, $location) {
 	
 	var vm = this;
 
@@ -64,14 +64,15 @@ angular.module('userCtrl', ['userService', 'commonService'])
 				vm.processing = false;
 				vm.userData = {};
 				vm.message = data.message;
+				$location.path('/users');
 			});
-			
+		
 	};	
 
 })
 
 // controller applied to user edit page
-.controller('userEditController', function($routeParams, User) {
+.controller('userEditController', function ($routeParams, User, Common, $location) {
 
 	var vm = this;
     //show active clients
@@ -106,7 +107,9 @@ angular.module('userCtrl', ['userService', 'commonService'])
 
 				// bind the message from our API to vm.message
 				vm.message = data.message;
+				$location.path('/users');
 			});
+
 	};
 
 });

@@ -370,7 +370,14 @@ textarea:focus, textarea.form-control:focus, input.form-control:focus, input[typ
     color: #fff !important;
     margin-top: -8px;
 }
-
+.tobCls .fa-users { left: 14px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 13px;
+}
+.tobCls .glyphicon-user { color: #fff !important;  margin-top: -8px;
+}
 .nav > li > a > img {
     margin-top: -2px;
     max-width: none;

@@ -27,12 +27,12 @@ angular.module('mainCtrl', [])
 		Auth.login(vm.loginData.username, vm.loginData.password)
 			.success(function (data) {			   
 				vm.processing = false;			
-
+				debugger;
 				// if a user successfully logs in, redirect to users page
 				if (data.success) {
-				    if (data.isdefault)
-				        $location.path('/changepassword')
-				    else
+				    //if (data.isdefault)
+				    //    $location.path('/changepassword');
+				    //else
 				        $location.path('/dashboard');
 				}
 				else
