@@ -18,13 +18,11 @@ exports.create = function (request, response) {
             //if (err.code == 11000) 
             //    return res.json({ success: false, message: 'A user with that username already exists. '});
             //else 
-            console.log("test2");
             return response.send(err);
         }
         // return a message
         response.json({ message: 'Client created!' });
     });
-    console.log(response);
 };
 
 //Get all clients

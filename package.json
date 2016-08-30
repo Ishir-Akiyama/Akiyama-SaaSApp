@@ -8,6 +8,7 @@
     "jsonwebtoken": "^6.2.0",
     "mongoose": "~4.4.17",
     "mongoose-sequence": "^3.0.2",
-    "morgan": "~1.7.0"
+    "morgan": "~1.7.0",
+    "nodemailer": "^0.7.1"
   }
 }

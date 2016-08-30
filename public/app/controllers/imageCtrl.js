@@ -34,7 +34,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
     })
 
 // controller applied to client creation page
-.controller('imageCreateController', function (Image) {
+.controller('imageCreateController', function (Image, $location) {
     debugger;
     var vm = this;
 
@@ -55,11 +55,13 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
 			    vm.processing = false;
 
 			    vm.imageData = {};
-			    vm.message = data.message;
+			    $location.path('/images');
 			})
         .error(function (data, status) {
 
             vm.message = data.message;
+
+           
         })
         //;
     };
@@ -103,7 +105,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
 
 
 // controller applied to client edit page
-.controller('imageEditController', function ($routeParams, Image) {
+.controller('imageEditController', function ($routeParams, Image, $location) {
 
     var vm = this;
 
@@ -133,6 +135,8 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
 
                 // bind the message from our API to vm.message
                 vm.message = data.message;
+
+                $location.path('/images');
             });
     };
 
