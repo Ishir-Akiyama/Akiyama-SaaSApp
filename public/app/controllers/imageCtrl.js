@@ -61,7 +61,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
 
             vm.message = data.message;
 
-           
+
         })
         //;
     };
@@ -84,13 +84,15 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
 
           for (var i = 0; i < files.length; i++) {
               var file = files[i];
-             
+
               $scope.image.imageData.filename = file.name;
               $scope.image.imageData.size = file.size;
               $scope.image.imageData.type = file.type;
+              debugger;
 
               var reader = new FileReader();
-              reader.onload = $scope.imageIsLoaded;
+
+              reader.onload = file.name.indexOf(".xls") > -1 ? $scope.excelIsLoaded : $scope.imageIsLoaded;
               reader.readAsDataURL(file);
           }
       }
@@ -98,10 +100,30 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
       $scope.imageIsLoaded = function (e) {
           $scope.$apply(function () {
               $scope.stepsModel.push(e.target.result);
+              debugger;
               $scope.image.imageData.file = e.target.result;
 
           });
       }
+
+      $scope.excelIsLoaded = function (e) {
+          $scope.$apply(function () {
+              $scope.stepsModel.push(e.target.result);
+              debugger;
+              $scope.image.imageData.file = e.target.result;
+              var workbook = XLSX.readFileSync(e.target.result, { type: 'binary' });
+
+              workbook.SheetNames.forEach(function (sheetName) {
+                  // Here is your object
+                  var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+                  var json_object = JSON.stringify(XL_row_object);
+                  console.log(json_object);
+
+              })
+
+          });
+      }
+
   })
 
 
