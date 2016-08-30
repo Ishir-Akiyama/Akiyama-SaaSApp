@@ -30,9 +30,9 @@ angular.module('mainCtrl', [])
 			    debugger;
 			    // if a user successfully logs in, redirect to users page
 			    if (data.success) {
-			        //if (data.isdefault)
-			        //    $location.path('/changepassword');
-			        //else
+			        if (data.isdefault)
+			            $location.path('/changePassword');
+			        else
 			        $location.path('/dashboard');
 			    }
 			    else
@@ -45,7 +45,6 @@ angular.module('mainCtrl', [])
         Auth.logout();
         debugger;
         vm.user = '';
-        ApplicationCache.UNCACHED();
         $location.path('/login');
     };
 

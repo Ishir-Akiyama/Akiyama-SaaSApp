@@ -58,7 +58,7 @@ header .navbar {
 
 /*css added on 22/08/2016*/
 .alert-info {
-    display: none;
+    display: block;
 }
 
 .login {
@@ -382,3 +382,5 @@ textarea:focus, textarea.form-control:focus, input.form-control:focus, input[typ
     margin-top: -2px;
     max-width: none;
 }
+
+.tobCls ul li.active { background:#000;}

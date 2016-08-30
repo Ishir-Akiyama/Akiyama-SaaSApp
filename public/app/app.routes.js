@@ -96,9 +96,9 @@ angular.module('app.routes', ['ngRoute'])
 
     // login page
     .when('/changePassword', {
-        templateUrl: 'app/views/pages/change-password.html'
-        //controller: 'mainController',
-        //controllerAs: 'login'
+        templateUrl: 'app/views/pages/change-password.html',
+        controller: 'changepasswordController',
+        controllerAs: 'changePassword'
     });
 
     $locationProvider.html5Mode(true);
