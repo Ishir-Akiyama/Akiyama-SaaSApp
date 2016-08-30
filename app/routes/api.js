@@ -84,7 +84,7 @@ module.exports = function (app, express) {
                         }
                         var smtp = new mail();
 
-                        smtp.from = "manmohantayal9@gmail.com";
+                        smtp.from = "akiyamaemail@gmail.com";
                         smtp.useremail = user.email;
                         smtp.subject = "Registration Mail For User";
                         smtp.text = "New File";
@@ -106,7 +106,7 @@ module.exports = function (app, express) {
         // find the user
         User.findOne({
             username: req.body.username
-        }).select('name username password isadmin firstname lastname isdefault').exec(function (err, user) {
+        }).select('_id name username password isadmin firstname lastname isdefault ClientId UserId').exec(function (err, user) {
 
             if (err) throw err;
 
@@ -206,24 +206,24 @@ module.exports = function (app, express) {
 		    console.log(randonPassword);
 		    //var user = new User();		// create a new instance of the User model
 		    user.UserId = req.body.UserId;
-		    if (req.body.firstname == "" || req.body.firstname == undefined)
-		        return res.json({ success: false, message: 'Please fill First Name.' });
-		    else
+		    //if (req.body.firstname == "" || req.body.firstname == undefined)
+		    //    return res.json({ success: false, message: 'Please fill First Name.' });
+		    //else
 		        user.firstname = req.body.firstname;  // set the users firstname (comes from the request)
 
-		    if (req.body.lastname == "" || req.body.lastname == undefined)
-		        return res.json({ success: false, message: 'Please fill Last Name.' });
-		    else
+		    //if (req.body.lastname == "" || req.body.lastname == undefined)
+		    //    return res.json({ success: false, message: 'Please fill Last Name.' });
+		    //else
 		        user.lastname = req.body.lastname;    // set the users lastname (comes from the request)
 
-		    if (req.body.username == "" || req.body.username == undefined)
-		        return res.json({ success: false, message: 'Please fill User Name.' });
-		    else
+		    //if (req.body.username == "" || req.body.username == undefined)
+		    //    return res.json({ success: false, message: 'Please fill User Name.' });
+		    //else
 		        user.username = req.body.username;  // set the users username (comes from the request)
 
-		    if (req.body.email == "" || req.body.email == undefined)
-		        return res.json({ success: false, message: 'Please fill Email Id.' });
-		    else
+		    //if (req.body.email == "" || req.body.email == undefined)
+		    //    return res.json({ success: false, message: 'Please fill Email Id.' });
+		    //else
 		        user.email = req.body.email;
 		    user.password = randonPassword;     // set the users password (comes from the request)
 		    user.isadmin = req.body.isadmin;
@@ -260,7 +260,7 @@ module.exports = function (app, express) {
 		            console.log(user);
 		            var smtp = new mail();
 
-		            smtp.from = "manmohantayal9@gmail.com";
+		            smtp.from = "akiyamaemail@gmail.com";
 		            smtp.useremail = user.email;
 		            smtp.subject = "Registration Mail For User";
 		            smtp.text = "New File";
@@ -337,6 +337,7 @@ module.exports = function (app, express) {
     apiRouter.route('/clients')
 		// create a client (accessed at POST http://localhost:8080/api/clients)
 		.post(function (req, res) {
+		    console.log(res);
 		    Client.create(req, res);
 		})
 

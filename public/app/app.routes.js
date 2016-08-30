@@ -23,6 +23,13 @@ angular.module('app.routes', ['ngRoute'])
 		    //controllerAs: 'user'
 		})
 
+        // show all users
+		.when('/report', {
+		    templateUrl: 'app/views/pages/reports.html'
+		    // controller: 'userController',
+		    //controllerAs: 'user'
+		})
+
 		// show all users
 		.when('/users', {
 		    templateUrl: 'app/views/pages/users/all.html',
