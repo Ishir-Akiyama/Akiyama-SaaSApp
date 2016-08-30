@@ -8,6 +8,8 @@ var config = require('../../config');
 var express = require('express');
 var nodemailer = require("nodemailer");
 var mail = require('../sendmail');
+var mongoose = require('mongoose');
+
 var app = express();
 var randonPassword = "";
 // super secret for creating tokens
@@ -208,22 +210,22 @@ module.exports = function (app, express) {
 		    //if (req.body.firstname == "" || req.body.firstname == undefined)
 		    //    return res.json({ success: false, message: 'Please fill First Name.' });
 		    //else
-		    user.firstname = req.body.firstname;  // set the users firstname (comes from the request)
+		        user.firstname = req.body.firstname;  // set the users firstname (comes from the request)
 
 		    //if (req.body.lastname == "" || req.body.lastname == undefined)
 		    //    return res.json({ success: false, message: 'Please fill Last Name.' });
 		    //else
-		    user.lastname = req.body.lastname;    // set the users lastname (comes from the request)
+		        user.lastname = req.body.lastname;    // set the users lastname (comes from the request)
 
 		    //if (req.body.username == "" || req.body.username == undefined)
 		    //    return res.json({ success: false, message: 'Please fill User Name.' });
 		    //else
-		    user.username = req.body.username;  // set the users username (comes from the request)
+		        user.username = req.body.username;  // set the users username (comes from the request)
 
 		    //if (req.body.email == "" || req.body.email == undefined)
 		    //    return res.json({ success: false, message: 'Please fill Email Id.' });
 		    //else
-		    user.email = req.body.email;
+		        user.email = req.body.email;
 		    user.password = randonPassword;     // set the users password (comes from the request)
 		    user.isadmin = req.body.isadmin;
 		    if (user.isadmin == true) {
@@ -338,6 +340,28 @@ module.exports = function (app, express) {
 		.post(function (req, res) {
 		    console.log(res);
 		    Client.create(req, res);
+		    var sch_obj = new mongoose.Schema({
+		        name: { type: String, default: "" },
+		        filename: { type: String, default: "" },
+		        size: { type: String, default: 0 },
+		        type: { type: String, default: "" },
+		        byte: { type: String, contentType: String, default:"" },
+		        user: { type: String, default: "" },
+		        uploadedOn: { type: Date, default: Date.now },
+		        status: { type: Number, default: -1 },
+		    }, { collection: 'Images_' + req.body.name });
+
+		    var Mod_obj = mongoose.model('Images_' + req.body.name, sch_obj);
+
+		    var json_obj = new Mod_obj({
+		        "_id ": 'Strin', /*This is the only field which cannot be assigned later*/
+		    });
+
+		    //json_obj._id = 'some value'; /*THIS CANNOT BE DONE*/
+		    json_obj.field1 = 'value1';
+		    json_obj.field2 = 'value2';
+		    json_obj.save(function (err, data) { console.log(data); });
+		    debugger;
 		})
 
 		// get all the clients (accessed at GET http://localhost:8080/api/clients)
@@ -386,6 +410,7 @@ module.exports = function (app, express) {
     apiRouter.route('/images')
 		// create a image (accessed at POST http://localhost:8080/api/images)
 		.post(function (req, res) {
+
 		    Image.create(req, res);
 		})
 

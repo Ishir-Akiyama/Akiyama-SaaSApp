@@ -7,7 +7,21 @@
     <p>Uploading Image...</p>
 </div>
 <form class="form-horizontal" ng-submit="image.saveImage()">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Name</label>
+        <div class="col-sm-6" ng-controller="fileCtrl">
+            <input type="text" class="form-control" required ng-model="image.imageData.name">
+        </div>
 
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Client</label>
+        <div class="col-sm-6" ng-controller="fileCtrl">
+            <input type="text" class="form-control" required ng-model="image.imageData.client">
+        </div>
+
+    </div>
 
     <div class="form-group">
         <label class="col-sm-2 control-label">Image</label>
@@ -17,7 +31,7 @@
                 <img class="thumb" ng-src="{{step}}" />
             </div>
 
-            <input type='file' ng-model-instant onchange="angular.element(this).scope().imageUpload(event)" multiple />
+            <input type='file' required ng-model-instant onchange="angular.element(this).scope().imageUpload(event)" multiple />
         </div>
 
     </div>

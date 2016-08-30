@@ -76,6 +76,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
               $scope.image.imageData.file = element.files[0].name;
           });
       }
+      $scope.image.imageData = {};
       $scope.stepsModel = [];
 
       $scope.imageUpload = function (event) {
@@ -83,8 +84,8 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
 
           for (var i = 0; i < files.length; i++) {
               var file = files[i];
-              $scope.image.imageData = {};
-              $scope.image.imageData.name = file.name;
+             
+              $scope.image.imageData.filename = file.name;
               $scope.image.imageData.size = file.size;
               $scope.image.imageData.type = file.type;
 
