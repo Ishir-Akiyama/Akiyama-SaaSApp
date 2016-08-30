@@ -7,6 +7,8 @@ exports.create = function (request, response) {
     var entry = new Image({
         
         name: request.body.name,
+        filename: request.body.filename,
+
         size: request.body.size,
         type: request.body.type,
         byte: request.body.file,

@@ -15,6 +15,8 @@
     <thead>
         <tr>
             <th>Name</th>
+            <th>File Name</th>
+
             <th>Size</th>
             <th>Type</th>
             <th>Client</th>
@@ -30,6 +32,10 @@
                 {{ im.name }}
 
             </td>
+            <td>
+                {{ im.filename }}
+
+            </td>
             <td>{{ im.size }}</td>
             <td>{{ im.type }}</td>
             <td>{{ im.client }}</td>
@@ -40,7 +46,7 @@
             <td>
                 <div ng-controller="ShowHideCtrl">
 
-                    <input  type="button" value="{{btnText}} " ng-click="ShowHide()" />
+                    <input type="button" value="{{btnText}} " ng-click="ShowHide()" />
                     <div ng-show="IsVisible">
                         <img data-ng-src="{{im.byte}}" data-err-src="images/png/avatar.png" height="200" width="200" />
                     </div>
