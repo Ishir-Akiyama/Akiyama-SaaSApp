@@ -64,9 +64,11 @@ angular.module('userCtrl', ['userService', 'commonService'])
 			.success(function (data) {
 			    vm.processing = false;
 			    vm.userData = {};
-			    vm.message = data.message;
+			    if (data.message != "User created!")
+			        vm.message = data.message;
+			    else
+			        $location.path('/users');
 			});
-
     };
 
 })
@@ -105,9 +107,13 @@ angular.module('userCtrl', ['userService', 'commonService'])
 			    // clear the form
 			    vm.userData = {};
 
+			    if (data.message != "User updated!")
+			        vm.message = data.message;
+			    else
+			        $location.path('/users');
 			    // bind the message from our API to vm.message
-			    vm.message = data.message;
-			    $location.path('/users');
+			    //vm.message = data.message;
+			    //$location.path('/users');
 			});
 
     };

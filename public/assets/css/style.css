@@ -59,6 +59,7 @@ header .navbar {
 /*css added on 22/08/2016*/
 .alert-info {
     display: block;
+    background-color:#1ac11a;
 }
 
 .login {

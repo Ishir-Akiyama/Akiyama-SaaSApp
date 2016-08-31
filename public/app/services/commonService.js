@@ -11,5 +11,11 @@ angular.module('commonService', [])
     commonFactory.GetClientList = function () {
         return $http.get('/api/activeClients/');
     };
+
+    commonFactory.GetImageStatusList = function () {
+
+    };
+
+
     return commonFactory;
 });
