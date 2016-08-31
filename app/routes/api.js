@@ -235,7 +235,7 @@ module.exports = function (app, express) {
 		        user.isadmin = false;
 		    }
 		    if (user.isadmin == false) {
-		        user.clientname = req.body.clientname;
+		        user.clientid = req.body.clientid;
 		    }
 		    else {
 		        user.clientname = "";
