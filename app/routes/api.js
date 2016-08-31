@@ -76,6 +76,7 @@ module.exports = function (app, express) {
                     console.log(user.password);
                     console.log(321);
                     if (req.body.password) user.password = NewPassword;
+                    user.isdefault = true;
                     console.log("checking for update-----")
                     // save the user
                     user.save(function (err) {
