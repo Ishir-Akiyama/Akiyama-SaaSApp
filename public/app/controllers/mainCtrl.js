@@ -1,6 +1,6 @@
 angular.module('mainCtrl', [])
 
-.controller('mainController', function ($rootScope, $location,  Auth) {
+.controller('mainController', function ($rootScope, $location, Auth) {
     var vm = this;
 
     // get info if a person is logged in
@@ -12,7 +12,7 @@ angular.module('mainCtrl', [])
         // get user information on page load
         Auth.getUser()
 			.then(function (data) {
-			    //alert(JSON.stringify(data.data));
+			   // alert(JSON.stringify(data.data));
 			    vm.user = data.data;
 			});
     });
@@ -33,7 +33,7 @@ angular.module('mainCtrl', [])
 			        if (data.isdefault)
 			            $location.path('/changePassword');
 			        else
-			        $location.path('/dashboard');
+			            $location.path('/dashboard');
 			    }
 			    else
 			        vm.error = data.message;
@@ -43,7 +43,6 @@ angular.module('mainCtrl', [])
     // function to handle logging out
     vm.doLogout = function () {
         Auth.logout();
-        debugger;
         vm.user = '';
         $location.path('/login');
     };
@@ -54,23 +53,16 @@ angular.module('mainCtrl', [])
 })
 
 .controller('forgotpasswordController', function (User, Auth) {
-    debugger;
     var vm = this;
-
     vm.type = 'forgot';
-
     vm.doforgotPassword = function () {
-        debugger;
         Auth.forgotUser(vm.userData.username)
         .success(function (data) {
             vm.processing = false;
-
+            vm.userData = {};
             // if a user successfully logs in, redirect to users page
             if (data.success)
-                $location.path('/users');
-            else
                 vm.error = data.message;
-
         });
     };
 

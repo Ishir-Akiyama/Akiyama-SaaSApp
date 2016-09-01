@@ -109,7 +109,7 @@ module.exports = function (app, express) {
         // find the user
         User.findOne({
             username: req.body.username
-        }).select('_id name username password isadmin firstname lastname isdefault ClientId UserId').exec(function (err, user) {
+        }).select('_id username password isadmin email firstname lastname isdefault clientid UserId').exec(function (err, user) {
 
             if (err) throw err;
 
@@ -133,6 +133,11 @@ module.exports = function (app, express) {
                     // create a token
                     var token = jwt.sign({
                         username: user.username,
+                        email: user.email,
+                        clientid: user.clientid,
+                        UserId: user.UserId,
+                        firstname: user.firstname,
+                        lastname: user.lastname,
                         isadmin: user.isadmin,
                         _id: user._id
                     },
@@ -145,7 +150,6 @@ module.exports = function (app, express) {
                         success: true,
                         message: 'Enjoy your token!',
                         isdefault: user.isdefault,
-                        _id: user._id,
                         token: token
                     });
                 }
@@ -211,22 +215,22 @@ module.exports = function (app, express) {
 		    //if (req.body.firstname == "" || req.body.firstname == undefined)
 		    //    return res.json({ success: false, message: 'Please fill First Name.' });
 		    //else
-		        user.firstname = req.body.firstname;  // set the users firstname (comes from the request)
+		    user.firstname = req.body.firstname;  // set the users firstname (comes from the request)
 
 		    //if (req.body.lastname == "" || req.body.lastname == undefined)
 		    //    return res.json({ success: false, message: 'Please fill Last Name.' });
 		    //else
-		        user.lastname = req.body.lastname;    // set the users lastname (comes from the request)
+		    user.lastname = req.body.lastname;    // set the users lastname (comes from the request)
 
 		    //if (req.body.username == "" || req.body.username == undefined)
 		    //    return res.json({ success: false, message: 'Please fill User Name.' });
 		    //else
-		        user.username = req.body.username;  // set the users username (comes from the request)
+		    user.username = req.body.username;  // set the users username (comes from the request)
 
 		    //if (req.body.email == "" || req.body.email == undefined)
 		    //    return res.json({ success: false, message: 'Please fill Email Id.' });
 		    //else
-		        user.email = req.body.email;
+		    user.email = req.body.email;
 		    user.password = randonPassword;     // set the users password (comes from the request)
 		    user.isadmin = req.body.isadmin;
 		    if (user.isadmin == true) {
@@ -346,7 +350,7 @@ module.exports = function (app, express) {
 		        filename: { type: String, default: "" },
 		        size: { type: String, default: 0 },
 		        type: { type: String, default: "" },
-		        byte: { type: String, contentType: String, default:"" },
+		        byte: { type: String, contentType: String, default: "" },
 		        user: { type: String, default: "" },
 		        uploadedOn: { type: Date, default: Date.now },
 		        status: { type: Number, default: -1 },
@@ -411,7 +415,6 @@ module.exports = function (app, express) {
     apiRouter.route('/images')
 		// create a image (accessed at POST http://localhost:8080/api/images)
 		.post(function (req, res) {
-
 		    Image.create(req, res);
 		})
 

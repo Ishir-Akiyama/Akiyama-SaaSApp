@@ -52,16 +52,11 @@ angular.module('clientCtrl', ['clientService', 'commonService'])
 			.success(function (data) {
 			    vm.processing = false;
 			    vm.clientData = {};
-			    vm.message = data.message;
-
-			    $location.path('/clients');
-			})
-        //.error(function(data,status)
-        //{
-        //    console.error('Repos error', status, data);
-        //    vm.message = data.message;
-        //})
-        ;
+			    if (data.message != "Client created!")
+			        vm.message = data.message;
+			    else
+			        $location.path('/clients');
+			});
     };
 
 })
@@ -93,9 +88,10 @@ angular.module('clientCtrl', ['clientService', 'commonService'])
 			    // clear the form
 			    vm.clientData = {};
 			    // bind the message from our API to vm.message
-			    vm.message = data.message;
-
-			    $location.path('/clients');
+			    if (data.message != "Client updated!")
+			        vm.message = data.message;
+			    else
+			        $location.path('/clients');
 			});
     };
 

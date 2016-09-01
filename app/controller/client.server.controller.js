@@ -15,10 +15,10 @@ exports.create = function (request, response) {
     entry.save(function (err) {
         if (err) {
             // duplicate entry
-            //if (err.code == 11000) 
-            //    return res.json({ success: false, message: 'A user with that username already exists. '});
-            //else 
-            return response.send(err);
+            if (err.code == 11000)
+                return res.json({ success: false, message: 'A client with that name already exists. ' });
+            else
+                return response.send(err);
         }
         // return a message
         response.json({ message: 'Client created!' });
@@ -68,7 +68,13 @@ exports.update = function (request, response) {
         if (request.body.isActive) Client.isActive = request.body.isActive;
         // save the client
         Client.save(function (err) {
-            if (err) response.send(err);
+            if (err) {
+                // duplicate entry
+                if (err.code == 11000)
+                    return res.json({ success: false, message: 'A client with that name already exists. ' });
+                else
+                    return response.send(err);
+            }
             // return a message
             response.json({ message: 'Client updated!' });
         });

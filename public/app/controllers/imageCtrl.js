@@ -37,17 +37,16 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
 .controller('imageCreateController', function (Image, $location) {
     debugger;
     var vm = this;
-
     // variable to hide/show elements of the view
     // differentiates between create or edit pages
     vm.type = 'create';
-
+   
     // function to create a user
-    vm.saveImage = function () {
+    vm.saveImage = function (temp) {
+        vm.imageData.clientId = temp;
         debugger;
         vm.processing = true;
         vm.message = '';
-
         // use the create function in the clientService
         Image.create(vm.imageData)
 			.success(function (data) {
@@ -60,8 +59,6 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
         .error(function (data, status) {
 
             vm.message = data.message;
-
-           
         })
         //;
     };
