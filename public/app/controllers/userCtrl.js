@@ -47,13 +47,11 @@ angular.module('userCtrl', ['userService', 'commonService'])
     // differentiates between create or edit pages
     vm.type = 'create';
     //show active clients
-    debugger;
     Common.GetClientList()
           .success(function (data) {
               vm.processing = false;
               vm.clients = data;
           });
-    debugger;
     // function to create a user
     vm.saveUser = function () {
         vm.processing = true;

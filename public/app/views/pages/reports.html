@@ -5,13 +5,18 @@
                 <h1>Reports</h1>
                 <div class="grfbx">
                     <div style="padding: 4px">
-                        <input placeholder="Search..." type="text" data-ng-model="this.value"
-                               data-ng-change="onFilterChanged(this.value)" />
-                            <!--<label style="margin-left: 20px;">
-                                <button onclick="onBtExport()">Export to CSV</button>
-                            </label>-->                 
+                        <div class="col-sm-4">
+                            <input placeholder="Search..." type="text" data-ng-model="this.value"
+                                   data-ng-keydown="onFilterChanged(this.value)"
+                                   data-ng-keyup="onFilterChanged(this.value)"
+                                   data-ng-change="onFilterChanged(this.value)" />
                         </div>
-                        <div class="col-lg-8 col-sm-12 col-xs-12">
+                        <div class="col-sm-6">
+                            <label style="margin-left: 20px;">
+                                <button id="btn" data-ng-click="onBtExport()">Export to CSV</button>
+                            </label>
+                        </div>
+                        <div class="col-lg-12 col-sm-12 col-xs-12">
                             <div class="imguploadbx">
                                 <div id="myGrid" ag-grid="gridOptions" class="ag-fresh">
                                 </div>
@@ -22,6 +27,7 @@
             </div>
         </div>
     </div>
+    </div>
 </main>
 
 <style>
@@ -29,4 +35,3 @@
         background-color: #e5e5e5;
     }
 </style>
-

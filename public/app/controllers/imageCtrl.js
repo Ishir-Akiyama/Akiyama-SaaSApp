@@ -1,7 +1,6 @@
 agGrid.initialiseAgGridWithAngular1(angular);
 angular.module('imageCtrl', ['imageService', 'commonService'])
 .controller('imageController', function (Image) {
-    debugger;
     var vm = this;
 
     // set a processing variable to show loading things
@@ -21,7 +20,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
 
 })
 
-    .controller('ShowHideCtrl', function ($scope) {
+.controller('ShowHideCtrl', function ($scope) {
         $scope.btnText = "Show Image";
 
         //This will hide the DIV by default.
@@ -35,7 +34,6 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
 
 // controller applied to client creation page
 .controller('imageCreateController', function (Image, $location) {
-    debugger;
     var vm = this;
 
     // variable to hide/show elements of the view
@@ -44,35 +42,25 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
 
     // function to create a user
     vm.saveImage = function () {
-        debugger;
         vm.processing = true;
         vm.message = '';
 
         // use the create function in the clientService
         Image.create(vm.imageData)
 			.success(function (data) {
-			    debugger;
 			    vm.processing = false;
-
 			    vm.imageData = {};
 			    $location.path('/images');
 			})
         .error(function (data, status) {
-
             vm.message = data.message;
-
-
         })
-        //;
     };
-
-
 })
 
-  .controller('fileCtrl', function ($scope) {
+.controller('fileCtrl', function ($scope) {
       $scope.setFile = function (element) {
           $scope.$apply(function ($scope) {
-              debugger;
               $scope.image.imageData.file = element.files[0].name;
           });
       }
@@ -144,7 +132,6 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
 })
 
 .controller('reportController', function ($scope, Image) {
-    debugger;
     var vm = this;
 
     // set a processing variable to show loading things
@@ -159,7 +146,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
         { headerName: "Status", field: "status" }
 
     ];
-
+    //Ag grid setting
     $scope.gridOptions = {
         columnDefs: columnDefs,
         rowSelection: 'multiple',
@@ -172,18 +159,24 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
         enableFilter: true
     };
 
+    //get ag grid data
     Image.all()
     	.success(function (data) {
     	    vm.processing = false;
     	    $scope.gridOptions.api.setRowData(data);
     	    $scope.gridOptions.api.refreshView();
-    	    //$scope.gridOptions.api.exportDataAsCsv(data)
     	});
 
     //for filter
-    $scope.onFilterChanged=function(value) {
+    $scope.onFilterChanged = function (value) {
         $scope.gridOptions.api.setQuickFilter(value);
     }
+
+    //ag-grid export data
+    $scope.onBtExport = function () {
+        var params = {};
+        $scope.gridOptions.api.exportDataAsCsv(params);
+    };
 });
 
 
