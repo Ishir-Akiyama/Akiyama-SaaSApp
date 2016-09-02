@@ -138,8 +138,13 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
     vm.processing = true;
 
     var columnDefs = [
-        { headerName: "Name", field: "name" },
-        { headerName: "File Name", field: "filename" },
+        {
+            headerName: "Name", field: "name", cellStyle: { color: 'darkred' }
+        },
+        //{ headerName: "File Name", field: "filename"},
+        { headerName: "File Name", field: "filename", 
+        cellRenderer: imageRender},
+   
         { headerName: "Size", field: "size" },
         { headerName: "Type", field: "type" },
         { headerName :"Uploaded On",field:"uploadedOn"},
@@ -154,10 +159,17 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
         enableSorting: true,
         groupHeaders: true,
         rowHeight: 22,
-        showToolPanel:true,
+        //showToolPanel:true,
         suppressRowClickSelection: true,
-        enableFilter: true
+        enableFilter: true,
+        angularCompileRows: true
     };
+
+    function imageRender(params) {
+        params.$scope.imageData = params.data.byte;
+        return "<img data-ng-src='{{imageData}}' data-err-src='images/png/avatar.png' height='400' width='200' />";
+    }
+
 
     //get ag grid data
     Image.all()
