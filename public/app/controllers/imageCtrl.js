@@ -1,5 +1,5 @@
+agGrid.initialiseAgGridWithAngular1(angular);
 angular.module('imageCtrl', ['imageService', 'commonService'])
-
 .controller('imageController', function (Image) {
     debugger;
     var vm = this;
@@ -37,16 +37,17 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
 .controller('imageCreateController', function (Image, $location) {
     debugger;
     var vm = this;
+
     // variable to hide/show elements of the view
     // differentiates between create or edit pages
     vm.type = 'create';
-   
+
     // function to create a user
-    vm.saveImage = function (temp) {
-        vm.imageData.clientId = temp;
+    vm.saveImage = function () {
         debugger;
         vm.processing = true;
         vm.message = '';
+
         // use the create function in the clientService
         Image.create(vm.imageData)
 			.success(function (data) {
@@ -59,6 +60,8 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
         .error(function (data, status) {
 
             vm.message = data.message;
+
+
         })
         //;
     };
@@ -81,7 +84,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
 
           for (var i = 0; i < files.length; i++) {
               var file = files[i];
-             
+
               $scope.image.imageData.filename = file.name;
               $scope.image.imageData.size = file.size;
               $scope.image.imageData.type = file.type;
@@ -138,7 +141,77 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
             });
     };
 
+})
+
+.controller('reportController', function ($scope, Image) {
+    debugger;
+    var vm = this;
+
+    // set a processing variable to show loading things
+    vm.processing = true;
+
+    var columnDefs = [
+        { headerName: "Name", field: "name" },
+        { headerName: "File Name", field: "filename" },
+        { headerName: "Size", field: "size" },
+        { headerName: "Type", field: "type" },
+        { headerName :"Uploaded On",field:"uploadedOn"},
+        { headerName: "Status", field: "status" }
+
+    ];
+
+    $scope.gridOptions = {
+        columnDefs: columnDefs,
+        rowSelection: 'multiple',
+        enableColResize: true,
+        enableSorting: true,
+        enableFilter: true,
+        groupHeaders: true,
+        rowHeight: 22,
+        suppressRowClickSelection: true
+
+    };
+
+    Image.all()
+    	.success(function (data) {
+    	    vm.processing = false;
+    	    $scope.gridOptions.api.setRowData(data);
+    	    $scope.gridOptions.api.refreshView();
+    	});
+
+    //working code
+    //Common.GetClientList()
+    // .success(function (result) {
+    //     vm.processing = false;
+    //     $scope.gridOptions.api.setRowData(result);
+    //     $scope.gridOptions.api.refreshView();
+    // });
+
+
+    //example
+    //var columnDefs = [
+    //   { headerName: "Make", field: "make" },
+    //   { headerName: "Model", field: "model" },
+    //   { headerName: "Price", field: "price" }
+    //];
+
+    //var rowData = [{ make: "Toyota", model: "Celica", price: 35000 },
+    //    { make: "Ford", model: "Mondeo", price: 32000 },
+    //    { make: "Porsche", model: "Boxter", price: 72000 },
+    //    { make: "Porsche", model: "Boxter", price: 72000 },
+    //    { make: "Porsche", model: "Boxter", price: 72000 },
+    //    { make: "Porsche", model: "Boxter", price: 72000 },
+    //    { make: "Porsche", model: "Boxter", price: 72000 },
+    //    { make: "Porsche", model: "Boxter", price: 72000 },
+    //    { make: "Porsche", model: "Boxter", price: 72000 },
+    //    { make: "Porsche", model: "Boxter", price: 72000 }
+    //];
+    //$scope.gridOptions = {
+    //    columnDefs: columnDefs,
+    //    rowData: rowData
+    //};
 });
+
 
 
 
