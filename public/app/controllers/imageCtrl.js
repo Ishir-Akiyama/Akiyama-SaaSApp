@@ -165,11 +165,11 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
         rowSelection: 'multiple',
         enableColResize: true,
         enableSorting: true,
-        enableFilter: true,
         groupHeaders: true,
         rowHeight: 22,
-        suppressRowClickSelection: true
-
+        showToolPanel:true,
+        suppressRowClickSelection: true,
+        enableFilter: true
     };
 
     Image.all()
@@ -177,39 +177,13 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
     	    vm.processing = false;
     	    $scope.gridOptions.api.setRowData(data);
     	    $scope.gridOptions.api.refreshView();
+    	    //$scope.gridOptions.api.exportDataAsCsv(data)
     	});
 
-    //working code
-    //Common.GetClientList()
-    // .success(function (result) {
-    //     vm.processing = false;
-    //     $scope.gridOptions.api.setRowData(result);
-    //     $scope.gridOptions.api.refreshView();
-    // });
-
-
-    //example
-    //var columnDefs = [
-    //   { headerName: "Make", field: "make" },
-    //   { headerName: "Model", field: "model" },
-    //   { headerName: "Price", field: "price" }
-    //];
-
-    //var rowData = [{ make: "Toyota", model: "Celica", price: 35000 },
-    //    { make: "Ford", model: "Mondeo", price: 32000 },
-    //    { make: "Porsche", model: "Boxter", price: 72000 },
-    //    { make: "Porsche", model: "Boxter", price: 72000 },
-    //    { make: "Porsche", model: "Boxter", price: 72000 },
-    //    { make: "Porsche", model: "Boxter", price: 72000 },
-    //    { make: "Porsche", model: "Boxter", price: 72000 },
-    //    { make: "Porsche", model: "Boxter", price: 72000 },
-    //    { make: "Porsche", model: "Boxter", price: 72000 },
-    //    { make: "Porsche", model: "Boxter", price: 72000 }
-    //];
-    //$scope.gridOptions = {
-    //    columnDefs: columnDefs,
-    //    rowData: rowData
-    //};
+    //for filter
+    $scope.onFilterChanged=function(value) {
+        $scope.gridOptions.api.setQuickFilter(value);
+    }
 });
 
 

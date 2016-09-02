@@ -4,16 +4,29 @@
             <div class="imguploadbx">
                 <h1>Reports</h1>
                 <div class="grfbx">
-                    <div class="col-lg-8 col-sm-12 col-xs-12">
-                        <div class="imguploadbx">
-                            <div id="myGrid" ag-grid="gridOptions" class="ag-fresh">
+                    <div style="padding: 4px">
+                        <input placeholder="Search..." type="text" data-ng-model="this.value"
+                               data-ng-change="onFilterChanged(this.value)" />
+                            <!--<label style="margin-left: 20px;">
+                                <button onclick="onBtExport()">Export to CSV</button>
+                            </label>-->                 
+                        </div>
+                        <div class="col-lg-8 col-sm-12 col-xs-12">
+                            <div class="imguploadbx">
+                                <div id="myGrid" ag-grid="gridOptions" class="ag-fresh">
+                                </div>
                             </div>
                         </div>
+                        <div class="clearfix"></div>
                     </div>
-                    <div class="clearfix"></div>
-                </div>
             </div>
         </div>
     </div>
 </main>
+
+<style>
+    .ag-header-cell-filtered {
+        background-color: #e5e5e5;
+    }
+</style>
 
