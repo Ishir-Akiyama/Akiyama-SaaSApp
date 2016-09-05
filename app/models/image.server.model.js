@@ -8,11 +8,11 @@ var ImageSchema = new Schema({
     size: Number,
     type: String,
     byte: { type: String, contentType: String },
+    clientId:Number,
     client: String,
     user: String,
     uploadedOn: { type: Date, default: Date.now },
     status: Number
-
 });
 
 

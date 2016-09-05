@@ -76,6 +76,7 @@ module.exports = function (app, express) {
                     console.log(user.password);
                     console.log(321);
                     if (req.body.password) user.password = NewPassword;
+                    user.isdefault = true;
                     console.log("checking for update-----")
                     // save the user
                     user.save(function (err) {
@@ -108,7 +109,7 @@ module.exports = function (app, express) {
         // find the user
         User.findOne({
             username: req.body.username
-        }).select('_id name username password isadmin firstname lastname isdefault ClientId UserId').exec(function (err, user) {
+        }).select('_id username password isadmin email firstname lastname isdefault clientid UserId').exec(function (err, user) {
 
             if (err) throw err;
 
@@ -131,10 +132,14 @@ module.exports = function (app, express) {
                     // if user is found and password is right
                     // create a token
                     var token = jwt.sign({
-                        name: user.name,
                         username: user.username,
+                        email: user.email,
+                        clientid: user.clientid,
+                        UserId: user.UserId,
+                        firstname: user.firstname,
+                        lastname: user.lastname,
                         isadmin: user.isadmin,
-                        firstname: user.firstname
+                        _id: user._id
                     },
                   superSecret, {
                       expiresIn: '24h' // expires in 24 hours
@@ -187,7 +192,6 @@ module.exports = function (app, express) {
                 success: false,
                 message: 'No token provided.'
             });
-
         }
     });
 
@@ -236,7 +240,7 @@ module.exports = function (app, express) {
 		        user.isadmin = false;
 		    }
 		    if (user.isadmin == false) {
-		        user.clientname = req.body.clientname;
+		        user.clientid = req.body.clientid;
 		    }
 		    else {
 		        user.clientname = "";
@@ -346,7 +350,7 @@ module.exports = function (app, express) {
 		        filename: { type: String, default: "" },
 		        size: { type: String, default: 0 },
 		        type: { type: String, default: "" },
-		        byte: { type: String, contentType: String, default:"" },
+		        byte: { type: String, contentType: String, default: "" },
 		        user: { type: String, default: "" },
 		        uploadedOn: { type: Date, default: Date.now },
 		        status: { type: Number, default: -1 },
@@ -411,7 +415,6 @@ module.exports = function (app, express) {
     apiRouter.route('/images')
 		// create a image (accessed at POST http://localhost:8080/api/images)
 		.post(function (req, res) {
-
 		    Image.create(req, res);
 		})
 
@@ -439,24 +442,7 @@ module.exports = function (app, express) {
 		    Image.findByName(req, res);
 		})
 
-    // update the client with this id
-    //.put(function (req, res) {
-
-    //})
-
-    // delete the client with this id
-    //.delete(function (req, res) {
-    //    Client.remove({
-    //        _id: req.params.client_id
-    //    }, function (err, client) {
-    //        if (err) res.send(err);
-
-    //        res.json({ message: 'Successfully deleted' });
-    //    });
-    //});
-
     //forgotPassword
-
     apiRouter.post('/forgotPassword', function (req, res) {
         // find the user
         User.findOne({
@@ -494,6 +480,32 @@ module.exports = function (app, express) {
             }
         });
     });
+
+    //change Password
+    apiRouter.put('/changePassword', function (req, res) {
+        debugger;
+        console.log(req.body.username);
+        User.findOne({
+            username: req.body.username
+        }).select('_id firstname username password emailid isdefault').exec(function (err, user) {
+            console.log("user Data" + user);
+            if (err) res.send(err);
+            // set the new user information if it exists in the request
+            if (req.body.firstname) user.firstname = req.body.firstname;
+            if (req.body.lastname) user.lastname = req.body.lastname;
+            if (req.body.username) user.username = req.body.username;
+            if (req.body.email) user.email = req.body.email;
+            if (req.body.password) user.password = req.body.password;
+            user.isdefault = false;
+            // save the user
+            user.save(function (err) {
+                if (err) res.send(err);
+                // return a message
+                res.json({ message: 'Password updated!' });
+            });
+        })
+    });
+
 
     // api endpoint to get user information
     apiRouter.get('/me', function (req, res) {

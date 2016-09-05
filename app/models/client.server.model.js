@@ -5,7 +5,7 @@ var AutoIncrement = require('mongoose-sequence');
 var ClientSchema = new Schema({
     ClientId: Number,
     //name: String,
-    name: String,
+    name: { type: String, required: true, index: { unique: true } },
     address1: { type: String, required: true },
     address2: String,
     city: { type: String, required: true },

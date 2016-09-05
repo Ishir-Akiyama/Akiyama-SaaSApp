@@ -25,9 +25,9 @@ angular.module('app.routes', ['ngRoute'])
 
         // show all users
 		.when('/report', {
-		    templateUrl: 'app/views/pages/reports.html'
-		    // controller: 'userController',
-		    //controllerAs: 'user'
+		    templateUrl: 'app/views/pages/reports.html',
+		    controller: 'reportController',
+		    controllerAs: 'report'
 		})
 
 		// show all users
@@ -96,9 +96,9 @@ angular.module('app.routes', ['ngRoute'])
 
     // login page
     .when('/changePassword', {
-        templateUrl: 'app/views/pages/change-password.html'
-        //controller: 'mainController',
-        //controllerAs: 'login'
+        templateUrl: 'app/views/pages/change-password.html',
+        controller: 'changepasswordController',
+        controllerAs: 'changePassword'
     });
 
     $locationProvider.html5Mode(true);

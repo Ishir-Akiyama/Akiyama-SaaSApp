@@ -1,7 +1,5 @@
 ﻿//var Image = require('../models/image.server.model');
 
-
-
 var mongoose = require('mongoose');
 //create new client
 
@@ -19,19 +17,17 @@ var sch_obj = new mongoose.Schema({
 
 var clientId = "";
 exports.create = function (request, response) {
-    clientId = request.body.client;
-    module.exports = mongoose.model('Images_' + request.body.client, sch_obj);
-    var Image = mongoose.model('Images_' + request.body.client);
+    console.log(request);
+    clientId = request.body.clientId;
+    module.exports = mongoose.model('Images_' + request.body.clientId, sch_obj);
+    var Image = mongoose.model('Images_' + request.body.clientId);
     
     var entry = new Image({
-
         name: request.body.name,
         filename: request.body.filename,
-
         size: request.body.size,
         type: request.body.type,
         byte: request.body.file,
-
         //  client: request.body.client,
         user: request.body.user,
         uploadedOn: request.body.uploadedOn,
@@ -44,15 +40,13 @@ exports.create = function (request, response) {
             //if (err.code == 11000) 
             //    return res.json({ success: false, message: 'A user with that username already exists. '});
             //else 
-            console.log("test2");
             return response.send(err);
         }
         // return a message
         response.json({ message: 'Image created!' });
     });
-    console.log(response);
+    //console.log(response);
 };
-
 
 
 //Get all clients

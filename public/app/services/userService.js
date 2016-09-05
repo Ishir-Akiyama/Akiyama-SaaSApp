@@ -30,6 +30,12 @@ angular.module('userService', [])
 		return $http.delete('/api/users/' + id);
 	};
 
+
+    // change user password
+	userFactory.changePassword = function (userData) {	    
+	    return $http.put('/api/changePassword/', userData);
+	};
+
 	// return our entire userFactory object
 	return userFactory;
 
