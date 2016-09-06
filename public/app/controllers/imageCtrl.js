@@ -145,33 +145,51 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
 
 })
 
-.controller('reportController', function ($scope, Image) {
+.controller('reportController', function ($scope, Image, Common) {
     var vm = this;
 
     // set a processing variable to show loading things
     vm.processing = true;
 
     var columnDefs = [
-        { headerName: "Name", field: "name" },
-        { headerName: "File Name", field: "filename" },
-        { headerName: "Size", field: "size" },
-        { headerName: "Type", field: "type" },
-        { headerName :"Uploaded On",field:"uploadedOn"},
-        { headerName: "Status", field: "status" }
+        { headerName: "Name", field: "name", cellStyle: { color: 'darkred' }, width: 100, filter: 'text', suppressFilter: true },
+        { headerName: "File Name", field: "filename", cellRenderer: imageRender },
 
+        { headerName: "Size", field: "size", width: 100, filter: 'set' },
+        { headerName: "Type", field: "type", width: 100, suppressFilter: true },
+        { headerName: "Uploaded On", field: "uploadedOn", width: 200 },
+        { headerName: "Status", field: "status", width: 100, cellRenderer: statusRender }
     ];
     //Ag grid setting
     $scope.gridOptions = {
         columnDefs: columnDefs,
         rowSelection: 'multiple',
-        enableColResize: true,
+        enableColResize: false,
         enableSorting: true,
         groupHeaders: true,
         rowHeight: 22,
-        showToolPanel:true,
+        //showToolPanel:true,
         suppressRowClickSelection: true,
-        enableFilter: true
+        enableFilter: true,
+        angularCompileRows: true
     };
+
+
+    function imageRender(params) {
+        params.$scope.imageData = params.data.byte;
+        return "<img data-ng-src='{{imageData}}' data-err-src='images/png/avatar.png' height='500px' width='500px' />";
+    }
+
+    //show status according to it's value
+    function statusRender(params) {
+        var list = Common.GetStatusList();
+        angular.forEach(list, function (value, key) {
+            if (params.data.status == value.Statusvalue) {
+                params.$scope.statusRender = value.StatusName;
+            }
+        });
+        return params.$scope.statusRender;
+    }
 
     //get ag grid data
     Image.all()
@@ -185,6 +203,8 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
     $scope.onFilterChanged = function (value) {
         $scope.gridOptions.api.setQuickFilter(value);
     }
+
+
 
     //ag-grid export data
     $scope.onBtExport = function () {
