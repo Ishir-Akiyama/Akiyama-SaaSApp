@@ -419,7 +419,7 @@ module.exports = function (app, express) {
 		})
 
 		// get all the images (accessed at GET http://localhost:8080/api/images)
-		.get(function (req, res) {
+		.get(function (req, res) {            
 		    Image.all(req, res);
 		});
 
