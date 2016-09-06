@@ -25,9 +25,9 @@ angular.module('app.routes', ['ngRoute'])
 
         // show all users
 		.when('/report', {
-		    templateUrl: 'app/views/pages/reports.html'
-		    // controller: 'userController',
-		    //controllerAs: 'user'
+		    templateUrl: 'app/views/pages/reports.html',
+		    controller: 'reportController',
+		    controllerAs: 'report'
 		})
 
 		// show all users

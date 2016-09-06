@@ -55,7 +55,6 @@ angular.module('authService', [])
 
     //forgot password
     authFactory.forgotUser = function (username) {
-        debugger
         return $http.post('/api/authenticateUser', {
             username: username
         })

@@ -12,13 +12,11 @@ angular.module('imageService', [])
 
     // get all client
 	imageFactory.all = function () {
-	    debugger;
 	    return $http.get('/api/images/');
 	};
 
     //// create a client
 	imageFactory.create = function (imageData) {
-	    debugger;
 	    return $http.post('/api/images/', imageData);
 	};
 
