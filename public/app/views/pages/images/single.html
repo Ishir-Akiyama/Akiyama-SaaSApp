@@ -26,7 +26,15 @@
             <div ng-repeat="step in stepsModel">
                 <img class="thumb" ng-src="{{step}}" />
             </div>
-            <input type='file' required ng-model-instant onchange="angular.element(this).scope().imageUpload(event)" multiple />
+            <input type='file' required ng-model-instant onchange="angular.element(this).scope().imageUpload(event)" multiple  />
+
+        </div>
+        <div class="row show-hide-message" ng-show="image.message">
+            <div class="col-sm-6 col-sm-offset-2">
+                <div class="alert alert-info">
+                    {{ image.message }}
+                </div>
+            </div>
         </div>
     </div>
     <div class="form-group">
@@ -34,12 +42,7 @@
             <button type="submit" class="btn btn-success btn-lg btn-block">Add Image</button>
         </div>
     </div>
+  
 </form>
 
-<div class="row show-hide-message" ng-show="image.message">
-    <div class="col-sm-6 col-sm-offset-2">
-        <div class="alert alert-info">
-            {{ image.message }}
-        </div>
-    </div>
-</div>
+

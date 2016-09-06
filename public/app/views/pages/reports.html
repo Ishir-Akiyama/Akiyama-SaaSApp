@@ -17,16 +17,16 @@
                             </label>
                         </div>
                         <div class="col-lg-12 col-sm-12 col-xs-12">
-                            <div class="imguploadbx">
-                                <div id="myGrid" ag-grid="gridOptions" class="ag-fresh">
+                            <div class="imguploadbx agStyle">
+                                <div id="myGrid" ag-grid="gridOptions" class="ag-fresh" style="width: 820px;">
                                 </div>
                             </div>
                         </div>
-                    <div class="clearfix"></div>
+                        <div class="clearfix"></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </main>
 
@@ -34,4 +34,17 @@
     .ag-header-cell-filtered {
         background-color: #e5e5e5;
     }
+
+    .agStyle .ag-fresh .ag-row {
+        background-color: #fff;
+        min-height: 100px;
+        position: relative;
+        top: 0 !important;
+    }
+
+        .agStyle .ag-fresh .ag-row img {
+            max-width: 100%;
+            height: auto;
+            max-height: 100%;
+        }
 </style>
