@@ -41,10 +41,11 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
     vm.type = 'create';
 
     // function to create a user
-    vm.saveImage = function () {
+    vm.saveImage = function (temp) {
+        debugger;
         vm.processing = true;
         vm.message = '';
-
+        vm.imageData.clientId = temp;
         // use the create function in the clientService
         Image.create(vm.imageData)
 			.success(function (data) {
