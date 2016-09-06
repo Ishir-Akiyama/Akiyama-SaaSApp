@@ -27,6 +27,7 @@ angular.module('imageService', [])
 	    return $http.put('/api/images/' + name, imageData);
 	};
 
+
     // delete a client
 	//clientFactory.delete = function (id) {
 	//    return $http.delete('/api/clients/' + id);
