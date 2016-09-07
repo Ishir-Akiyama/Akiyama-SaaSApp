@@ -13,7 +13,7 @@ angular.module('mainCtrl', [])
         // get user information on page load
         Auth.getUser()
 			.then(function (data) {
-			   // alert(JSON.stringify(data.data));
+			    alert(JSON.stringify(data.data));
 			    vm.user = data.data;
 			   // $window.localStorage.setItem('tempclientId', user.clientid);
 			});
