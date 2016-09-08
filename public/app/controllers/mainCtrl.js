@@ -1,30 +1,31 @@
 angular.module('mainCtrl', [])
 
-.controller('mainController', function ($rootScope, $location, Auth, $window) {
+.controller('mainController', function ($rootScope, $location, Auth, $window, $scope) {
     var vm = this;
 
-    // get info if a person is logged in
-    vm.loggedIn = Auth.isLoggedIn();
-
+   
     // check to see if a user is logged in on every request
     $rootScope.$on('$routeChangeStart', function () {
-        debugger;
         vm.loggedIn = Auth.isLoggedIn();
         // get user information on page load
         Auth.getUser()
 			.then(function (data) {
 			    vm.user = data.data;
+
 			    $window.localStorage.setItem('tempclientId', vm.user.clientid);
+			   
 			});
     });
 
     // function to handle login form
     vm.doLogin = function () {
+        alert('login');
+        debugger;
         vm.processing = true;
 
         // clear the error
         vm.error = '';
-
+     
         Auth.login(vm.loginData.username, vm.loginData.password)
 			.success(function (data) {
 			    vm.processing = false;
@@ -32,18 +33,22 @@ angular.module('mainCtrl', [])
 			    if (data.success) {
 			        if (data.isdefault)
 			            $location.path('/changePassword');
-			        else
+			        else {
+			           
 			            $location.path('/dashboard');
+			        }
 			    }
 			    else
 			        vm.error = data.message;
 			});
+        
     };
 
     // function to handle logging out
     vm.doLogout = function () {
         Auth.logout();
-        vm.user = '';
+        vm.user = {};
+        $window.location.reload();
         $location.path('/login');
     };
 
