@@ -110,9 +110,9 @@ exports.create = function (request, response) {
 
 //Get all clients
 exports.all = function (request, response) {
-    var temp = request.clientId;
-    module.exports = mongoose.model('Images_' + temp, sch_obj);
-    var Image = mongoose.model('Images_' + temp);
+    var temp = request.body.clientId;
+    module.exports = mongoose.model('Images_' + clientId, sch_obj);
+    var Image = mongoose.model('Images_' + clientId);
     Image.find({}, function (err, Image) {
         if (err) response.send(err);
         // return the users
@@ -143,6 +143,28 @@ exports.findByClient = function (request, response) {
     });
 }
 
+
+exports.dashboardPieChartByClientId = function (req, res) {
+    //var clientId = req.params.clientId;
+    module.exports = mongoose.model('images_12', sch_obj);
+    var Image = mongoose.model('images_12');
+    Image.aggregate([{ "$group": { _id: "$status", count: { $sum: 1 } } }], function (err, result) {
+        if (err) {
+            next(err);
+        } else {
+            res.json(result);
+        }
+    });
+    //console.log(data);
+    //Image.find({}, function (err, Image) {
+    //    if (err) res.send(err);
+    //    // return the users
+    //    console.log('Respone data');
+
+    //    console.log(Image[0])
+    //    res.json(Image);
+    //});
+}
 
 
 

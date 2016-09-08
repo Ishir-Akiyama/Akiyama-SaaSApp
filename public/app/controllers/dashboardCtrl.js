@@ -1,41 +1,53 @@
 ﻿angular.module('dashboardCtrl', ['dashboardService', 'nvd3'])
 
-.controller('dashboardController', function (Auth, $scope) {
-    var User;
+.controller('dashboardController', function (Auth, $scope,Dashboard) {
+    var User, caseArray, val;
     var tooltip = nv.models.tooltip();
     tooltip.duration(0);
 
     ///Get Login User data//////
     Auth.getUser()
-			.then(function (data) {
-			    User = data.data;
+         .then(function (data) {
+             User = data.data;
+             if (User.clientid) {
+                 allImagesByClientId(User.clientid);
+             }
+         });
 
-			    if(User.clientid)
-			    {
-                    //allI
-			    }
-			});
+    //// grab all the images at page load
+    allImagesByClientId = function (clientId) {
+        Dashboard.allImagesByClientId(clientId)
+        .success(function (data) {
+            debugger;
+            // when all the clients come back, remove the processing variable
+            //vm.processing = false;
+            // bind the clients that come back to vm.clients
+            $scope.pieData = data;
+            var Data = data;
+            caseArray = [];
+            for (var i = 0; i < Data.length; i++) {
+                var newObj = {};
+                newObj["key"]=Data[i]._id;
+                newObj["value"] = Data[i].count;
+                caseArray.push(newObj);
+            }
+            $scope.PieChartByClientId = caseArray;
+        });
+    }
 
-    // grab all the images at page load
-    //$scope.allImagesByClientId
-	//	.success(function (data) {
-	//	    // when all the clients come back, remove the processing variable
-	//	    vm.processing = false;
-
-	//	    // bind the clients that come back to vm.clients
-	//	    vm.clients = data;
-	//	});
+   // var caseArray, val;
+    
    
-    $scope.data = [{
-        color:"#1f77b4",
-        key: "lorem ipsum dolor sit amet",
-        value: 5
-    }, {
-        color: "#aec7e8",
-        key: "lorem ipsum dolor sit amet consectetur adipisicing",
-        value: 7
-    },
-    ]
+    //$scope.data = [{
+    //    color:"#1f77b4",
+    //    key: "lorem ipsum dolor sit amet",
+    //    value: 5
+    //}, {
+    //    color: "#aec7e8",
+    //    key: "lorem ipsum dolor sit amet consectetur adipisicing",
+    //    value: 7
+    //},
+    //]
     $scope.plainoptions = {
         chart: {
             type: 'pieChart',
@@ -78,7 +90,7 @@
                             var data = {
                                 series: {
                                     key: o.key,
-                                    value: o.value + " words",
+                                    value: o.value,
                                     color: o.color
                                 }
                             };
@@ -97,7 +109,7 @@
             },
             legendPosition: 'right',
             valueFormat: function (d) {
-                return d + " words";
+                return d;
             }
         }
     };

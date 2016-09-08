@@ -484,6 +484,16 @@ module.exports = function (app, express) {
         })
     });
 
+    apiRouter.route('/dashboard').get(function (req,res) {
+        Image.dashboardPieChartByClientId(req, res);
+    })
+    //// Get Images count By Client Id
+    //apiRouter.route('/dashboardPieChartByClientId', function (req, res) {
+    //    // get all the active clients (accessed at GET http://localhost:8080/api/dashboardPieChartByClientId)
+    //    console.log(clientId);
+        
+    //});
+
 
     // api endpoint to get user information
     apiRouter.get('/me', function (req, res) {
