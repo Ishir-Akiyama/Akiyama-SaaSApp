@@ -12565,7 +12565,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // copy pageSize, to guard against it changing the the datasource between calls
 	        this.pageSize = this.gridOptionsWrapper.getPaginationPageSize();
 	        if (!(this.pageSize >= 1)) {
-	            this.pageSize = 100;
+	            this.pageSize = 10;
 	        }
 	        // see if we know the total number of pages, or if it's 'to be decided'
 	        if (typeof this.datasource.rowCount === 'number' && this.datasource.rowCount >= 0) {
