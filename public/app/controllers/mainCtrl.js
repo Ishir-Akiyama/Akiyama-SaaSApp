@@ -1,6 +1,6 @@
 angular.module('mainCtrl', [])
 
-.controller('mainController', function ($rootScope, $location, Auth,$window) {
+.controller('mainController', function ($rootScope, $location, Auth, $window) {
     var vm = this;
 
     // get info if a person is logged in
@@ -13,9 +13,8 @@ angular.module('mainCtrl', [])
         // get user information on page load
         Auth.getUser()
 			.then(function (data) {
-			   // alert(JSON.stringify(data.data));
 			    vm.user = data.data;
-			   // $window.localStorage.setItem('tempclientId', user.clientid);
+			    $window.localStorage.setItem('tempclientId', vm.user.clientid);
 			});
     });
 

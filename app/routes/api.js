@@ -104,7 +104,6 @@ module.exports = function (app, express) {
         });
     });
 
-    // route to authenticate a user (POST http://localhost:8080/api/authenticate)
     apiRouter.post('/authenticate', function (req, res) {
         // find the user
         User.findOne({
@@ -156,6 +155,7 @@ module.exports = function (app, express) {
             }
         });
     });
+
 
     // route middleware to verify a token
     apiRouter.use(function (req, res, next) {
@@ -345,28 +345,6 @@ module.exports = function (app, express) {
 		.post(function (req, res) {
 		    console.log(res);
 		    Client.create(req, res);
-		    var sch_obj = new mongoose.Schema({
-		        name: { type: String, default: "" },
-		        filename: { type: String, default: "" },
-		        size: { type: String, default: 0 },
-		        type: { type: String, default: "" },
-		        byte: { type: String, contentType: String, default: "" },
-		        user: { type: String, default: "" },
-		        uploadedOn: { type: Date, default: Date.now },
-		        status: { type: Number, default: -1 },
-		    }, { collection: 'Images_' + req.body.name });
-
-		    var Mod_obj = mongoose.model('Images_' + req.body.name, sch_obj);
-
-		    var json_obj = new Mod_obj({
-		        "_id ": 'Strin', /*This is the only field which cannot be assigned later*/
-		    });
-
-		    //json_obj._id = 'some value'; /*THIS CANNOT BE DONE*/
-		    json_obj.field1 = 'value1';
-		    json_obj.field2 = 'value2';
-		    json_obj.save(function (err, data) { console.log(data); });
-		    debugger;
 		})
 
 		// get all the clients (accessed at GET http://localhost:8080/api/clients)
@@ -419,7 +397,7 @@ module.exports = function (app, express) {
 		})
 
 		// get all the images (accessed at GET http://localhost:8080/api/images)
-		.get(function (req, res) {            
+		.get(function (req, res) {
 		    Image.all(req, res);
 		});
 
@@ -435,11 +413,11 @@ module.exports = function (app, express) {
 
     // on routes that end in /images/:image_name
     // ----------------------------------------------------
-    apiRouter.route('/images/:image_name')
+    apiRouter.route('/images/:client_id')
 
 		// get the image with that id
 		.get(function (req, res) {
-		    Image.findByName(req, res);
+		    Image.findByClient(req, res);
 		})
 
     //forgotPassword
@@ -483,7 +461,7 @@ module.exports = function (app, express) {
 
     //change Password
     apiRouter.put('/changePassword', function (req, res) {
-        debugger;
+        
         console.log(req.body.username);
         User.findOne({
             username: req.body.username

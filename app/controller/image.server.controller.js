@@ -8,7 +8,6 @@ var mongoose = require('mongoose');
 var sch_obj = new mongoose.Schema({
     name: { type: String, default: "" },
     filename: { type: String, default: "" },
-    size: { type: String, default: 0 },
     type: { type: String, default: "" },
     byte: { type: String, contentType: String, default: "" },
     user: { type: String, default: "" },
@@ -23,7 +22,6 @@ exports.create = function (request, response) {
     module.exports = mongoose.model('Images_' + request.body.clientId, sch_obj);
     var Image = mongoose.model('Images_' + request.body.clientId);
 
-    debugger;
     if (request.body.type.indexOf("application/vnd") > -1) {
 
         var bitmap = new Buffer(request.body.file.replace("data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,", ""), 'base64');
@@ -58,12 +56,11 @@ exports.create = function (request, response) {
                     console.log(imagesInExcel);
                  
                     for (var i = 0; i < imagesInExcel.length; i++) {
-                        var getType = imagesInExcel[i].Image.toString().substr(11, 6);
+                        var getType = imagesInExcel[i].Image.toString().substr(5, 20);
                         getType = getType.substr(0, getType.indexOf(";"));
                         var entry = new Image({
                             name: imagesInExcel[i].name,
-                            filename: imagesInExcel[i].name,
-                            size: 0,
+                            filename: request.body.filename,
                             type: getType,
                             byte: imagesInExcel[i].Image,
                             //  client: request.body.client,
@@ -71,18 +68,12 @@ exports.create = function (request, response) {
                             status: '-1'
                         });
                         entry.save(function (err) {
-                            debugger;
-                            if (err) {
-                                // duplicate entry
-                                //if (err.code == 11000) 
-                                //    return res.json({ success: false, message: 'A user with that username already exists. '});
-                                //else 
-                                return response.send(err);
-                            }
+                            if (err) {}
                             // return a message
-                            response.json({ message: 'Excel imported!' });
+                            
                         });
                     }
+                    response.json({ message: 'Excel imported!' });
                 });
 
 
@@ -93,7 +84,6 @@ exports.create = function (request, response) {
         var entry = new Image({
             name: request.body.name,
             filename: request.body.filename,
-            size: request.body.size,
             type: request.body.type,
             byte: request.body.file,
             //  client: request.body.client,
@@ -102,7 +92,7 @@ exports.create = function (request, response) {
             status: '-1'
         });
         entry.save(function (err) {
-            debugger;
+            
             if (err) {
                 // duplicate entry
                 //if (err.code == 11000) 
@@ -120,7 +110,7 @@ exports.create = function (request, response) {
 
 //Get all clients
 exports.all = function (request, response) {
-    var temp = request.body.clientId;
+    var temp = request.clientId;
     module.exports = mongoose.model('Images_' + temp, sch_obj);
     var Image = mongoose.model('Images_' + temp);
     Image.find({}, function (err, Image) {
@@ -141,10 +131,14 @@ exports.allActive = function (request, response) {
 
 
 //Get by Image name
-exports.findByName = function (request, response) {
-    Image.findById(request.params.client_id, function (err, Image) {
+exports.findByClient = function (request, response) {
+   
+    var temp = request.params.client_id;
+    module.exports = mongoose.model('Images_' + temp, sch_obj);
+    var Image = mongoose.model('Images_' + temp);
+    Image.find({}, function (err, Image) {
         if (err) response.send(err);
-        // return that Image
+        // return the users
         response.json(Image);
     });
 }

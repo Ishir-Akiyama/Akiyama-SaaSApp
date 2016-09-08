@@ -1,20 +1,32 @@
 agGrid.initialiseAgGridWithAngular1(angular);
 angular.module('imageCtrl', ['imageService', 'commonService'])
-.controller('imageController', function (Image) {
+.controller('imageController', function (Image, Auth) {
     var vm = this;
 
     // set a processing variable to show loading things
     vm.processing = true;
+    vm.type = 'get';
+     
 
-    // grab all the clients at page load
-    Image.all()
-		.success(function (data) {
-		    // when all the clients come back, remove the processing variable
-		    vm.processing = false;
+    vm.getImages = function (temp) {
+        
+        vm.processing = true;
+        vm.message = '';
+        vm.imageData = {};
+        vm.imageData.clientId = temp;
+        // use the create function in the clientService
+        Image.findByClient(temp)
+       .success(function (data) {
+           // when all the clients come back, remove the processing variable
+           vm.processing = false;
 
-		    // bind the clients that come back to vm.clients
-		    vm.images = data;
-		});
+           // bind the clients that come back to vm.clients
+           vm.images = data;
+       });
+        //.error(function (data, status) {
+        //    vm.message = data.message;
+        //})
+    };
 
 
 
@@ -22,7 +34,6 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
 
     .controller('ShowHideCtrl', function ($scope) {
         $scope.btnText = "Show Image";
-
         //This will hide the DIV by default.
         $scope.IsVisible = false;
         $scope.ShowHide = function () {
@@ -42,7 +53,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
 
     // function to create a user
     vm.saveImage = function (temp) {
-        debugger;
+     
         vm.processing = true;
         vm.message = '';
         vm.imageData.clientId = temp;
@@ -60,6 +71,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
 })
 
   .controller('fileCtrl', function ($scope) {
+      
       $scope.setFile = function (element) {
           $scope.$apply(function ($scope) {
               $scope.image.imageData.file = element.files[0].name;
@@ -73,11 +85,10 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
 
           for (var i = 0; i < files.length; i++) {
               var file = files[i];
-             
+
               $scope.image.imageData.filename = file.name;
-              $scope.image.imageData.size = file.size;
               $scope.image.imageData.type = file.type;
-              debugger;
+             
 
               var reader = new FileReader();
 
@@ -89,7 +100,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
       $scope.imageIsLoaded = function (e) {
           $scope.$apply(function () {
               $scope.stepsModel.push(e.target.result);
-              debugger;
+             
               $scope.image.imageData.file = e.target.result;
 
           });
@@ -98,9 +109,9 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
       $scope.excelIsLoaded = function (e) {
           $scope.$apply(function () {
               $scope.stepsModel.push(e.target.result);
-              debugger;
-              $scope.image.imageData.file = e.target.result;
             
+              $scope.image.imageData.file = e.target.result;
+
 
           });
       }

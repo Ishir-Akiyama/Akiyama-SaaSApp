@@ -7,7 +7,7 @@
         </a>
     </h1>
 </div>
-<div class="jumbotron text-center" ng-show="image.processing">
+<div class="jumbotron text-center" ng-show="image.processing" ng-init="image.getImages(main.user.clientid)">
     <span class="glyphicon glyphicon-repeat spinner"></span>
     <p>Loading Images...</p>
 </div>
@@ -17,7 +17,6 @@
             <th>Name</th>
             <th>File Name</th>
 
-            <th>Size</th>
             <th>Type</th>
             <!--<th>Client</th>
             <th>User</th>-->
@@ -36,7 +35,6 @@
                 {{ im.filename }}
 
             </td>
-            <td>{{ im.size }}</td>
             <td>{{ im.type }}</td>
             <!--<td>{{ im.client }}</td>
             <td>{{ im.user }}</td>-->
