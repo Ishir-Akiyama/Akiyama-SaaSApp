@@ -3,7 +3,8 @@
 
 var mongoose = require('mongoose');
 //create new client
-
+var dateFormat = require('dateformat');
+var now = new Date();
 
 var sch_obj = new mongoose.Schema({
     name: { type: String, default: "" },
@@ -11,7 +12,7 @@ var sch_obj = new mongoose.Schema({
     type: { type: String, default: "" },
     byte: { type: String, contentType: String, default: "" },
     user: { type: String, default: "" },
-    uploadedOn: { type: Date, default: Date.now },
+    uploadedOn: { type: String, default: dateFormat(now, "dddd, mmmm dS, yyyy, h:MM:ss TT") },
     status: { type: Number, default: -1 },
 });
 
@@ -63,7 +64,6 @@ exports.create = function (request, response) {
                             filename: request.body.filename,
                             type: getType,
                             byte: imagesInExcel[i].Image,
-                            //  client: request.body.client,
                             user: "excel",
                             status: '-1'
                         });
@@ -86,9 +86,7 @@ exports.create = function (request, response) {
             filename: request.body.filename,
             type: request.body.type,
             byte: request.body.file,
-            //  client: request.body.client,
             user: request.body.user,
-            uploadedOn: request.body.uploadedOn,
             status: '-1'
         });
         entry.save(function (err) {
