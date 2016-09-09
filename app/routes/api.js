@@ -90,9 +90,10 @@ module.exports = function (app, express) {
 
                         smtp.from = "akiyamaemail@gmail.com";
                         smtp.useremail = user.email;
-                        smtp.subject = "Registration Mail For User";
+                        smtp.subject = "Reset Password for Akiyama Account";
                         smtp.text = "New File";
-                        smtp.html = "Hello " + user.firstname + " " + user.lastname + " your password for login is " + NewPassword + "&nbsp;<br/><a href='http://localhost:8080/'>Click Here For Login</a>",
+                        smtp.html = "Hi " + user.firstname + " " + user.lastname + "<br/><br/> Your Password for the username " + user.username + " is successfully changed to " + NewPassword;
+		                smtp.html += "<br/><br/>Regards,<br/>Team Akiyama";
 
                         smtp.sendMail(smtp.from, smtp.useremail, smtp.subject, smtp.text, smtp.html);
 
@@ -269,14 +270,17 @@ module.exports = function (app, express) {
 
 		            smtp.from = "akiyamaemail@gmail.com";
 		            smtp.useremail = user.email;
-		            smtp.subject = "Registration Mail For User";
+		            smtp.subject = "Akiyama - Account Login Credentials";
 		            smtp.text = "New File";
-		            smtp.html = "Hello " + user.firstname + " " + user.lastname + " your password for first login is " + randonPassword + "&nbsp;<br/><a href='http://localhost:8080/'>Click Here For Login</a>",
+		            smtp.html = "Hi " + user.firstname + " " + user.lastname + "<br/><br/> You are successfully registered for Akiyama Web Application. Please use following credentials to access the application: <br/><br/>";
+		            smtp.html += "User Name - " + user.username + "<br/>Password - " + randonPassword + "<br/><br/><a href='http://localhost:8080/'>Click Here to Login</a>";
+		            smtp.html += "<br/><br/>Regards,<br/>Team Akiyama";
                     smtp.sendMail(smtp.from, smtp.useremail, smtp.subject, smtp.text, smtp.html);
 
 		        });
 
 		        //
+		        
 		    });
 
 
@@ -423,6 +427,23 @@ module.exports = function (app, express) {
 		.get(function (req, res) {
 		    Image.findByClient(req, res);
 		})
+
+    // get the image with that id
+		.post(function (req, res) {
+		    Image.scoreImageSchduler(req, res);
+		});
+
+    apiRouter.route('/images/:image_id')
+
+      // get the client with that id
+      .get(function (req, res) {
+          Image.findById(req, res);
+      })
+
+       //update the client with this id
+      .put(function (req, res) {
+          Image.update(req, res);
+      });
 
     //forgotPassword
     apiRouter.post('/forgotPassword', function (req, res) {

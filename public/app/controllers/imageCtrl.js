@@ -22,14 +22,33 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
 
            // bind the clients that come back to vm.clients
            vm.images = data;
+           vm.putScores(temp);
+
        });
         //.error(function (data, status) {
         //    vm.message = data.message;
         //})
     };
 
+    vm.putScores = function (temp) {
+        //vm.processing = true;
+        vm.message = '';
+        vm.imageData = {};
+        vm.imageData.clientId = temp;
+        // use the create function in the clientService
+        Image.scoreImageSchduler(temp)
+       .success(function (data) {
+           // when all the clients come back, remove the processing variable
+          // vm.processing = false;
 
-
+           // bind the clients that come back to vm.clients
+           vm.images = data;
+       });
+        //.error(function (data, status) {
+        //    vm.message = data.message;
+        //})
+    };
+    
 })
 
     .controller('ShowHideCtrl', function ($scope) {
@@ -43,6 +62,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
         }
     })
 
+
 // controller applied to client creation page
 .controller('imageCreateController', function (Image, $location) {
     var vm = this;
@@ -52,11 +72,12 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
     vm.type = 'create';
 
     // function to create a user
-    vm.saveImage = function (temp) {
-     
+    vm.saveImage = function (client,user) {
         vm.processing = true;
         vm.message = '';
-        vm.imageData.clientId = temp;
+        vm.imageData.clientId = client;
+        vm.imageData.user = user;
+
         // use the create function in the clientService
         Image.create(vm.imageData)
 			.success(function (data) {

@@ -97,7 +97,7 @@
                 return d.value;
             },
             showLabels: false,
-            transitionDuration: 500,
+            transitionDuration: 500,            
             valueFormat: function (d) {
                 return d;
             }
@@ -220,7 +220,7 @@
             caseArrayMonth.push(newObj1);
             $scope.month = caseArrayMonth;
         });
-    }
+              }
 
     //// Get last month data on page load
     vm.getLastMonthToDateData = function (clientid) {
@@ -241,5 +241,5 @@
             caseArrayl.push(newObj1);
             $scope.lastmonth = caseArrayl;
         });
-    }
+              }
 })
