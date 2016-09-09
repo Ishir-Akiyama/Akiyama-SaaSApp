@@ -16,12 +16,18 @@ angular.module('app.routes', ['ngRoute'])
 		    controllerAs: 'login'
 		})
 
-        // show all users
+        // show dashboard
 		.when('/dashboard', {
 		    templateUrl: 'app/views/pages/dashboard.html',
 		    controller: 'dashboardController',
 		    controllerAs: 'dashboard'
 		})
+
+        .when('/dashboard/:client_id', {
+            templateUrl: 'app/views/pages/dashboard.html',
+            controller: 'dashboardController',
+            controllerAs: 'dashboard'
+        })
 
         // show all users
 		.when('/report', {

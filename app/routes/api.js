@@ -2,6 +2,7 @@ var bodyParser = require('body-parser'); 	// get body-parser
 var User = require('../models/user');
 var Client = require('../controller/client.server.controller');
 var Image = require('../controller/image.server.controller');
+var Dashboard = require('../controller/dashboard.server.controller');
 var jwt = require('jsonwebtoken');
 var config = require('../../config');
 //for email
@@ -461,7 +462,7 @@ module.exports = function (app, express) {
 
     //change Password
     apiRouter.put('/changePassword', function (req, res) {
-        
+
         console.log(req.body.username);
         User.findOne({
             username: req.body.username
@@ -484,15 +485,22 @@ module.exports = function (app, express) {
         })
     });
 
-    apiRouter.route('/dashboard').get(function (req,res) {
-        Image.dashboardPieChartByClientId(req, res);
-    })
-    //// Get Images count By Client Id
-    //apiRouter.route('/dashboardPieChartByClientId', function (req, res) {
-    //    // get all the active clients (accessed at GET http://localhost:8080/api/dashboardPieChartByClientId)
-    //    console.log(clientId);
-        
-    //});
+    //For Dashboard
+    apiRouter.route('/dashboard/:client_id')
+        .get(function (req, res) {
+            console.log("Get method is called")
+            Dashboard.getRecentUploads(req, res);
+        });
+
+    apiRouter.route('/dashboardchart/:client_id')
+        .get(function (req, res) {
+            Dashboard.dashboardPieChartByClientId(req, res);
+        })
+
+    apiRouter.route('/dashboardYesterday/:client_id')
+        .get(function (req, res) {
+            Dashboard.getYesterdayToDateData(req, res);
+        })
 
 
     // api endpoint to get user information

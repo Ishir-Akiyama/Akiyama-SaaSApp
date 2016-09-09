@@ -3,8 +3,8 @@
 
 var mongoose = require('mongoose');
 //create new client
-var dateFormat = require('dateformat');
-var now = new Date();
+//var dateFormat = require('dateformat');
+//var now = new Date();
 
 var sch_obj = new mongoose.Schema({
     name: { type: String, default: "" },
@@ -12,7 +12,7 @@ var sch_obj = new mongoose.Schema({
     type: { type: String, default: "" },
     byte: { type: String, contentType: String, default: "" },
     user: { type: String, default: "" },
-    uploadedOn: { type: String, default: dateFormat(now, "dddd, mmmm dS, yyyy, h:MM:ss TT") },
+    uploadedOn: { type: Date, default: Date.now },
     status: { type: Number, default: -1 },
 });
 
@@ -69,14 +69,11 @@ exports.create = function (request, response) {
                         });
                         entry.save(function (err) {
                             if (err) {}
-                            // return a message
-                            
+                            // return a message                            
                         });
                     }
                     response.json({ message: 'Excel imported!' });
                 });
-
-
             }
         });
     }

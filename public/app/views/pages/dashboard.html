@@ -1,6 +1,18 @@
-﻿
-<main class="container">
+﻿<main class="container">
     <div class="row">
+        <div ng-show="main.user.isadmin">
+
+            <div class="client-select col-sm-6 col-lg-4 col-xs-8 pull-right">
+                <div class="col-xs-4">
+                    <label class="control-label pull-left text-right">Client List</label>
+                </div>
+                <div class="col-xs-8">
+                    <select class="form-control pull-left" id="ddlClients" ng-model="dashboard.clientId" ng-change="dashboard.GetDashboardData(dashboard.clientId)">
+                        <option id="{{data.ClientId}}" data-ng-repeat="data in dashboard.clients" value="{{data.ClientId}}" ng-selected="$first">{{data.name}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <div class="imguploadbx">
                 <h1>Image Upload</h1>
@@ -8,25 +20,36 @@
                     <div class="col-lg-3 col-sm-3 col-xs-12">
                         <div class="graf-bx1">
                             <h2>Yesterday</h2>
-                            <div class="cerc-bx"><img src="assets/img/img-serc1.jpg" alt=""></div>
+                            <div class="cerc-bx">
+                                <nvd3 options="donatoptions" data="yesterday" class="with-3d-shadow with-transitions"></nvd3>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-sm-3 col-xs-12">
                         <div class="graf-bx1">
                             <h2>Month To Date</h2>
-                            <div class="cerc-bx"><img src="assets/img/img-serc2.jpg" alt=""></div>
+                            <div class="cerc-bx">
+                                <nvd3 options="donatoptions" data="month" class="with-3d-shadow with-transitions"></nvd3>
+                                <!--<img src="assets/img/img-serc2.jpg" alt="">-->
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-sm-3 col-xs-12">
                         <div class="graf-bx1">
                             <h2>Last Month</h2>
-                            <div class="cerc-bx"><img src="assets/img/img-serc3.jpg" alt=""></div>
+                            <div class="cerc-bx">
+                                <!--<img src="assets/img/img-serc3.jpg" alt="">-->
+                                <nvd3 options="donatoptions" data="lastmonth" class="with-3d-shadow with-transitions"></nvd3>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-sm-3 col-xs-12">
                         <div class="graf-bx1">
                             <h2>Year To Date</h2>
-                            <div class="cerc-bx"><img src="assets/img/img-serc4.jpg" alt=""></div>
+                            <div class="cerc-bx">
+                                <!--<img src="assets/img/img-serc4.jpg" alt="">-->
+                                <nvd3 options="donatoptions" data="year" class="with-3d-shadow with-transitions"></nvd3>
+                            </div>
                         </div>
                     </div>
                     <div class="clearfix"></div>
@@ -36,24 +59,39 @@
     </div>
 </main>
 <main class="container">
-  <div class="row">
-    <div class="col-lg-7 col-sm-7 col-xs-12">
-      <div class="imguploadbx">
-        <h1>Recent uploads</h1>
-        <div class="cerc-bx1 grfbx1">            
-           <img src="assets/img/image-title-img.jpg" class="img-responsive" width="630" alt=""> 
+    <div class="row">
+        <div class="col-lg-7 col-sm-7 col-xs-12">
+            <div class="imguploadbx">
+                <h1>Recent uploads</h1>
+                <div class="cerc-bx1 grfbx1">
+                    <!--<img src="assets/img/image-title-img.jpg" class="img-responsive" width="630" alt="">-->
+                    <table class="table table-bordered table-striped" ng-show="RecentUploads">
+                        <thead>
+                            <tr>
+                                <th>IMAGE TITLE</th>
+                                <th>UPLOAD ON</th>
+                                <th>SCORE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="cl in RecentUploads">
+                                <td>{{ cl.filename }}</td>
+                                <td>{{ cl.uploadedOn | date:'MM/dd/yyyy'}}</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="col-lg-5 col-sm-5 col-xs-12">
-      <div class="imguploadbx">
-        <h1>Overall Stats</h1>
-        <div class="cerc-bx1 grfbx1">            
-            <!--<nvd3 options="options" data="data"></nvd3>-->
-            <nvd3 options="options" data="PieChartByClientId" class="with-3d-shadow with-transitions"></nvd3>
+        <div class="col-lg-5 col-sm-5 col-xs-12">
+            <div class="imguploadbx">
+                <h1>Overall Status</h1>
+                <div class="cerc-bx1 grfbx1">
+                    <!--<nvd3 options="options" data="data"></nvd3>-->
+                    <nvd3 options="options" data="PieChartByClientId" class="with-3d-shadow with-transitions"></nvd3>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </main>
-
