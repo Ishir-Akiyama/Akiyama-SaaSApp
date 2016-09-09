@@ -26,13 +26,18 @@ angular.module('imageService', [])
 
 
     // update a client
-    imageFactory.update = function (name, imageData) {
-        return $http.put('/api/images/' + name, imageData);
+    imageFactory.update = function (id, imageData) {
+        return $http.put('/api/images/' + id, imageData);
     };
 
  // update a client
     imageFactory.findByClient = function (id) {
         return $http.get('/api/images/' + id);
+    };
+
+    // update a client
+    imageFactory.scoreImageSchduler = function (id) {
+        return $http.post('/api/images/' + id);
     };
      
 

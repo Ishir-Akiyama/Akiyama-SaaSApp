@@ -31,9 +31,6 @@ exports.create = function (request, response) {
         var fs = require('fs');
         fs.writeFileSync(fileAddress, bitmap);
 
-
-
-
         xlsxj = require("xlsx-to-json");
         xlsxj({
             input: fileAddress,
@@ -55,7 +52,7 @@ exports.create = function (request, response) {
 
                     var imagesInExcel = JSON.parse(content);
                     console.log(imagesInExcel);
-                 
+
                     for (var i = 0; i < imagesInExcel.length; i++) {
                         var getType = imagesInExcel[i].Image.toString().substr(5, 20);
                         getType = getType.substr(0, getType.indexOf(";"));
@@ -64,13 +61,13 @@ exports.create = function (request, response) {
                             filename: request.body.filename,
                             type: getType,
                             byte: imagesInExcel[i].Image,
-                            user: "excel",
+                            user: request.body.user,
                             status: '-1'
                         });
                         entry.save(function (err) {
-                            if (err) {}
+                            if (err) { }
                             // return a message
-                            
+
                         });
                     }
                     response.json({ message: 'Excel imported!' });
@@ -90,12 +87,9 @@ exports.create = function (request, response) {
             status: '-1'
         });
         entry.save(function (err) {
-            
+
             if (err) {
-                // duplicate entry
-                //if (err.code == 11000) 
-                //    return res.json({ success: false, message: 'A user with that username already exists. '});
-                //else 
+              
                 return response.send(err);
             }
             // return a message
@@ -130,7 +124,7 @@ exports.allActive = function (request, response) {
 
 //Get by Image name
 exports.findByClient = function (request, response) {
-   
+
     var temp = request.params.client_id;
     module.exports = mongoose.model('Images_' + temp, sch_obj);
     var Image = mongoose.model('Images_' + temp);
@@ -153,16 +147,38 @@ exports.dashboardPieChartByClientId = function (req, res) {
             res.json(result);
         }
     });
-    //console.log(data);
-    //Image.find({}, function (err, Image) {
-    //    if (err) res.send(err);
-    //    // return the users
-    //    console.log('Respone data');
 
-    //    console.log(Image[0])
-    //    res.json(Image);
-    //});
 }
+
+
+exports.scoreImageSchduler = function (req, res) {
+
+    var cron = require('node-schedule');
+    /* This runs at the 30th mintue of every hour. */
+    cron.scheduleJob('1 * * * * *', function () {
+
+        var temp = req.params.client_id;
+        module.exports = mongoose.model('Images_' + temp, sch_obj);
+        var Image = mongoose.model('Images_' + temp);
+        Image.find({}, function (err, Image) {
+            if (err) response.send(err);
+
+            for (var i = 0; i < Image.length; i++) {
+                var newImage = Image[i];
+                newImage.status = Math.floor(Math.random() * 5) + 1;
+
+                newImage.save(function (err) {
+                    if (err) { }
+                    // return a message
+
+                });
+            }
+
+        });
+    });
+}
+
+
 
 
 

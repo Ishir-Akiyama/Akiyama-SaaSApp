@@ -420,6 +420,23 @@ module.exports = function (app, express) {
 		    Image.findByClient(req, res);
 		})
 
+    // get the image with that id
+		.post(function (req, res) {
+		    Image.scoreImageSchduler(req, res);
+		});
+
+    apiRouter.route('/images/:image_id')
+
+      // get the client with that id
+      .get(function (req, res) {
+          Image.findById(req, res);
+      })
+
+       //update the client with this id
+      .put(function (req, res) {
+          Image.update(req, res);
+      });
+
     //forgotPassword
     apiRouter.post('/forgotPassword', function (req, res) {
         // find the user
@@ -461,7 +478,7 @@ module.exports = function (app, express) {
 
     //change Password
     apiRouter.put('/changePassword', function (req, res) {
-        
+
         console.log(req.body.username);
         User.findOne({
             username: req.body.username
@@ -484,14 +501,14 @@ module.exports = function (app, express) {
         })
     });
 
-    apiRouter.route('/dashboard').get(function (req,res) {
+    apiRouter.route('/dashboard').get(function (req, res) {
         Image.dashboardPieChartByClientId(req, res);
     })
     //// Get Images count By Client Id
     //apiRouter.route('/dashboardPieChartByClientId', function (req, res) {
     //    // get all the active clients (accessed at GET http://localhost:8080/api/dashboardPieChartByClientId)
     //    console.log(clientId);
-        
+
     //});
 
 

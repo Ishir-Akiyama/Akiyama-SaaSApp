@@ -11,7 +11,7 @@ angular.module('mainCtrl', [])
         Auth.getUser()
 			.then(function (data) {
 			    vm.user = data.data;
-
+			    
 			    $window.localStorage.setItem('tempclientId', vm.user.clientid);
 			   
 			});
@@ -19,8 +19,6 @@ angular.module('mainCtrl', [])
 
     // function to handle login form
     vm.doLogin = function () {
-        alert('login');
-        debugger;
         vm.processing = true;
 
         // clear the error
