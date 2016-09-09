@@ -40,34 +40,85 @@ exports.getRecentUploads = function (req, response) {
     })
 }
 
-var now = new Date(); // Today!
-var yesterDay = now.setDate(now.getDate() - 1);
-//var dateFormat = require('dateformat');
-//var yesterDay = (now, "dd mm yyyy")
-
-exports.getYesterdayToDateData = function (req, response) {
+exports.getYearToDateData = function (req, response) {
+    var date = new Date(), y = date.getFullYear(), ly = date.getFullYear() - 1, m = date.getMonth();
+    var firstDay = new Date(ly, 12, 0);
+    var lastDay = new Date(y, 12, 0);
+    firstDay.setDate(firstDay.getDate() + 1);
+    lastDay.setDate(lastDay.getDate() + 2);
     clientId = req.params.client_id;
     module.exports = mongoose.model('images_' + clientId, sch_obj);
-    console.log(now);
     var Image = mongoose.model('images_' + clientId);
-    //var query = Image.find({ "uploadedOn": /.*yesterDay.*/ })
-    //var query = Image.find({ "uploadedOn": { "$gte": new Date("2016-09-01 00:00:00.000Z"), "$lt": new Date("2016-09-09 06:20:28.767Z") } })
-
-
     var query = Image.find({
         uploadedOn: {
-            '$gte': new Date('2016-09-01T00:00:00.000Z'),
-            '$lt': new Date('2016-09-09T06:20:28.767Z')
+            '$gte': new Date(firstDay),
+            '$lt': new Date(lastDay)
         }
     }).count()
-    console.log(query);
-    //var query = Image.find({ "uploadedOn": { "$gte": new Date("2016-09-10 00:00:00.000Z") } }).count()
     query.exec(function (err, results) {
-        if (err) response.send(err);
-        // return the users
-        console.log("yesterDay");
-        console.log(results);
-        console.log(new Date('2016-09-01').toISOString())
+        if (err) response.send(err);      
         response.json(results);
     })
 }
+
+
+exports.getYesterdayToDateData = function (req, response) {
+    var now = new Date(); // Today!
+    var yesterDay = now.setDate(now.getDate() - 2);
+    clientId = req.params.client_id;
+    module.exports = mongoose.model('images_' + clientId, sch_obj);
+    var Image = mongoose.model('images_' + clientId);
+    var query = Image.find({
+        uploadedOn: {
+            '$gte': new Date(yesterDay),
+            '$lt': new Date()
+        }
+    }).count()
+    query.exec(function (err, results) {
+        if (err) response.send(err);
+        response.json(results);
+    })
+}
+
+exports.getMonthToDateData = function (req, response) {
+    var date = new Date(), y = date.getFullYear(), m = date.getMonth() + 1;
+    var firstDay = new Date(m == 1 ? y - 1 : y, m == 1 ? 12 : m - 1, 1);
+    var lastDay = new Date(m == 1 ? y - 1 : y, m, 0);
+    lastDay.setDate(lastDay.getDate() + 2);
+    clientId = req.params.client_id;
+
+    module.exports = mongoose.model('images_' + clientId, sch_obj);
+    var Image = mongoose.model('images_' + clientId);
+    var query = Image.find({
+        uploadedOn: {
+            '$gte': new Date(firstDay),
+            '$lt': new Date(lastDay)
+        }
+    }).count()
+    query.exec(function (err, results) {
+        if (err) response.send(err);
+        response.json(results);
+    })
+}
+
+exports.getLastMonthToDateData = function (req, response) {
+    var date = new Date(), y = date.getFullYear(), m = date.getMonth();
+    var firstDay = new Date(m == 1 ? y - 1 : y, m == 1 ? 12 : m - 1, 1);
+    var lastDay = new Date(m == 1 ? y - 1 : y, m, 0);
+    lastDay.setDate(lastDay.getDate() + 2);
+    clientId = req.params.client_id;
+    module.exports = mongoose.model('images_' + clientId, sch_obj);
+    var Image = mongoose.model('images_' + clientId);
+    var query = Image.find({
+        uploadedOn: {
+            '$gte': new Date(firstDay),
+            '$lt': new Date(lastDay)
+        }
+    }).count()
+    query.exec(function (err, results) {
+        if (err) response.send(err);       
+        response.json(results);
+    })
+}
+
+

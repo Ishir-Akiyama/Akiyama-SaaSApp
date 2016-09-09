@@ -160,7 +160,7 @@ exports.findByClient = function (request, response) {
     //    console.log(Image[0])
     //    res.json(Image);
     //});
-}
+
 
 
 

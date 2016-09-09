@@ -13,11 +13,21 @@ angular.module('dashboardService', [])
         return $http.get('/api/dashboard/' + clientid);
     };
 
+    dashboardFactory.getYearToDateData = function (clientid) {
+        return $http.get('/api/dashboardYear/' + clientid);
+    };
+
     dashboardFactory.getYesterdayToDateData = function (clientid) {
         return $http.get('/api/dashboardYesterday/' + clientid);
     };
 
-    
+    dashboardFactory.getMonthdayToDateData = function (clientid) {
+        return $http.get('/api/dashboardMonth/' + clientid);
+    };
+
+    dashboardFactory.getLastMonthToDateData = function (clientid) {
+        return $http.get('/api/dashboardLastMonth/' + clientid);
+    };    
 
     // return our entire clientFactory object
     return dashboardFactory;

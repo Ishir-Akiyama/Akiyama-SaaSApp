@@ -465,8 +465,6 @@ module.exports = function (app, express) {
 
     //change Password
     apiRouter.put('/changePassword', function (req, res) {
-
-        console.log(req.body.username);
         User.findOne({
             username: req.body.username
         }).select('_id firstname username password emailid isdefault').exec(function (err, user) {
@@ -491,7 +489,6 @@ module.exports = function (app, express) {
     //For Dashboard
     apiRouter.route('/dashboard/:client_id')
         .get(function (req, res) {
-            console.log("Get method is called")
             Dashboard.getRecentUploads(req, res);
         });
 
@@ -500,11 +497,25 @@ module.exports = function (app, express) {
             Dashboard.dashboardPieChartByClientId(req, res);
         })
 
+    apiRouter.route('/dashboardYear/:client_id')
+        .get(function (req, res) {
+            Dashboard.getYearToDateData(req, res);
+        })
+
     apiRouter.route('/dashboardYesterday/:client_id')
         .get(function (req, res) {
             Dashboard.getYesterdayToDateData(req, res);
         })
 
+    apiRouter.route('/dashboardMonth/:client_id')
+       .get(function (req, res) {
+           Dashboard.getMonthToDateData(req, res);
+       })
+
+    apiRouter.route('/dashboardLastMonth/:client_id')
+       .get(function (req, res) {
+           Dashboard.getLastMonthToDateData(req, res);
+       })
 
     // api endpoint to get user information
     apiRouter.get('/me', function (req, res) {
