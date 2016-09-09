@@ -163,42 +163,55 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
     // set a processing variable to show loading things
     vm.processing = true;
 
+    vm.getCss = function () {
+        debugger;
+        var height = document.getElementsByClassName('ag-header-viewport').height;
+        //var height = document.getElementById('ag-header-viewport').style.height;
+    };
     var columnDefs = [
-        { headerName: "Name", field: "name", cellStyle: { color: 'darkred' }, width: 130, filterParams: { newRowsAction: 'keep' } },
-        { headerName: "File Name", field: "filename", cellRenderer: imageRender, width: 220 },
+         { headerName: "Name", field: "name", cellStyle: { color: 'darkred' }, width: 130, suppressFilter: true },
+        { headerName: "Image", field: "filename", cellRenderer: imageRender, width: 220, suppressFilter: true },
         { headerName: "Type", field: "type", width: 130, suppressFilter: true },
-        { headerName: "Uploaded On", field: "uploadedOn", width: 220, cellRenderer: dateRender },
-        { headerName: "Status", field: "status", width: 120, cellRenderer: statusRender }
+        { headerName: "Uploaded On", field: "uploadedOn", width: 220},
+        { headerName: "Status", field: "status", width: 120, cellRenderer: statusRender, suppressFilter: true }
     ];
 
     //Ag grid setting
     $scope.gridOptions = {
-        enableServerSideSorting: true,
-        enableServerSideFilter: true,
         columnDefs: columnDefs,
         rowSelection: 'multiple',
         enableColResize: false,
-        enableSorting: true,
+        enableSorting: false,
         groupHeaders: true,
         rowHeight: 22,
         //showToolPanel:true,
         suppressRowClickSelection: true,
-        enableFilter: false,
+        //enableFilter: false,
         angularCompileRows: true,
         paginationPageSize: 10,
         rowModelType: 'pagination'
     };
+ 
+    //for filter
+    $scope.onFilterChanged = function (value) {
+        var i = 0;
+        alert(value);
 
-    //for date formate
-    function dateRender(params) {
-        var a = params.data.uploadedOn;
-        var date = new Date(a);
-        var mm = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : "0" + (date.getMonth() + 1);
-        var dd = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
-        var yyyy = date.getFullYear();
-        var newDate = mm + "/" + "/" + dd + "/" + yyyy;
-        return params.$scope.statusRender = newDate;
+        $scope.gridOptions.api.setQuickFilter(value);
+
+
     }
+
+    ////for date formate
+    //function dateRender(params) {
+    //    var a = params.data.uploadedOn;
+    //    var date = new Date(a);
+    //    var mm = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : "0" + (date.getMonth() + 1);
+    //    var dd = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
+    //    var yyyy = date.getFullYear();
+    //    var newDate = mm +  "/" + dd + "/" + yyyy;
+    //    return params.$scope.statusRender = newDate;
+    //}
 
     $scope.onPageSizeChanged = function () {
         debugger;
@@ -241,7 +254,8 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                 setTimeout(function () {
                     // take a chunk of the array, matching the start and finish times
                     debugger;
-                    var dataAfterSortingAndFiltering = sortAndFilter(params.sortModel, params.filterModel);
+
+                    //var dataAfterSortingAndFiltering = sortAndFilter(params.sortModel, params.filterModel);
                     var rowsThisPage = allOfTheData.slice(params.startRow, params.endRow);
                     // see if we have come to the last page. if we have, set lastRow to
                     // the very last row of the last page. if you are getting data from
@@ -386,44 +400,36 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
         });
         return params.$scope.statusRender;
     }
-
-    //get ag grid data
-    //Image.all()
-    //	.success(function (data) {
-    //	    vm.processing = false;
-    //	    $scope.gridOptions.api.setRowData(data);
-    //	    $scope.gridOptions.api.refreshView();
-    //	});
-
-    //for filter
-    $scope.onFilterChanged = function (value) {
-        $scope.gridOptions.api.setQuickFilter(value);
-    }
-
+   
     //ag-grid export data
     $scope.onBtExport = function () {
+        debugger;
+        var i = 0;
         var params = {};
+        var list = Common.GetStatusList();
+        angular.forEach($scope.gridOptions.api.rowModel.rowsToDisplay, function (value, key) {
+            angular.forEach(list, function (lvalue, key) {
+                if (lvalue.Statusvalue == value.data.status) {
+                    $scope.gridOptions.api.rowModel.rowsToDisplay[i].data.status = lvalue.StatusName;
+                }
+            });
+            i++;
+        });
+
         $scope.gridOptions.api.exportDataAsCsv(params);
     };
-
   
-
-
     Auth.getUser()
         .then(function (data) {
-            //alert(JSON.stringify(data.data));
             vm.user = data.data;
             if (vm.user.isadmin == true) {
-                debugger;
                 Common.GetClientList()
                .success(function (data) {
                    vm.processing = false;
                    vm.adminvalue = vm.user.isadmin;
                    vm.clients = data;
                });
-
                 vm.filterGrid = function () {
-                    //alert(vm.clientId);
                     vm.processing = true;
                     vm.message = '';
                     // use the create function in the userService
@@ -437,7 +443,15 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                        allOfTheData = data;
                        createNewDatasource();
                        $scope.gridOptions.api.setRowData(data);
-                       $scope.gridOptions.api.refreshView();
+                       //$scope.gridOptions.api.onFilterChanged();
+                       var filterApi = $scope.gridOptions.api.getFilterApi('name');
+                       debugger;
+                       filterData(filterApi, data);
+                     //  filterApi.selectNothing();
+                     //  filterApi.selectValue('user1');
+                       $scope.gridOptions.api.onFilterChanged();
+                      // $scope.gridOptions.api.refreshView();
+
                    });
                 };
             }
@@ -455,7 +469,13 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                        allOfTheData = data;
                        createNewDatasource();
                        $scope.gridOptions.api.setRowData(data);
-                       $scope.gridOptions.api.refreshView();
+                       var filterApi = $scope.gridOptions.api.getFilterApi('name');
+                       debugger;
+                       filterData(filterApi, data)
+                      // filterApi.selectNothing();
+                       //filterApi.selectValue('user1');
+                       $scope.gridOptions.api.onFilterChanged();
+                      // $scope.gridOptions.api.refreshView();
                    });
             }
         });

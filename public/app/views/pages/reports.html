@@ -6,12 +6,30 @@
                 <div class="grfbx">
                     <div style="padding: 4px">
                         <p style="width:100%;"></p>
-
-                        <div ng-show="report.adminvalue==true">
-                            <select ng-model="report.clientId" class="col-sm-3">
-                                <option value="">--Select Client--</option>
-                                <option data-ng-repeat="data in report.clients" value="{{data.ClientId}}">{{data.name}}</option>
-                            </select>
+                        <div class="col-sm-3">
+                            <input class="new-input form-control" placeholder="Search..." type="text" data-ng-model="this.value"
+                                   data-ng-keydown="onFilterChanged(this.value)"
+                                   data-ng-keyup="onFilterChanged(this.value)"
+                                   data-ng-change="onFilterChanged(this.value)" />
+                        </div> 
+                            <!--<div class="col-sm-3" >
+                                <input id="txtid" type="text" ng-model="endDate" class="datepicker_recurring_start" ng-change="onFilterChanged(this.value)">--> 
+                                <!--<datepicker date-format="dd/MM/yyyy" selector="form-control" >
+                                    <div class="input-group">
+                                        <input class="new-input form-control" placeholder="Choose a date" data-ng-model="testModel" data-ng-change="report.onFilterChanged(testModel)" />
+                                        <span class="input-group-addon" style="cursor: pointer">
+                                            <i class="fa fa-lg fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                </datepicker>-->
+                            <!--</div>-->
+                        <div class="col-sm-3">
+                            <div ng-show="report.adminvalue==true">
+                                <select ng-model="report.clientId" class="new-input form-control">
+                                    <option value="">--Select Client--</option>
+                                    <option data-ng-repeat="data in report.clients" value="{{data.ClientId}}">{{data.name}}</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="col-sm-3" ng-show="report.adminvalue==true">
                             <label style="margin-left: 20px;">
@@ -24,7 +42,7 @@
                             </label>
                         </div>
                         <div class="col-lg-12 col-sm-12 col-xs-12">
-                            <div class="imguploadbx agStyle">
+                            <div class="imguploadbx agStyle" ng-init="report.getCss();">
                                 <div id="myGrid" ag-grid="gridOptions" class="ag-fresh" style="width: 100%;">
                                 </div>
                             </div>
@@ -36,7 +54,27 @@
         </div>
     </div>
 </main>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
 
+<link rel="stylesheet" href="/resources/demos/style.css">
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        $("#txtid").each(function () {
+            $(this).datepicker();
+        });
+    })
+    </script> 
+
+
+
+
+ 
 <style>
     .ag-header-cell-filtered {
         background-color: #e5e5e5;

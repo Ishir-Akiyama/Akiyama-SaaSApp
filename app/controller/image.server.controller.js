@@ -12,9 +12,20 @@ var sch_obj = new mongoose.Schema({
     type: { type: String, default: "" },
     byte: { type: String, contentType: String, default: "" },
     user: { type: String, default: "" },
-    uploadedOn: { type: String, default: dateFormat(now, "dddd, mmmm dS, yyyy, h:MM:ss TT") },
+    uploadedOn: { type: Date, default: Date.now },
     status: { type: Number, default: -1 },
 });
+
+//function dateRender(params) {
+//   // var a = params.data.uploadedOn;
+//    var date = new Date(params);
+//    var mm = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : "0" + (date.getMonth() + 1);
+//    var dd = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
+//    var yyyy = date.getFullYear();
+//    //var newDate = mm + "/" + dd + "/" + yyyy;
+//    var newDate = dd+ "/" +MM +"/"+ yyyy
+//    return newDate;
+//}
 
 var clientId;
 exports.create = function (request, response) {
