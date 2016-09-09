@@ -16,6 +16,17 @@ var sch_obj = new mongoose.Schema({
     status: { type: Number, default: -1 },
 });
 
+//function dateRender(params) {
+//   // var a = params.data.uploadedOn;
+//    var date = new Date(params);
+//    var mm = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : "0" + (date.getMonth() + 1);
+//    var dd = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
+//    var yyyy = date.getFullYear();
+//    //var newDate = mm + "/" + dd + "/" + yyyy;
+//    var newDate = dd+ "/" +MM +"/"+ yyyy
+//    return newDate;
+//}
+
 var clientId;
 exports.create = function (request, response) {
     console.log(request);
@@ -69,7 +80,7 @@ exports.create = function (request, response) {
                         });
                         entry.save(function (err) {
                             if (err) {}
-                            // return a message                            
+                            // return a message
                         });
                     }
                     response.json({ message: 'Excel imported!' });
@@ -139,17 +150,7 @@ exports.findByClient = function (request, response) {
 }
 
 
-exports.dashboardPieChartByClientId = function (req, res) {
-    //var clientId = req.params.clientId;
-    module.exports = mongoose.model('images_12', sch_obj);
-    var Image = mongoose.model('images_12');
-    Image.aggregate([{ "$group": { _id: "$status", count: { $sum: 1 } } }], function (err, result) {
-        if (err) {
-            next(err);
-        } else {
-            res.json(result);
-        }
-    });
+
     //console.log(data);
     //Image.find({}, function (err, Image) {
     //    if (err) res.send(err);

@@ -9,13 +9,13 @@ var sch_obj = new mongoose.Schema({
     type: { type: String, default: "" },
     byte: { type: String, contentType: String, default: "" },
     user: { type: String, default: "" },
-    uploadedOn: { type: String, default: dateFormat(now, "dddd, mmmm dS, yyyy, h:MM:ss TT") },
+    uploadedOn: { type: Date, default: Date.now },
     status: { type: Number, default: -1 },
 });
 
 var clientId;
 
-exports.dashboardPieChartByClientId = function (req, res) {    
+exports.dashboardPieChartByClientId = function (req, res) {
     clientId = req.params.client_id;
     module.exports = mongoose.model('images_' + clientId, sch_obj);
     var Image = mongoose.model('images_' + clientId);
@@ -41,7 +41,7 @@ exports.getRecentUploads = function (req, response) {
 }
 
 var now = new Date(); // Today!
-var yesterDay=now.setDate(now.getDate() - 1);
+var yesterDay = now.setDate(now.getDate() - 1);
 //var dateFormat = require('dateformat');
 //var yesterDay = (now, "dd mm yyyy")
 
@@ -51,13 +51,23 @@ exports.getYesterdayToDateData = function (req, response) {
     console.log(now);
     var Image = mongoose.model('images_' + clientId);
     //var query = Image.find({ "uploadedOn": /.*yesterDay.*/ })
-     var query= Image.find({"uploadedOn": {"$gte": new Date(2016, 08,07, 11,11,11)}}).count()
+    //var query = Image.find({ "uploadedOn": { "$gte": new Date("2016-09-01 00:00:00.000Z"), "$lt": new Date("2016-09-09 06:20:28.767Z") } })
+
+
+    var query = Image.find({
+        uploadedOn: {
+            '$gte': new Date('2016-09-01T00:00:00.000Z'),
+            '$lt': new Date('2016-09-09T06:20:28.767Z')
+        }
+    }).count()
+    console.log(query);
+    //var query = Image.find({ "uploadedOn": { "$gte": new Date("2016-09-10 00:00:00.000Z") } }).count()
     query.exec(function (err, results) {
         if (err) response.send(err);
         // return the users
         console.log("yesterDay");
         console.log(results);
-        console.log(new Date(2016, 08, 07, 11, 11, 11));
+        console.log(new Date('2016-09-01').toISOString())
         response.json(results);
     })
 }

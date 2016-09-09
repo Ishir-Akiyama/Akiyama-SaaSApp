@@ -2,6 +2,7 @@
   "name": "node-api",
   "main": "server.js",
   "dependencies": {
+    "angularjs-datepicker": "^2.1.6",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.15.1",
     "express": "~4.13.4",

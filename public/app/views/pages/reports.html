@@ -5,20 +5,45 @@
                 <h1>Reports</h1>
                 <div class="grfbx">
                     <div style="padding: 4px">
-                        <div class="col-sm-4">
-                            <input placeholder="Search..." type="text" data-ng-model="this.value"
+                        <p style="width:100%;"></p>
+                        <div class="col-sm-3">
+                            <input class="new-input form-control" placeholder="Search..." type="text" data-ng-model="this.value"
                                    data-ng-keydown="onFilterChanged(this.value)"
                                    data-ng-keyup="onFilterChanged(this.value)"
                                    data-ng-change="onFilterChanged(this.value)" />
+                        </div> 
+                            <!--<div class="col-sm-3" >
+                                <input id="txtid" type="text" ng-model="endDate" class="datepicker_recurring_start" ng-change="onFilterChanged(this.value)">--> 
+                                <!--<datepicker date-format="dd/MM/yyyy" selector="form-control" >
+                                    <div class="input-group">
+                                        <input class="new-input form-control" placeholder="Choose a date" data-ng-model="testModel" data-ng-change="report.onFilterChanged(testModel)" />
+                                        <span class="input-group-addon" style="cursor: pointer">
+                                            <i class="fa fa-lg fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                </datepicker>-->
+                            <!--</div>-->
+                        <div class="col-sm-3">
+                            <div ng-show="report.adminvalue==true">
+                                <select ng-model="report.clientId" class="new-input form-control">
+                                    <option value="">--Select Client--</option>
+                                    <option data-ng-repeat="data in report.clients" value="{{data.ClientId}}">{{data.name}}</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-3" ng-show="report.adminvalue==true">
                             <label style="margin-left: 20px;">
-                                <button id="btn" data-ng-click="onBtExport()">Export to CSV</button>
+                                <button id="btn" data-ng-click="report.filterGrid(report.clientId)" class=" btn btn-primary">Generate Report</button>
+                            </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <label style="margin-left: 20px;">
+                                <button id="btn" data-ng-click="onBtExport()" class="btn btn-primary">Export to CSV</button>
                             </label>
                         </div>
                         <div class="col-lg-12 col-sm-12 col-xs-12">
-                            <div class="imguploadbx agStyle">
-                                <div id="myGrid" ag-grid="gridOptions" class="ag-fresh" style="width: 820px;">
+                            <div class="imguploadbx agStyle" ng-init="report.getCss();">
+                                <div id="myGrid" ag-grid="gridOptions" class="ag-fresh" style="width: 100%;">
                                 </div>
                             </div>
                         </div>
@@ -29,7 +54,27 @@
         </div>
     </div>
 </main>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
 
+<link rel="stylesheet" href="/resources/demos/style.css">
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        $("#txtid").each(function () {
+            $(this).datepicker();
+        });
+    })
+    </script> 
+
+
+
+
+ 
 <style>
     .ag-header-cell-filtered {
         background-color: #e5e5e5;
@@ -40,6 +85,7 @@
         min-height: 100px;
         position: relative;
         top: 0 !important;
+        left: 0;
     }
 
         .agStyle .ag-fresh .ag-row img {
@@ -47,4 +93,58 @@
             height: auto;
             max-height: 100%;
         }
+
+    .ag-fresh .ag-header-cell {
+        border-right: 1px solid #808080;
+        width: 19.72% !important;
+        position: relative;
+        left: 0 !important;
+    }
+
+    .ag-scrolls .ag-header-row {
+        position: absolute;
+        width: 100%;
+    }
+
+    .ag-scrolls .ag-body-container {
+        position: relative;
+        display: inline-block;
+        width: 100% !important;
+    }
+
+    .ag-fresh .ag-cell-not-inline-editing {
+        padding: 2px;
+        width: 20% !important;
+        position: relative;
+        left: 0 !important;
+        padding: 3px;
+        text-align: center;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .ag-fresh .ag-row-odd {
+        background-color: #f6f6f6 !important;
+    }
+
+    .ag-fresh .ag-header {
+        color: #000;
+        background: -webkit-linear-gradient(#fff, #d3d3d3);
+        background: -moz-linear-gradient(#fff, #d3d3d3);
+        background: -o-linear-gradient(#fff, #d3d3d3);
+        background: -ms-linear-gradient(#fff, #d3d3d3);
+        background: linear-gradient(#fff, #d3d3d3);
+        border-bottom: 1px solid #808080;
+        font-weight: normal;
+        background: #025378 !important;
+        color: #fff !important;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 13px;
+    }
+
+    .ag-fresh .ag-header-icon {
+        color: #fff !important;
+        stroke: none;
+        fill: #fff !important;
+    }
 </style>
