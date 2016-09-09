@@ -105,12 +105,20 @@ body {
     border-radius: 0px;
 }
 
-textarea, textarea.form-control, input.form-control, input[type="text"], input[type="password"], input[type="email"], input[type="number"], .form-control[type="text"], .form-control[type="password"], .form-control[type="email"], .form-control[type="tel"] {
-    padding: 10px 10px 10px 40px;
-    height: 55px;
+textarea, textarea.form-control, select.form-control, input.form-control, input[type="text"], input[type="password"], input[type="email"], input[type="number"], .form-control[type="text"], .form-control[type="password"], .form-control[type="email"], .form-control[type="tel"] {
+    padding: 6px 10px 6px 30px;
+    height: 48px;
     border: 1px solid #d6d6d6;
     border-radius: 5px;
     background: url(../img/fild-cls.jpg) top left repeat-x;
+}
+.client-select select{
+     padding:5px;
+    height:40px;
+    border: 1px solid #d6d6d6;
+}
+.client-select .control-label {
+     margin-top:10px;
 }
 
 .checkcls label {
@@ -385,3 +393,10 @@ textarea:focus, textarea.form-control:focus, input.form-control:focus, input[typ
 }
 
 .tobCls ul li.active { background:#000;}
+.new-input {
+  padding: 5px 10px !important;
+    height: 40px !important;
+    border: 1px solid #d6d6d6;
+    border-radius: 5px;
+    background: url(../img/fild-cls.jpg) top left repeat-x;
+}

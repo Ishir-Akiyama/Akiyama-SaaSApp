@@ -1,16 +1,25 @@
 angular.module('dashboardService', [])
 
-.factory('Dashboard', function($http) {
+.factory('Dashboard', function ($http) {
 
-	// create a new object
-	var dashboardFactory = {};
+    // create a new object
+    var dashboardFactory = {};
 
-	dashboardFactory.allImagesByClientId = function (clientId) {
-	    debugger;
-	    return $http.get('/api/dashboard');
-	};
+    dashboardFactory.allImagesByClientId = function (clientid) {
+        return $http.get('/api/dashboardchart/' + clientid);
+    };
 
-	// return our entire clientFactory object
-	return dashboardFactory;
+    dashboardFactory.getRecentUploads = function (clientid) {
+        return $http.get('/api/dashboard/' + clientid);
+    };
+
+    dashboardFactory.getYesterdayToDateData = function (clientid) {
+        return $http.get('/api/dashboardYesterday/' + clientid);
+    };
+
+    
+
+    // return our entire clientFactory object
+    return dashboardFactory;
 
 });
