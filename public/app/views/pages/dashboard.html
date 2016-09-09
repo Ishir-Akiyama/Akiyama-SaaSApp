@@ -65,19 +65,25 @@
                 <h1>Recent uploads</h1>
                 <div class="cerc-bx1 grfbx1">
                     <!--<img src="assets/img/image-title-img.jpg" class="img-responsive" width="630" alt="">-->
-                    <table class="table table-bordered table-striped" ng-show="RecentUploads">
+                    <table class="table  table-striped" ng-show="RecentUploads">
                         <thead>
-                            <tr>
+                            <tr class="teble-head">
                                 <th>IMAGE TITLE</th>
                                 <th>UPLOAD ON</th>
                                 <th>SCORE</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="cl in RecentUploads">
+                            <tr ng-repeat="cl in RecentUploads" class="teble-td">
                                 <td>{{ cl.filename }}</td>
                                 <td>{{ cl.uploadedOn | date:'MM/dd/yyyy'}}</td>
-                                <td></td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="5" style="width:40%">
+                                            {{ cl.status }}
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -88,10 +94,53 @@
             <div class="imguploadbx">
                 <h1>Overall Status</h1>
                 <div class="cerc-bx1 grfbx1">
-                    <!--<nvd3 options="options" data="data"></nvd3>-->
                     <nvd3 options="options" data="PieChartByClientId" class="with-3d-shadow with-transitions"></nvd3>
                 </div>
             </div>
         </div>
     </div>
 </main>
+<style>
+    .teble-head {
+        background: #e3e3e3;
+        color: #025378;
+    }
+
+        .teble-head th {
+            font-size: 17px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+    .teble-td {
+        text-align: left;
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    .progress {
+        position: relative;
+        z-index: 1;
+        height: 20px;
+        border-radius: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        margin-bottom: 0;
+    }
+
+    .progress-bar-success:last-child.progress-bar:before {
+        background-color: #d8d8d8;
+    }
+
+    .progress-bar:last-child:before {
+        display: block;
+        content: ' ';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        right: 0;
+        z-index: -1;
+        background-color: #cae6fc;
+    }
+</style>

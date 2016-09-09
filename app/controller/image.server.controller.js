@@ -42,6 +42,9 @@ exports.create = function (request, response) {
         var fs = require('fs');
         fs.writeFileSync(fileAddress, bitmap);
 
+
+
+
         xlsxj = require("xlsx-to-json");
         xlsxj({
             input: fileAddress,
@@ -72,11 +75,11 @@ exports.create = function (request, response) {
                             filename: request.body.filename,
                             type: getType,
                             byte: imagesInExcel[i].Image,
-                            user: request.body.user,
+                            user: "excel",
                             status: '-1'
                         });
                         entry.save(function (err) {
-                            if (err) { }
+                            if (err) {}
                             // return a message
                         });
                     }
@@ -97,7 +100,10 @@ exports.create = function (request, response) {
         entry.save(function (err) {
             
             if (err) {
-              
+                // duplicate entry
+                //if (err.code == 11000) 
+                //    return res.json({ success: false, message: 'A user with that username already exists. '});
+                //else 
                 return response.send(err);
             }
             // return a message
@@ -144,48 +150,16 @@ exports.findByClient = function (request, response) {
 }
 
 
-exports.dashboardPieChartByClientId = function (req, res) {
-    //var clientId = req.params.clientId;
-    module.exports = mongoose.model('images_12', sch_obj);
-    var Image = mongoose.model('images_12');
-    Image.aggregate([{ "$group": { _id: "$status", count: { $sum: 1 } } }], function (err, result) {
-        if (err) {
-            next(err);
-        } else {
-            res.json(result);
-        }
-    });
 
-}
+    //console.log(data);
+    //Image.find({}, function (err, Image) {
+    //    if (err) res.send(err);
+    //    // return the users
+    //    console.log('Respone data');
 
-
-exports.scoreImageSchduler = function (req, res) {
-
-    var cron = require('node-schedule');
-    /* This runs at the 30th mintue of every hour. */
-    cron.scheduleJob('1 * * * * *', function () {
-
-        var temp = req.params.client_id;
-        module.exports = mongoose.model('Images_' + temp, sch_obj);
-        var Image = mongoose.model('Images_' + temp);
-        Image.find({}, function (err, Image) {
-            if (err) response.send(err);
-
-            for (var i = 0; i < Image.length; i++) {
-                var newImage = Image[i];
-                newImage.status = Math.floor(Math.random() * 5) + 1;
-
-                newImage.save(function (err) {
-                    if (err) { }
-                    // return a message
-
-                });
-            }
-
-        });
-    });
-}
-
+    //    console.log(Image[0])
+    //    res.json(Image);
+    //});
 
 
 

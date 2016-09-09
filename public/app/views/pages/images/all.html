@@ -7,29 +7,26 @@
         </a>
     </h1>
 </div>
-
 <div class="jumbotron text-center" ng-show="image.processing" ng-init="image.getImages(main.user.clientid)">
     <span class="glyphicon glyphicon-repeat spinner"></span>
     <p>Loading Images...</p>
-
 </div>
 <table class="table table-bordered table-striped" ng-show="image.images">
     <thead>
         <tr>
-
             <th>Name</th>
             <th>File Name</th>
 
             <th>Type</th>
-            <th>User</th>
+            <!--<th>Client</th>
+            <th>User</th>-->
             <th>Uploaded On</th>
-            <th>Score</th>
+            <th>Status</th>
             <th>Image</th>
         </tr>
     </thead>
     <tbody>
         <tr ng-repeat="im in image.images | orderBy:im.uploadedOn:sort.ascending">
-
             <td>
                 {{ im.name }}
 
@@ -39,22 +36,12 @@
 
             </td>
             <td>{{ im.type }}</td>
-            <td>{{ im.user }}</td>
+            <!--<td>{{ im.client }}</td>
+            <td>{{ im.user }}</td>-->
             <td>{{ im.uploadedOn }}</td>
 
-            <td ng-class="{'red': (im.status == 0),
-                 'blue': (im.status ==1),
-                 'gray': (im.status ==2),
-                 'blueviolet': (im.status ==3),
-                 'orange': (im.status ==4),
-                                 'green': (im.status ==5),
-                                                 'yellow': (im.status ==-1),
-
-
-                }">
-                {{ im.status }}
-            </td>
-
+            <!--<td>{{ im.status }}</td>-->
+            <td style="color:red">Pending</td>
             <td>
                 <div ng-controller="ShowHideCtrl">
 
@@ -65,39 +52,5 @@
                 </div>
             </td>
         </tr>
-        <!--<tr>
-            <td>
-                <input type="button" value="Get Scores" ng-click="image.putScores(main.user.clientid)" />
-            </td>
-        </tr>-->
     </tbody>
 </table>
-
-<style>
-    .red {
-        background-color: red;
-    }
-
-    .blue {
-        background-color: blue;
-    }
-
-    .green {
-        background-color: green;
-    }
-
-    .orange {
-        background-color: orange;
-    }
-
-    .gray {
-        background-color: gray;
-    }
-
-    .blueviolet {
-        background-color: blueviolet;
-    }
-    .yellow {
-        background-color: yellow;
-    }
-</style>

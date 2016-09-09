@@ -6,9 +6,7 @@
 
     vm.processing = true;
 
-    //vm.imageData = {};
-
-    var User, caseArray, val;
+    var User, val;
     var tooltip = nv.models.tooltip();
     tooltip.duration(0);
 
@@ -44,7 +42,10 @@
     vm.GetDashboardData = function (clientid) {
         vm.allImagesByClientId(clientid);
         vm.getRecentUploads(clientid);
+        vm.getYearToDateData(clientid);
         vm.getYesterdayToDateData(clientid);
+        vm.getMonthdayToDateData(clientid);
+        vm.getLastMonthToDateData(clientid);
     }
 
     //show status according to it's value
@@ -59,22 +60,7 @@
         return status;
     }
 
-    //// grab all the images at page load
-    vm.allImagesByClientId = function (clientid) {
-        Dashboard.allImagesByClientId(clientid)
-        .success(function (data) {
-            $scope.pieData = data;
-            var Data = data;
-            caseArray = [];
-            for (var i = 0; i < Data.length; i++) {
-                var newObj = {};
-                newObj["key"] = statusRender(Data[i]._id);
-                newObj["value"] = Data[i].count;
-                caseArray.push(newObj);
-            }
-            $scope.PieChartByClientId = caseArray;
-        });
-    }
+
 
     /////// Pie chart ///////
     $scope.plainoptions = {
@@ -136,22 +122,39 @@
             showLabels: false,
             transitionDuration: 500,
             growOnHover: false,
-            donutRatio:1,
+            donutRatio: 1,
             showLegend: false,
             tooltip: {
-                enabled:false,
+                enabled: false,
             },
-
             valueFormat: function (d) {
                 return d;
             }
         }
     };
 
+    //// Get Pie chart data on page load
+    vm.allImagesByClientId = function (clientid) {
+        Dashboard.allImagesByClientId(clientid)
+        .success(function (data) {
+            var caseArray;
+            $scope.pieData = data;
+            var Data = data;
+            caseArray = [];
+            for (var i = 0; i < Data.length; i++) {
+                var newObj = {};
+                newObj["key"] = statusRender(Data[i]._id);
+                newObj["value"] = Data[i].count;
+                caseArray.push(newObj);
+            }
+            $scope.PieChartByClientId = caseArray;
+        });
+    }
+
+    //// Get Recent uploads data on page load
     vm.getRecentUploads = function (clientid) {
         Dashboard.getRecentUploads(clientid)
         .success(function (data) {
-            debugger;
             // when all the clients come back, remove the processing variable
             vm.processing = false;
             // bind the clients that come back to vm.clients
@@ -159,62 +162,84 @@
         });
     }
 
-
-
-    vm.getYesterdayToDateData = function (clientid) {
-        Dashboard.getYesterdayToDateData(clientid)
+    var totalyear;
+    //// Get year data on page load
+    vm.getYearToDateData = function (clientid) {
+        Dashboard.getYearToDateData(clientid)
         .success(function (data) {
-            debugger;
-            // when all the clients come back, remove the processing variable
-            vm.processing = false;
-            // bind the clients that come back to vm.clients
-            $scope.yearToDate = data;
+            var caseArrayYear;
+            totalyear = data;
+            var Data = data;
+            caseArrayYear = [];
+            var newObj = {};
+            newObj["color"] = "#f5626a";
+            newObj["key"] = "Count";
+            newObj["value"] = Data;
+            caseArrayYear.push(newObj);
+            $scope.year = caseArrayYear;
         });
     }
 
-    $scope.yesterday = [
-                {
-                    key: "One",
-                    value: 3
-                },
-                {
-                    key: "Two",
-                    value: 7
-                }
-    ];
+    //// Get yesterday data on page load
+    vm.getYesterdayToDateData = function (clientid) {
+        Dashboard.getYesterdayToDateData(clientid)
+        .success(function (data) {
+            var caseArray;
+            var Data = data;
+            caseArray = [];
+            var newObj = {};
+            newObj["color"] = "#f5626a";
+            newObj["key"] = "Count";
+            newObj["value"] = Data;
+            caseArray.push(newObj);
+            var newObj1 = {};
+            newObj1["color"] = "#d8d8d8";
+            newObj1["key"] = "Count";
+            newObj1["value"] = totalyear - Data;
+            caseArray.push(newObj1);
+            $scope.yesterday = caseArray;
+        });
+    }
 
-    $scope.month = [
-              {
-                  key: "One",
-                  value: 7
-              },
-              {
-                  key: "Two",
-                  value: 5
+    //// Get month data on page load
+    vm.getMonthdayToDateData = function (clientid) {
+        Dashboard.getMonthdayToDateData(clientid)
+        .success(function (data) {
+            var caseArrayMonth;
+            var Data = data;
+            caseArrayMonth = [];
+            var newObj = {};
+            newObj["color"] = "#f5626a";
+            newObj["key"] = "Count";
+            newObj["value"] = Data;
+            caseArrayMonth.push(newObj);
+            var newObj1 = {};
+            newObj1["color"] = "#d8d8d8";
+            newObj1["key"] = "Count";
+            newObj1["value"] = totalyear - Data;
+            caseArrayMonth.push(newObj1);
+            $scope.month = caseArrayMonth;
+        });
               }
-    ];
 
-    $scope.lastmonth = [
-              {
-                  key: "One",
-                  value: 3
-              },
-              {
-                  key: "Two",
-                  value: 7
+    //// Get last month data on page load
+    vm.getLastMonthToDateData = function (clientid) {
+        Dashboard.getLastMonthToDateData(clientid)
+        .success(function (data) {
+            var caseArrayl;
+            var Data = data;
+            caseArrayl = [];
+            var newObj = {};
+            newObj["color"] = "#f5626a";
+            newObj["key"] = "Count";
+            newObj["value"] = Data;
+            caseArrayl.push(newObj);
+            var newObj1 = {};
+            newObj1["color"] = "#d8d8d8";
+            newObj1["key"] = "Count";
+            newObj1["value"] = totalyear - Data;
+            caseArrayl.push(newObj1);
+            $scope.lastmonth = caseArrayl;
+        });
               }
-    ];
-
-    $scope.year = [
-              {
-                  key: "One",
-                  value: 10
-              },
-              {
-                  key: "Two",
-                  value: 0
-              }
-    ];
-
-
 })

@@ -216,11 +216,8 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
     //for filter
     $scope.onFilterChanged = function (value) {
         var i = 0;
-        alert(value);
-
+        //alert(value);
         $scope.gridOptions.api.setQuickFilter(value);
-
-
     }
 
     ////for date formate
