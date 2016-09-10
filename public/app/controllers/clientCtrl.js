@@ -63,7 +63,6 @@ angular.module('clientCtrl', ['clientService', 'commonService'])
 
 // controller applied to client edit page
 .controller('clientEditController', function ($routeParams, Client, $location) {
-
     var vm = this;
     // variable to hide/show elements of the view
     // differentiates between create or edit pages

@@ -32,7 +32,6 @@ UserSchema.pre('save', function(next) {
 
 		// change the password to the hashed version
 		user.password = hash;
-		console.log(user.password);
 		next();
 	});
 });

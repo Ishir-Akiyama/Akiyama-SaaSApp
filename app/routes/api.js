@@ -373,6 +373,7 @@ module.exports = function (app, express) {
 
 		 //update the client with this id
 		.put(function (req, res) {
+
 		    Client.update(req, res);
 		})
 
