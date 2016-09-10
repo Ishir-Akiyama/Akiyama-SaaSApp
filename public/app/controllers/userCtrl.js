@@ -96,7 +96,6 @@ angular.module('userCtrl', ['userService', 'commonService'])
     vm.saveUser = function () {
         vm.processing = true;
         vm.message = '';
-        debugger;
         // call the userService function to update 
         User.update($routeParams.user_id, vm.userData)
 			.success(function (data) {

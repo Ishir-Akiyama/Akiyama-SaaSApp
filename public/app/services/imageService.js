@@ -12,9 +12,7 @@ angular.module('imageService', [])
 
 
     // get all client
-    imageFactory.all = function (imageData) {
-        debugger;
-              
+    imageFactory.all = function (imageData) {             
         return $http.get('/api/images/',imageData);
     };
 
@@ -40,6 +38,10 @@ angular.module('imageService', [])
         return $http.post('/api/images/' + id);
     };
      
+    //Find report by passing 3 parameter
+    imageFactory.findClientData = function (config) {
+        return $http.post('/api/report/', config);
+    };
 
     // return our entire clientFactory object
     return imageFactory;

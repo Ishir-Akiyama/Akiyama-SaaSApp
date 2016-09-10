@@ -7,33 +7,35 @@
                     <div style="padding: 4px">
                         <p style="width:100%;"></p>
                         <div class="col-sm-3">
-                            <input class="new-input form-control" placeholder="Search..." type="text" data-ng-model="this.value"
-                                   data-ng-keydown="onFilterChanged(this.value)"
-                                   data-ng-keyup="onFilterChanged(this.value)"
-                                   data-ng-change="onFilterChanged(this.value)" />
-                        </div> 
-                            <!--<div class="col-sm-3" >
-                                <input id="txtid" type="text" ng-model="endDate" class="datepicker_recurring_start" ng-change="onFilterChanged(this.value)">--> 
-                                <!--<datepicker date-format="dd/MM/yyyy" selector="form-control" >
-                                    <div class="input-group">
-                                        <input class="new-input form-control" placeholder="Choose a date" data-ng-model="testModel" data-ng-change="report.onFilterChanged(testModel)" />
-                                        <span class="input-group-addon" style="cursor: pointer">
-                                            <i class="fa fa-lg fa-calendar"></i>
-                                        </span>
-                                    </div>
-                                </datepicker>-->
-                            <!--</div>-->
-                        <div class="col-sm-3">
-                            <div ng-show="report.adminvalue==true">
-                                <select ng-model="report.clientId" class="new-input form-control">
-                                    <option value="">--Select Client--</option>
-                                    <option data-ng-repeat="data in report.clients" value="{{data.ClientId}}">{{data.name}}</option>
-                                </select>
-                            </div>
+                            <datepicker date-format="yyyy/MM/dd" selector="form-control">
+                                <div class="input-group">
+                                    <input id="txt1" class="new-input form-control" placeholder="from date" data-ng-model="report.fromdate" />
+                                    <span class="input-group-addon" style="cursor: pointer">
+                                        <i class="fa fa-lg fa-calendar"></i>
+                                    </span>
+                                </div>
+                            </datepicker>
                         </div>
-                        <div class="col-sm-3" ng-show="report.adminvalue==true">
+                        <div class="col-sm-3">
+                            <datepicker date-format="yyyy/MM/dd" selector="form-control">
+                                <div class="input-group">
+                                    <input id="txt1" class="new-input form-control" placeholder="to date" data-ng-model="report.todate" />
+                                    <span class="input-group-addon" style="cursor: pointer">
+                                        <i class="fa fa-lg fa-calendar"></i>
+                                    </span>
+                                </div>
+                            </datepicker>
+
+                        </div>
+                        <div class="col-sm-2" ng-show="report.adminvalue==true">
+                            <select ng-model="report.clientId" class="new-input form-control">
+                                <option value="">--Select Client--</option>
+                                <option data-ng-repeat="data in report.clients" value="{{data.ClientId}}">{{data.name}}</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
                             <label style="margin-left: 20px;">
-                                <button id="btn" data-ng-click="report.filterGrid(report.clientId)" class=" btn btn-primary">Generate Report</button>
+                                <button id="btn" data-ng-click="report.filterGrid(report.clientId,report.fromdate,report.todate)" class=" btn btn-primary">Generate Report</button>
                             </label>
                         </div>
                         <div class="col-sm-3">
@@ -41,8 +43,15 @@
                                 <button id="btn" data-ng-click="onBtExport()" class="btn btn-primary">Export to CSV</button>
                             </label>
                         </div>
+                        <div class="col-sm-3">
+                            <input class="new-input form-control" placeholder="Search..." type="text" data-ng-model="this.value"
+                                   data-ng-keydown="onFilterChanged(this.value)"
+                                   data-ng-keyup="onFilterChanged(this.value)"
+                                   data-ng-change="onFilterChanged(this.value)" />
+                        </div>
+
                         <div class="col-lg-12 col-sm-12 col-xs-12">
-                            <div class="imguploadbx agStyle" ng-init="report.getCss();">
+                            <div class="imguploadbx agStyle">
                                 <div id="myGrid" ag-grid="gridOptions" class="ag-fresh" style="width: 100%;">
                                 </div>
                             </div>
@@ -54,27 +63,7 @@
         </div>
     </div>
 </main>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
 
-<link rel="stylesheet" href="/resources/demos/style.css">
-
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-
-<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-
-<script>
-
-    $(document).ready(function () {
-        $("#txtid").each(function () {
-            $(this).datepicker();
-        });
-    })
-    </script> 
-
-
-
-
- 
 <style>
     .ag-header-cell-filtered {
         background-color: #e5e5e5;

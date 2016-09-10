@@ -56,26 +56,19 @@ module.exports = function (app, express) {
 
             // no user with that username was found
             if (!user) {
-                console.log(user);
                 res.json({
                     success: false,
                     message: 'User not exist.'
                 });
             }
             else {
-                console.log(user);
                 User.findById(user._id, function (err, user) {
 
                     if (err) res.send(err);
-                    console.log(1);
-                    console.log(user.password);
-                    console.log(2);
                     NewPassword = user.randomPassword(8);
                     // update the user information if it exists in the request
                     if (user.password) user.password = NewPassword;
-                    console.log(321);
-                    console.log(user.password);
-                    console.log(321);
+
                     if (req.body.password) user.password = NewPassword;
                     user.isdefault = true;
                     console.log("checking for update-----")
@@ -323,7 +316,6 @@ module.exports = function (app, express) {
 		        if (req.body.password) user.password = req.body.password;
 		        if (req.body.isadmin) user.password = req.body.isadmin;
 		        if (req.body.isactive) user.isactive = req.body.isactive;
-		        console.log(user);
 		        // save the user
 		        user.save(function (err) {
 		            if (err) res.send(err);
@@ -537,6 +529,15 @@ module.exports = function (app, express) {
        .get(function (req, res) {
            Dashboard.getLastMonthToDateData(req, res);
        })
+
+    //for report
+    apiRouter.route('/report/')
+      .post(function (req, res) {
+          req.params.clientId = req.body.clientId;
+          req.params.fromdate = req.body.fromdate;
+          req.params.todate = req.body.todate;
+          Image.findByParam(req, res);
+      });
 
     // api endpoint to get user information
     apiRouter.get('/me', function (req, res) {

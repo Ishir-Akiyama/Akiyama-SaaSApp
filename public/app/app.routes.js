@@ -31,7 +31,7 @@ angular.module('app.routes', ['ngRoute'])
             activetab: 'dashboard'
         })
 
-        // show all users
+        // for report
 		.when('/report', {
 		    templateUrl: 'app/views/pages/reports.html',
 		    controller: 'reportController',

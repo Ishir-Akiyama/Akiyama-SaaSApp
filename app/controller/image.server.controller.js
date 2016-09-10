@@ -16,16 +16,6 @@ var sch_obj = new mongoose.Schema({
     status: { type: Number, default: -1 },
 });
 
-//function dateRender(params) {
-//   // var a = params.data.uploadedOn;
-//    var date = new Date(params);
-//    var mm = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : "0" + (date.getMonth() + 1);
-//    var dd = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
-//    var yyyy = date.getFullYear();
-//    //var newDate = mm + "/" + dd + "/" + yyyy;
-//    var newDate = dd+ "/" +MM +"/"+ yyyy
-//    return newDate;
-//}
 
 var clientId;
 exports.create = function (request, response) {
@@ -149,7 +139,58 @@ exports.findByClient = function (request, response) {
     });
 }
 
+//Get Report
+exports.findByParam = function (request, response) {
+    var temp1 = request.params.clientId;
+    var temp2 = request.params.fromdate;
+    var temp3 = request.params.todate;
+    var now = new Date(temp2);
+    temp2 = now.setDate(now.getDate());
 
+    var now2 = new Date(temp3);
+    temp3 = now2.setDate(now2.getDate() + 1);
+    module.exports = mongoose.model('Images_' + temp1, sch_obj);
+    var Image = mongoose.model('Images_' + temp1);
+
+    var query = Image.find({
+        uploadedOn: {
+            '$gte': new Date(temp2).toISOString(),
+            '$lt': new Date(temp3).toISOString()
+        }
+    });
+    console.log(query);
+    query.exec(function (err, results) {
+        if (err) response.send(err);
+        response.json(results);
+    })
+}
+
+exports.scoreImageSchduler = function (req, res) {
+
+    var cron = require('node-schedule');
+    /* This runs at the 30th mintue of every hour. */
+    cron.scheduleJob('1 * * * * *', function () {
+
+        var temp = req.params.client_id;
+        module.exports = mongoose.model('Images_' + temp, sch_obj);
+        var Image = mongoose.model('Images_' + temp);
+        Image.find({}, function (err, Image) {
+            if (err) response.send(err);
+
+            for (var i = 0; i < Image.length; i++) {
+                var newImage = Image[i];
+                newImage.status = Math.floor(Math.random() * 5) + 1;
+
+                newImage.save(function (err) {
+                    if (err) { }
+                    // return a message
+
+                });
+            }
+
+        });
+    });
+}
 
     //console.log(data);
     //Image.find({}, function (err, Image) {
