@@ -22,9 +22,9 @@ exports.create = function (request, response) {
     module.exports = mongoose.model('Images_' + request.body.clientId, sch_obj);
     var Image = mongoose.model('Images_' + request.body.clientId);
 
-    if (request.body.type.indexOf("application/vnd.openxmlformats") > -1) {
 
-        var bitmap = new Buffer(request.body.file.replace("data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,", ""), 'base64');
+    if (request.body.type.indexOf("application/vnd.openxmlformats") > -1) {
+        var bitmap = new Buffer(request.body.file.replace("data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64", ""), 'base64');
         // write buffer to file
         var fs = require('fs');
         if (!fs.existsSync("Uploads")) {
@@ -51,8 +51,8 @@ exports.create = function (request, response) {
                         throw err;
                     }
                     content = data;
-
                     var imagesInExcel = JSON.parse(content);
+
                     console.log(imagesInExcel);
 
                     for (var i = 0; i < imagesInExcel.length; i++) {
@@ -75,7 +75,7 @@ exports.create = function (request, response) {
             }
         });
     }
-    if (request.body.type.indexOf("application/vnd.ms-excel") > -1) {
+    else if (request.body.type.indexOf("application/vnd.ms-excel") > -1) {
 
         var bitmap = new Buffer(request.body.file.replace("data:application/vnd.ms-excel;base64", ""), 'base64');
         // write buffer to file
@@ -84,7 +84,7 @@ exports.create = function (request, response) {
             fs.mkdirSync("Uploads");
         }
         var fileAddress = "Uploads/" + request.body.filename;
-        fs.writeFileSync(fileAddress, bitmap);      
+        fs.writeFileSync(fileAddress, bitmap);
 
         var Converter = require("csvtojson").Converter;
         var converter = new Converter({});
@@ -107,7 +107,6 @@ exports.create = function (request, response) {
                     content = data;
 
                     var imagesInExcel = JSON.parse(content);
-                    console.log(imagesInExcel);
 
                     for (var i = 0; i < imagesInExcel.length; i++) {
                         var getType = imagesInExcel[i].Image.toString().substr(5, 20);
@@ -130,6 +129,7 @@ exports.create = function (request, response) {
         });
     }
     else {
+
         var entry = new Image({
             name: request.body.name,
             filename: request.body.filename,
