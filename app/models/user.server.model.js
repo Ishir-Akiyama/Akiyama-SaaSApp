@@ -15,6 +15,7 @@ var UserSchema = new Schema({
     isadmin: { type: Boolean, required: true },
     isactive: { type: Boolean, required: true },
     clientid: Number,
+    clientname :String,
     createdOn: { type: Date, default: Date.now },
     isdefault: { type: Boolean, required: true }
 });
@@ -32,7 +33,6 @@ UserSchema.pre('save', function(next) {
 
 		// change the password to the hashed version
 		user.password = hash;
-		console.log(user.password);
 		next();
 	});
 });

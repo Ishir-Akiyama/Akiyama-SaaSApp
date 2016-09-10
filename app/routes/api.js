@@ -1,5 +1,5 @@
 var bodyParser = require('body-parser'); 	// get body-parser
-var User = require('../models/user');
+var User = require('../models/user.server.model');
 var Client = require('../controller/client.server.controller');
 var Image = require('../controller/image.server.controller');
 var Dashboard = require('../controller/dashboard.server.controller');
@@ -373,6 +373,7 @@ module.exports = function (app, express) {
 
 		 //update the client with this id
 		.put(function (req, res) {
+
 		    Client.update(req, res);
 		})
 

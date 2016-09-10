@@ -3,7 +3,7 @@ angular.module('mainCtrl', [])
 .controller('mainController', function ($rootScope, $location, Auth, $window, $scope) {
     var vm = this;
 
-   
+
     // check to see if a user is logged in on every request
     $rootScope.$on('$routeChangeStart', function () {
         vm.loggedIn = Auth.isLoggedIn();

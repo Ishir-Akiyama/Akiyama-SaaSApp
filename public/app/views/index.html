@@ -76,7 +76,6 @@
                     <li ng-show="main.loggedIn"><a href="#" ng-click="main.doLogout()"><img src="assets/img/logout-img.jpg" alt=""> Logout</a></li>
                 </ul>
                 <div class="tobCls text-right">
-                    {{$routeProvider.activetab}}
                     <ul>
                         <li ng-class="{active: $routeProvider.current.activetab == 'dashboard'}"><a href="/dashboard"><i class="glyphicon glyphicon-dashboard"></i>Dashboard</a></li>
                         <li ng-class="{active: $routeProvider.current.activetab == 'client'}" ng-show="main.user.isadmin"><a href="/clients"><i class="glyphicon glyphicon-user"></i> Client Management</a></li>

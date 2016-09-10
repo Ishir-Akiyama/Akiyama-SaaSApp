@@ -184,11 +184,11 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
     vm.processing = true;
 
     var columnDefs = [
-         { headerName: "Name", field: "name", cellStyle: { color: 'darkred' }, width: 130, suppressFilter: true },
-        { headerName: "Image", field: "filename", cellRenderer: imageRender, width: 220, suppressFilter: true },
-        { headerName: "Type", field: "type", width: 130, suppressFilter: true },
+         { headerName: "Name", field: "name", cellStyle: { color: 'darkred' }, width: 130 },
+        { headerName: "Image", field: "filename", cellRenderer: imageRender, width: 220 },
+        { headerName: "Type", field: "type", width: 130},
         { headerName: "Uploaded On", field: "uploadedOn", width: 220 },
-        { headerName: "Status", field: "status", width: 120, cellRenderer: statusRender, suppressFilter: true }
+        { headerName: "Status", field: "status", width: 120, cellRenderer: statusRender }
     ];
 
     //Ag grid setting
@@ -222,6 +222,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
         });
         return params.$scope.statusRender;
     }
+
 
     //for filter
     $scope.onFilterChanged = function (value) {

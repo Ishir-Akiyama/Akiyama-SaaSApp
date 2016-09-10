@@ -6,7 +6,7 @@
                 <div class="grfbx">
                     <div style="padding: 4px">
                         <p style="width:100%;"></p>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                             <datepicker date-format="yyyy/MM/dd" selector="form-control">
                                 <div class="input-group">
                                     <input id="txt1" class="new-input form-control" placeholder="from date" data-ng-model="report.fromdate" />
@@ -16,7 +16,7 @@
                                 </div>
                             </datepicker>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                             <datepicker date-format="yyyy/MM/dd" selector="form-control">
                                 <div class="input-group">
                                     <input id="txt1" class="new-input form-control" placeholder="to date" data-ng-model="report.todate" />
@@ -33,17 +33,18 @@
                                 <option data-ng-repeat="data in report.clients" value="{{data.ClientId}}">{{data.name}}</option>
                             </select>
                         </div>
-                        <div class="col-sm-3">
+                        
+                        <div class="col-sm-2">
                             <label style="margin-left: 20px;">
                                 <button id="btn" data-ng-click="report.filterGrid(report.clientId,report.fromdate,report.todate)" class=" btn btn-primary">Generate Report</button>
                             </label>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                             <label style="margin-left: 20px;">
                                 <button id="btn" data-ng-click="onBtExport()" class="btn btn-primary">Export to CSV</button>
                             </label>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                             <input class="new-input form-control" placeholder="Search..." type="text" data-ng-model="this.value"
                                    data-ng-keydown="onFilterChanged(this.value)"
                                    data-ng-keyup="onFilterChanged(this.value)"
