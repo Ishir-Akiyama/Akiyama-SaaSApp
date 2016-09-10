@@ -112,7 +112,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
 
               var reader = new FileReader();
 
-              reader.onload = file.name.indexOf(".xls") > -1 ? $scope.excelIsLoaded : $scope.imageIsLoaded;
+              reader.onload = (file.name.indexOf(".xls") || file.name.indexOf(".csv") > -1) ? $scope.excelIsLoaded : $scope.imageIsLoaded;
               reader.readAsDataURL(file);
           }
       }
