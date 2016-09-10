@@ -16,7 +16,6 @@ var sch_obj = new mongoose.Schema({
     status: { type: Number, default: -1 },
 });
 
-
 var clientId;
 exports.create = function (request, response) {
     console.log(request);
