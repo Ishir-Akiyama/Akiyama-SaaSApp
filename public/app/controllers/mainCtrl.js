@@ -11,7 +11,7 @@ angular.module('mainCtrl', [])
         Auth.getUser()
 			.then(function (data) {
 			    vm.user = data.data;
-			    
+
 			    $window.localStorage.setItem('tempclientId', vm.user.clientid);
 			   
 			});
@@ -64,7 +64,9 @@ angular.module('mainCtrl', [])
             vm.processing = false;
             vm.userData = {};
             // if a user successfully logs in, redirect to users page
-            if (data.success)
+            //if (data.success)
+            //    vm.error = data.message;
+            if (data.message != null && data.message != undefined)
                 vm.error = data.message;
         });
     };

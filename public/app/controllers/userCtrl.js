@@ -96,7 +96,6 @@ angular.module('userCtrl', ['userService', 'commonService'])
     vm.saveUser = function () {
         vm.processing = true;
         vm.message = '';
-        debugger;
         // call the userService function to update 
         User.update($routeParams.user_id, vm.userData)
 			.success(function (data) {
@@ -118,6 +117,20 @@ angular.module('userCtrl', ['userService', 'commonService'])
 })
 
 .controller('changepasswordController', function (User, $location, $scope) {
+
+    var password = document.getElementById("password"), confirm_password = document.getElementById("confirm_password");
+
+    function validatePassword(){
+        if(password.value != confirm_password.value) {
+            confirm_password.setCustomValidity("Passwords Don't Match");
+        } else {
+            confirm_password.setCustomValidity('');
+        }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+
     var vm = this;
     // function to update user password
     vm.dochangePassword = function () {
@@ -131,7 +144,7 @@ angular.module('userCtrl', ['userService', 'commonService'])
 			    vm.userData = {};
 			    // bind the message from our API to vm.message
 			    vm.message = data.message;
-			    //$location.path('/dashboard');
+			    $location.path('/dashboard');
 			});
     };
 

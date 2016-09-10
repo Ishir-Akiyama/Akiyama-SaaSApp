@@ -16,17 +16,6 @@ var sch_obj = new mongoose.Schema({
     status: { type: Number, default: -1 },
 });
 
-//function dateRender(params) {
-//   // var a = params.data.uploadedOn;
-//    var date = new Date(params);
-//    var mm = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : "0" + (date.getMonth() + 1);
-//    var dd = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
-//    var yyyy = date.getFullYear();
-//    //var newDate = mm + "/" + dd + "/" + yyyy;
-//    var newDate = dd+ "/" +MM +"/"+ yyyy
-//    return newDate;
-//}
-
 var clientId;
 exports.create = function (request, response) {
     clientId = request.body.clientId;
@@ -40,6 +29,9 @@ exports.create = function (request, response) {
         var fileAddress = "Uploads/" + request.body.filename;
         var fs = require('fs');
         fs.writeFileSync(fileAddress, bitmap);
+
+
+
 
         xlsxj = require("xlsx-to-json");
         xlsxj({
@@ -62,7 +54,7 @@ exports.create = function (request, response) {
 
                     var imagesInExcel = JSON.parse(content);
                     console.log(imagesInExcel);
-
+                 
                     for (var i = 0; i < imagesInExcel.length; i++) {
                         var getType = imagesInExcel[i].Image.toString().substr(5, 20);
                         getType = getType.substr(0, getType.indexOf(";"));
@@ -71,11 +63,11 @@ exports.create = function (request, response) {
                             filename: request.body.filename,
                             type: getType,
                             byte: imagesInExcel[i].Image,
-                            user: request.body.user,
+                            user: "excel",
                             status: '-1'
                         });
                         entry.save(function (err) {
-                            if (err) { }
+                            if (err) {}
                             // return a message
                         });
                     }
@@ -154,9 +146,12 @@ exports.create = function (request, response) {
             status: '-1'
         });
         entry.save(function (err) {
-
+            
             if (err) {
-
+                // duplicate entry
+                //if (err.code == 11000) 
+                //    return res.json({ success: false, message: 'A user with that username already exists. '});
+                //else 
                 return response.send(err);
             }
             // return a message
@@ -191,7 +186,7 @@ exports.allActive = function (request, response) {
 
 //Get by Image name
 exports.findByClient = function (request, response) {
-
+   
     var temp = request.params.client_id;
     module.exports = mongoose.model('Images_' + temp, sch_obj);
     var Image = mongoose.model('Images_' + temp);
@@ -202,21 +197,31 @@ exports.findByClient = function (request, response) {
     });
 }
 
+//Get Report
+exports.findByParam = function (request, response) {
+    var temp1 = request.params.clientId;
+    var temp2 = request.params.fromdate;
+    var temp3 = request.params.todate;
+    var now = new Date(temp2);
+    temp2 = now.setDate(now.getDate());
 
-exports.dashboardPieChartByClientId = function (req, res) {
-    //var clientId = req.params.clientId;
-    module.exports = mongoose.model('images_12', sch_obj);
-    var Image = mongoose.model('images_12');
-    Image.aggregate([{ "$group": { _id: "$status", count: { $sum: 1 } } }], function (err, result) {
-        if (err) {
-            next(err);
-        } else {
-            res.json(result);
+    var now2 = new Date(temp3);
+    temp3 = now2.setDate(now2.getDate() + 1);
+    module.exports = mongoose.model('Images_' + temp1, sch_obj);
+    var Image = mongoose.model('Images_' + temp1);
+
+    var query = Image.find({
+        uploadedOn: {
+            '$gte': new Date(temp2).toISOString(),
+            '$lt': new Date(temp3).toISOString()
         }
     });
-
+    console.log(query);
+    query.exec(function (err, results) {
+        if (err) response.send(err);
+        response.json(results);
+    })
 }
-
 
 exports.scoreImageSchduler = function (req, res) {
 
@@ -245,6 +250,15 @@ exports.scoreImageSchduler = function (req, res) {
     });
 }
 
+    //console.log(data);
+    //Image.find({}, function (err, Image) {
+    //    if (err) res.send(err);
+    //    // return the users
+    //    console.log('Respone data');
+
+    //    console.log(Image[0])
+    //    res.json(Image);
+    //});
 
 
 
