@@ -16,7 +16,7 @@ exports.create = function (request, response) {
         if (err) {
             // duplicate entry
             if (err.code == 11000)
-                return res.json({ success: false, message: 'A client with that name already exists. ' });
+                return response.json({ success: false, message: 'A client with that name already exists. ' });
             else
                 return response.send(err);
         }
@@ -71,7 +71,7 @@ exports.update = function (request, response) {
             if (err) {
                 // duplicate entry
                 if (err.code == 11000)
-                    return res.json({ success: false, message: 'A client with that name already exists. ' });
+                    return response.json({ success: false, message: 'A client with that name already exists. ' });
                 else
                     return response.send(err);
             }
