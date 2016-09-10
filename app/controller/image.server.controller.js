@@ -18,12 +18,11 @@ var sch_obj = new mongoose.Schema({
 
 var clientId;
 exports.create = function (request, response) {
-    console.log(request);
     clientId = request.body.clientId;
     module.exports = mongoose.model('Images_' + request.body.clientId, sch_obj);
     var Image = mongoose.model('Images_' + request.body.clientId);
 
-    if (request.body.type.indexOf("application/vnd") > -1) {
+    if (request.body.type.indexOf("application/vnd.openxmlformats") > -1) {
 
         var bitmap = new Buffer(request.body.file.replace("data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,", ""), 'base64');
         // write buffer to file
@@ -69,6 +68,66 @@ exports.create = function (request, response) {
                         });
                         entry.save(function (err) {
                             if (err) {}
+                            // return a message
+                        });
+                    }
+                    response.json({ message: 'Excel imported!' });
+                });
+            }
+        });
+    }
+    if (request.body.type.indexOf("application/vnd.ms-excel") > -1) {
+
+        var bitmap = new Buffer(request.body.file.replace("data:application/vnd.ms-excel;base64", ""), 'base64');
+        // write buffer to file
+        var fileAddress = "Uploads/" + request.body.filename;
+        var fs = require('fs');
+        fs.writeFileSync(fileAddress, bitmap);
+
+        //var csvj = require("csvjson");
+        //csvj({
+        //    input: fileAddress,
+        //    output: fileAddress + ".json"
+        //}, function (err, result) {
+
+        var Converter = require("csvtojson").Converter;
+        var converter = new Converter({});
+        converter.fromFile(fileAddress, function (err, result) {
+
+            if (err) {
+
+                console.error(err);
+                throw ex;
+            } else {
+                //var bitmapJson = new Buffer(result);
+               // console.log(result);
+
+                fs.writeFileSync(fileAddress + '.json', JSON.stringify(result));
+
+                var content;
+                // First I want to read the file
+                fs.readFile(fileAddress + '.json', function read(err, data) {
+                    if (err) {
+                        throw err;
+                    }
+                    content = data;
+
+                    var imagesInExcel = JSON.parse(content);
+                    console.log(imagesInExcel);
+
+                    for (var i = 0; i < imagesInExcel.length; i++) {
+                        var getType = imagesInExcel[i].Image.toString().substr(5, 20);
+                        getType = getType.substr(0, getType.indexOf(";"));
+                        var entry = new Image({
+                            name: imagesInExcel[i].name,
+                            filename: request.body.filename,
+                            type: getType,
+                            byte: imagesInExcel[i].Image,
+                            user: request.body.user,
+                            status: '-1'
+                        });
+                        entry.save(function (err) {
+                            if (err) { }
                             // return a message
                         });
                     }
