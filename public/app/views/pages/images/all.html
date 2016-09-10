@@ -40,7 +40,7 @@
             </td>
             <td>{{ im.type }}</td>
             <td>{{ im.user }}</td>
-            <td>{{ im.uploadedOn }}</td>
+            <td>{{im.uploadedOn | date:'MM/dd/yyyy'}}</td>
 
             <td ng-class="{'red': (im.status == 0),
                  'blue': (im.status ==1),
@@ -97,6 +97,7 @@
     .blueviolet {
         background-color: blueviolet;
     }
+
     .yellow {
         background-color: yellow;
     }
