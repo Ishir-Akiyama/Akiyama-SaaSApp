@@ -33,7 +33,7 @@ exports.getRecentUploads = function (req, response) {
     clientId = req.params.client_id;
     module.exports = mongoose.model('images_' + clientId, sch_obj);
     var Image = mongoose.model('images_' + clientId);
-    var query = Image.find().sort({ _id: 1 }).limit(10);
+    var query = Image.find().sort({ uploadedOn: 1 }).limit(10);
     query.exec(function (err, results) {
         if (err) response.send(err);
         response.json(results);

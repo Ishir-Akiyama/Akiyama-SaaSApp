@@ -21,7 +21,8 @@
                         <div class="graf-bx1">
                             <h2>Yesterday</h2>
                             <div class="cerc-bx">
-                                <nvd3 options="donatoptions" data="yesterday" class="with-3d-shadow with-transitions"></nvd3>
+                                <span class="cerc-span">{{yesterdayData}}</span>
+                                <nvd3 options="donatoptions" data="yesterday" class="with-3d-shadow with-transitions"></span></nvd3>
                             </div>
                         </div>
                     </div>
@@ -29,6 +30,7 @@
                         <div class="graf-bx1">
                             <h2>Month To Date</h2>
                             <div class="cerc-bx">
+                                <span class="cerc-span">{{monthData}}</span>
                                 <nvd3 options="donatoptions" data="month" class="with-3d-shadow with-transitions"></nvd3>
                                 <!--<img src="assets/img/img-serc2.jpg" alt="">-->
                             </div>
@@ -38,6 +40,7 @@
                         <div class="graf-bx1">
                             <h2>Last Month</h2>
                             <div class="cerc-bx">
+                                <span class="cerc-span">{{lastMonthData}}</span>
                                 <!--<img src="assets/img/img-serc3.jpg" alt="">-->
                                 <nvd3 options="donatoptions" data="lastmonth" class="with-3d-shadow with-transitions"></nvd3>
                             </div>
@@ -47,6 +50,7 @@
                         <div class="graf-bx1">
                             <h2>Year To Date</h2>
                             <div class="cerc-bx">
+                                <span class="cerc-span">{{yearData}}</span>
                                 <!--<img src="assets/img/img-serc4.jpg" alt="">-->
                                 <nvd3 options="donatoptions" data="year" class="with-3d-shadow with-transitions"></nvd3>
                             </div>
@@ -79,8 +83,19 @@
                                 <td>{{ cl.uploadedOn | date:'MM/dd/yyyy'}}</td>
                                 <td>
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-striped progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="5" style="width:40%">
-                                            {{ cl.status }}
+                                        <div ng-if="cl.status==-1" class="progress-bar progress-bar-striped progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="5" style="width:10%">
+                                        </div>
+                                        <div ng-if="cl.status==0" class="progress-bar progress-bar-striped progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="5" style="width:20%">
+                                        </div>
+                                        <div ng-if="cl.status==1" class="progress-bar progress-bar-striped progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="5" style="width:35%">
+                                        </div>
+                                        <div ng-if="cl.status==2" class="progress-bar progress-bar-striped progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="5" style="width:50%">
+                                        </div>
+                                        <div ng-if="cl.status==3" class="progress-bar progress-bar-striped progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="5" style="width:65%">
+                                        </div>
+                                        <div ng-if="cl.status==4" class="progress-bar progress-bar-striped progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="5" style="width:80%">
+                                        </div>
+                                        <div ng-if="cl.status==5" class="progress-bar progress-bar-striped progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="5" style="width:100%">
                                         </div>
                                     </div>
                                 </td>
@@ -142,5 +157,18 @@
         right: 0;
         z-index: -1;
         background-color: #cae6fc;
+    }
+
+    .cerc-bx {
+        position: relative;
+    }
+
+    .cerc-span {
+        position: absolute;
+        top: 38%;
+        font-size: 32px;
+        width: 100%;
+        left: 0;
+        font-weight: 700;
     }
 </style>

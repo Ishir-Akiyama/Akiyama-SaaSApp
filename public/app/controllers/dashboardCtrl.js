@@ -97,7 +97,7 @@
                 return d.value;
             },
             showLabels: false,
-            transitionDuration: 500,            
+            transitionDuration: 500,
             valueFormat: function (d) {
                 return d;
             }
@@ -156,7 +156,7 @@
         Dashboard.getRecentUploads(clientid)
         .success(function (data) {
             // when all the clients come back, remove the processing variable
-            vm.processing = false;
+            //vm.processing = false;
             // bind the clients that come back to vm.clients
             $scope.RecentUploads = data;
         });
@@ -167,6 +167,7 @@
     vm.getYearToDateData = function (clientid) {
         Dashboard.getYearToDateData(clientid)
         .success(function (data) {
+            $scope.yearData = data;
             var caseArrayYear;
             totalyear = data;
             var Data = data;
@@ -184,6 +185,7 @@
     vm.getYesterdayToDateData = function (clientid) {
         Dashboard.getYesterdayToDateData(clientid)
         .success(function (data) {
+            $scope.yesterdayData = data;
             var caseArray;
             var Data = data;
             caseArray = [];
@@ -205,6 +207,7 @@
     vm.getMonthdayToDateData = function (clientid) {
         Dashboard.getMonthdayToDateData(clientid)
         .success(function (data) {
+            $scope.monthData = data;
             var caseArrayMonth;
             var Data = data;
             caseArrayMonth = [];
@@ -220,12 +223,13 @@
             caseArrayMonth.push(newObj1);
             $scope.month = caseArrayMonth;
         });
-              }
+    }
 
     //// Get last month data on page load
     vm.getLastMonthToDateData = function (clientid) {
         Dashboard.getLastMonthToDateData(clientid)
         .success(function (data) {
+            $scope.lastMonthData = data;
             var caseArrayl;
             var Data = data;
             caseArrayl = [];
@@ -241,5 +245,5 @@
             caseArrayl.push(newObj1);
             $scope.lastmonth = caseArrayl;
         });
-              }
+    }
 })
