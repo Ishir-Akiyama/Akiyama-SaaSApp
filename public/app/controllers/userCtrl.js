@@ -1,20 +1,39 @@
 angular.module('userCtrl', ['userService', 'commonService'])
 
-.controller('userController', function (User) {
-
+.controller('userController', function (User, Client) {
+    var i = 0;
     var vm = this;
 
     // set a processing variable to show loading things
     vm.processing = true;
 
+    //grab all client list
+     Client.all()
+		.success(function(data) {
+		    // when all the clients come back, remove the processing variable
+		    vm.processing = false;
+
+		    // bind the clients that come back to vm.clients
+		    vm.clients = data;
+		});
+
     // grab all the users at page load
     User.all()
 		.success(function (data) {
-
 		    // when all the users come back, remove the processing variable
 		    vm.processing = false;
 
 		    // bind the users that come back to vm.users
+		    vm.users = data;
+            //show client name
+             angular.forEach(vm.users, function (value, key) {
+                angular.forEach(vm.clients, function (cvalue, key) {
+                    if (cvalue.ClientId == value.clientid) {
+                        vm.users[i].clientname = cvalue.name;
+                    }               
+                });              
+            i++;
+            });
 		    vm.users = data;
 		});
 

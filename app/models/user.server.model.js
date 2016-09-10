@@ -15,6 +15,7 @@ var UserSchema = new Schema({
     isadmin: { type: Boolean, required: true },
     isactive: { type: Boolean, required: true },
     clientid: Number,
+    clientname :String,
     createdOn: { type: Date, default: Date.now },
     isdefault: { type: Boolean, required: true }
 });
