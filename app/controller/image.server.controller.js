@@ -209,7 +209,6 @@ exports.findByParam = function (request, response) {
             '$lt': new Date(temp3).toISOString()
         }
     });
-    console.log(query);
     query.exec(function (err, results) {
         if (err) response.send(err);
         response.json(results);
