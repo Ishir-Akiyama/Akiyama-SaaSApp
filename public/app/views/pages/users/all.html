@@ -24,7 +24,6 @@
             <th>Email Id</th>
             <th>Client Name</th>
             <th>Admin</th>
-            <th>Status</th>
             <th class="col-sm-2"></th>
         </tr>
     </thead>
@@ -37,13 +36,13 @@
             <td>{{ person.username }}</td>
             <td>{{person.email}}</td>
             <td>{{ person.clientname }}</td>
-            <!--<td>{{ person.isadmin }}</td>-->
             <td ng-show="{{person.isadmin}}==true">Yes</td>
             <td ng-show="{{person.isadmin}}==false">No</td>
-            <td><input type="checkbox" ng-model="person.isactive"></td>
+
             <td class="col-sm-1">
                 <a ng-href="/users/{{ person._id }}" class="btn btn-danger">Edit</a>
             </td>
         </tr>
     </tbody>
 </table>
+

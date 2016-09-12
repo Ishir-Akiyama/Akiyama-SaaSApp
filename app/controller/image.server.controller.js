@@ -22,17 +22,17 @@ exports.create = function (request, response) {
     module.exports = mongoose.model('Images_' + request.body.clientId, sch_obj);
     var Image = mongoose.model('Images_' + request.body.clientId);
 
+
     if (request.body.type.indexOf("application/vnd.openxmlformats") > -1) {
-
-        var bitmap = new Buffer(request.body.file.replace("data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,", ""), 'base64');
+        var bitmap = new Buffer(request.body.file.replace("data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64", ""), 'base64');
         // write buffer to file
-        var fileAddress = "Uploads/" + request.body.filename;
         var fs = require('fs');
+        if (!fs.existsSync("Uploads")) {
+            fs.mkdirSync("Uploads");
+        }
+        var fileAddress = "Uploads/" + request.body.filename;
+
         fs.writeFileSync(fileAddress, bitmap);
-
-
-
-
         xlsxj = require("xlsx-to-json");
         xlsxj({
             input: fileAddress,
@@ -51,10 +51,10 @@ exports.create = function (request, response) {
                         throw err;
                     }
                     content = data;
-
                     var imagesInExcel = JSON.parse(content);
+
                     console.log(imagesInExcel);
-                 
+
                     for (var i = 0; i < imagesInExcel.length; i++) {
                         var getType = imagesInExcel[i].Image.toString().substr(5, 20);
                         getType = getType.substr(0, getType.indexOf(";"));
@@ -63,11 +63,10 @@ exports.create = function (request, response) {
                             filename: request.body.filename,
                             type: getType,
                             byte: imagesInExcel[i].Image,
-                            user: "excel",
-                            status: '-1'
+                            user: request.body.userid,
                         });
                         entry.save(function (err) {
-                            if (err) {}
+                            if (err) { }
                             // return a message
                         });
                     }
@@ -76,19 +75,16 @@ exports.create = function (request, response) {
             }
         });
     }
-    if (request.body.type.indexOf("application/vnd.ms-excel") > -1) {
+    else if (request.body.type.indexOf("application/vnd.ms-excel") > -1) {
 
         var bitmap = new Buffer(request.body.file.replace("data:application/vnd.ms-excel;base64", ""), 'base64');
         // write buffer to file
-        var fileAddress = "Uploads/" + request.body.filename;
         var fs = require('fs');
+        if (!fs.existsSync("Uploads")) {
+            fs.mkdirSync("Uploads");
+        }
+        var fileAddress = "Uploads/" + request.body.filename;
         fs.writeFileSync(fileAddress, bitmap);
-
-        //var csvj = require("csvjson");
-        //csvj({
-        //    input: fileAddress,
-        //    output: fileAddress + ".json"
-        //}, function (err, result) {
 
         var Converter = require("csvtojson").Converter;
         var converter = new Converter({});
@@ -99,8 +95,6 @@ exports.create = function (request, response) {
                 console.error(err);
                 throw ex;
             } else {
-                //var bitmapJson = new Buffer(result);
-               // console.log(result);
 
                 fs.writeFileSync(fileAddress + '.json', JSON.stringify(result));
 
@@ -113,7 +107,6 @@ exports.create = function (request, response) {
                     content = data;
 
                     var imagesInExcel = JSON.parse(content);
-                    console.log(imagesInExcel);
 
                     for (var i = 0; i < imagesInExcel.length; i++) {
                         var getType = imagesInExcel[i].Image.toString().substr(5, 20);
@@ -124,19 +117,19 @@ exports.create = function (request, response) {
                             type: getType,
                             byte: imagesInExcel[i].Image,
                             user: request.body.user,
-                            status: '-1'
                         });
                         entry.save(function (err) {
                             if (err) { }
                             // return a message
                         });
                     }
-                    response.json({ message: 'Excel imported!' });
+                    response.json({ message: 'Csv imported!' });
                 });
             }
         });
     }
     else {
+
         var entry = new Image({
             name: request.body.name,
             filename: request.body.filename,
@@ -146,7 +139,7 @@ exports.create = function (request, response) {
             status: '-1'
         });
         entry.save(function (err) {
-            
+
             if (err) {
                 // duplicate entry
                 //if (err.code == 11000) 
@@ -186,7 +179,7 @@ exports.allActive = function (request, response) {
 
 //Get by Image name
 exports.findByClient = function (request, response) {
-   
+
     var temp = request.params.client_id;
     module.exports = mongoose.model('Images_' + temp, sch_obj);
     var Image = mongoose.model('Images_' + temp);
@@ -216,7 +209,6 @@ exports.findByParam = function (request, response) {
             '$lt': new Date(temp3).toISOString()
         }
     });
-    console.log(query);
     query.exec(function (err, results) {
         if (err) response.send(err);
         response.json(results);
@@ -250,15 +242,15 @@ exports.scoreImageSchduler = function (req, res) {
     });
 }
 
-    //console.log(data);
-    //Image.find({}, function (err, Image) {
-    //    if (err) res.send(err);
-    //    // return the users
-    //    console.log('Respone data');
+//console.log(data);
+//Image.find({}, function (err, Image) {
+//    if (err) res.send(err);
+//    // return the users
+//    console.log('Respone data');
 
-    //    console.log(Image[0])
-    //    res.json(Image);
-    //});
+//    console.log(Image[0])
+//    res.json(Image);
+//});
 
 
 

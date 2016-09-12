@@ -6,8 +6,7 @@
     <span class="glyphicon glyphicon-repeat spinner"></span>
     <p>Uploading Image...</p>
 </div>
-<form class="form-horizontal" ng-submit="image.saveImage(main.user.clientid)">
-    <!--<input type="hidden" ng-model="image.imageData.client" ng-value="main.user.clientid" ng-init="image.imageData.client=main.user.clientid" />-->
+<form class="form-horizontal" ng-submit="image.saveImage(main.user.clientid,main.user.UserId)">
     <div class="form-group">
         <label class="col-sm-2 control-label">Name</label>
         <div class="col-sm-6" ng-controller="fileCtrl">
@@ -26,7 +25,7 @@
             <div ng-repeat="step in stepsModel">
                 <img class="thumb" ng-src="{{step}}" />
             </div>
-            <input type='file' required ng-model-instant onchange="angular.element(this).scope().imageUpload(event)" multiple  />
+            <input type='file' required ng-model-instant onchange="angular.element(this).scope().imageUpload(event)" multiple />
 
         </div>
         <div class="row show-hide-message" ng-show="image.message">
@@ -42,7 +41,7 @@
             <button type="submit" class="btn btn-success btn-lg btn-block">Add Image</button>
         </div>
     </div>
-  
+
 </form>
 
 

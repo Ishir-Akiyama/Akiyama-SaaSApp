@@ -71,12 +71,11 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
     vm.type = 'create';
 
     // function to create a user
-    vm.saveImage = function (client,user) {
+    vm.saveImage = function (client, user) {
         vm.processing = true;
         vm.message = '';
         vm.imageData.clientId = client;
         vm.imageData.user = user;
-
         // use the create function in the clientService
         Image.create(vm.imageData)
 			.success(function (data) {
@@ -111,8 +110,10 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
              
 
               var reader = new FileReader();
-
-              reader.onload = file.name.indexOf(".xls") > -1 ? $scope.excelIsLoaded : $scope.imageIsLoaded;
+              if (file.name.indexOf(".xls") > -1 || file.name.indexOf(".csv") > -1)
+                  reader.onload = $scope.excelIsLoaded;
+              else
+                  reader.onload = $scope.imageIsLoaded;
               reader.readAsDataURL(file);
           }
       }
@@ -187,7 +188,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
          { headerName: "Name", field: "name", cellStyle: { color: 'darkred' }, width: 130 },
         { headerName: "Image", field: "filename", cellRenderer: imageRender, width: 220 },
         { headerName: "Type", field: "type", width: 130},
-        { headerName: "Uploaded On", field: "uploadedOn", width: 220 },
+        { headerName: "Uploaded On", field: "uploadedOn", width: 220, cellRenderer: dateRender },
         { headerName: "Status", field: "status", width: 120, cellRenderer: statusRender }
     ];
 
@@ -223,7 +224,16 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
         return params.$scope.statusRender;
     }
 
-
+    //for date format
+    function dateRender(params) {
+        var a = params.data.uploadedOn;
+        var date = new Date(a);
+        var mm = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : "0" + (date.getMonth() + 1);
+        var dd = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
+        var yyyy = date.getFullYear();
+        var newDate = dd + "/" + "/" + mm + "/" + yyyy;
+        return params.$scope.dateRender = newDate;
+    }
     //for filter
     $scope.onFilterChanged = function (value) {
         $scope.gridOptions.api.setQuickFilter(value);

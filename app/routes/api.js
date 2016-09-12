@@ -69,7 +69,6 @@ module.exports = function (app, express) {
 
                     if (req.body.password) user.password = NewPassword;
                     user.isdefault = true;
-                    console.log("checking for update-----")
                     // save the user
                     user.save(function (err) {
                         console.log(err)
@@ -202,7 +201,7 @@ module.exports = function (app, express) {
 		.post(function (req, res) {
 		    var user = new User();          // create a new instance of the User model
 		    randonPassword = (req.body.password == undefined || req.body.password == "") ? user.randomPassword(8) : req.body.password;
-		    console.log(randonPassword);
+
 		    //var user = new User();		// create a new instance of the User model
 		    user.UserId = req.body.UserId;
 		    //if (req.body.firstname == "" || req.body.firstname == undefined)
@@ -256,7 +255,7 @@ module.exports = function (app, express) {
 		        //
 		        //query with mongoose
 		        User.findOne({ 'username': req.body.username }, function (err, user) {
-		            console.log(user);
+
 		            var smtp = new mail();
 
 		            smtp.from = "akiyamaemail@gmail.com";
@@ -305,7 +304,6 @@ module.exports = function (app, express) {
 		// update the user with this id
 		.put(function (req, res) {
 		    User.findById(req.params.user_id, function (err, user) {
-		        console.log(user);
 		        if (err) res.send(err);
 		        // set the new user information if it exists in the request
 		        if (req.body.firstname) user.firstname = req.body.firstname;
@@ -453,7 +451,7 @@ module.exports = function (app, express) {
                 });
             } else if (user) {
                 User.findById(req.params.user_id, function (err, user) {
-                    console.log("update password");
+
                     if (err) res.send(err);
                     // set the new user information if it exists in the request
                     if (req.body.firstname) user.firstname = req.body.firstname;
