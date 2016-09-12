@@ -9,9 +9,9 @@
 
 </div>
 
-<div class="jumbotron text-center" ng-show="user.processing">
-	<span class="glyphicon glyphicon-repeat spinner"></span>
-	<p>Loading Users...</p>
+<div class="loader-box" ng-show="user.processing">
+    <div class="loader"></div>
+    <p>Loading Users...</p>
 </div>
 
 <table class="table table-bordered table-striped" ng-show="user.users">

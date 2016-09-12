@@ -19,7 +19,6 @@ angular.module('clientCtrl', ['clientService', 'commonService'])
     // function to delete a client
     vm.deleteClient = function (id) {
         vm.processing = true;
-
         Client.delete(id)
 			.success(function (data) {
 			    // get all clients to update the table
