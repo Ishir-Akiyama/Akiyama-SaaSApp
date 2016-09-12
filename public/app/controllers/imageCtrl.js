@@ -199,6 +199,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
         enableColResize: false,
         enableSorting: false,
         groupHeaders: true,
+        suppressMovableColumns:true,
         rowHeight: 22,
         suppressRowClickSelection: true,
         enableFilter: false,
