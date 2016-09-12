@@ -1,5 +1,6 @@
 var bodyParser = require('body-parser'); 	// get body-parser
 var User = require('../models/user.server.model');
+var UserCtrl = require('../controller/user.server.controller');
 var Client = require('../controller/client.server.controller');
 var Image = require('../controller/image.server.controller');
 var Dashboard = require('../controller/dashboard.server.controller');
@@ -45,7 +46,6 @@ module.exports = function (app, express) {
     });
 
     apiRouter.post('/authenticateUser', function (req, res) {
-
         // find the user
         User.findOne({
             username: req.body.username
@@ -83,7 +83,7 @@ module.exports = function (app, express) {
                         smtp.subject = "Reset Password for Akiyama Account";
                         smtp.text = "New File";
                         smtp.html = "Hi " + user.firstname + " " + user.lastname + "<br/><br/> Your Password for the username " + user.username + " is successfully changed to " + NewPassword;
-		                smtp.html += "<br/><br/>Regards,<br/>Team Akiyama";
+                        smtp.html += "<br/><br/>Regards,<br/>Team Akiyama";
 
                         smtp.sendMail(smtp.from, smtp.useremail, smtp.subject, smtp.text, smtp.html);
 
@@ -196,95 +196,14 @@ module.exports = function (app, express) {
     // on routes that end in /users
     // ----------------------------------------------------
     apiRouter.route('/users')
-
 		// create a user (accessed at POST http://localhost:8080/users)
 		.post(function (req, res) {
-		    var user = new User();          // create a new instance of the User model
-		    randonPassword = (req.body.password == undefined || req.body.password == "") ? user.randomPassword(8) : req.body.password;
-
-		    //var user = new User();		// create a new instance of the User model
-		    user.UserId = req.body.UserId;
-		    //if (req.body.firstname == "" || req.body.firstname == undefined)
-		    //    return res.json({ success: false, message: 'Please fill First Name.' });
-		    //else
-		    user.firstname = req.body.firstname;  // set the users firstname (comes from the request)
-
-		    //if (req.body.lastname == "" || req.body.lastname == undefined)
-		    //    return res.json({ success: false, message: 'Please fill Last Name.' });
-		    //else
-		    user.lastname = req.body.lastname;    // set the users lastname (comes from the request)
-
-		    //if (req.body.username == "" || req.body.username == undefined)
-		    //    return res.json({ success: false, message: 'Please fill User Name.' });
-		    //else
-		    user.username = req.body.username;  // set the users username (comes from the request)
-
-		    //if (req.body.email == "" || req.body.email == undefined)
-		    //    return res.json({ success: false, message: 'Please fill Email Id.' });
-		    //else
-		    user.email = req.body.email;
-		    user.password = randonPassword;     // set the users password (comes from the request)
-		    user.isadmin = req.body.isadmin;
-		    if (user.isadmin == true) {
-		        user.isadmin = true;
-		    }
-		    else {
-		        user.isadmin = false;
-		    }
-		    if (user.isadmin == false) {
-		        user.clientid = req.body.clientid;
-		    }
-		    else {
-		        user.clientname = "";
-		    }
-		    user.isactive = true;
-		    user.isdefault = true;
-
-		    user.save(function (err) {
-		        if (err) {
-		            console.log(err);
-		            // duplicate entry
-		            if (err.code == 11000)
-		                return res.json({ success: false, message: 'A user with that username already exists. ' });
-		            else
-		                return res.send(err);
-		        }
-
-		        // return a message
-		        res.json({ message: 'User created!' });
-		        //
-		        //query with mongoose
-		        User.findOne({ 'username': req.body.username }, function (err, user) {
-
-		            var smtp = new mail();
-
-		            smtp.from = "akiyamaemail@gmail.com";
-		            smtp.useremail = user.email;
-		            smtp.subject = "Akiyama - Account Login Credentials";
-		            smtp.text = "New File";
-		            smtp.html = "Hi " + user.firstname + " " + user.lastname + "<br/><br/> You are successfully registered for Akiyama Web Application. Please use following credentials to access the application: <br/><br/>";
-		            smtp.html += "User Name - " + user.username + "<br/>Password - " + randonPassword + "<br/><br/><a href='http://localhost:8080/'>Click Here to Login</a>";
-		            smtp.html += "<br/><br/>Regards,<br/>Team Akiyama";
-                    smtp.sendMail(smtp.from, smtp.useremail, smtp.subject, smtp.text, smtp.html);
-
-		        });
-
-		        //
-		        
-		    });
-
-
+		    UserCtrl.create(req, res);
 		})
 
 		// get all the users (accessed at GET http://localhost:8080/api/users)
 		.get(function (req, res) {
-
-		    User.find({}, function (err, users) {
-		        if (err) res.send(err);
-
-		        // return the users
-		        res.json(users);
-		    });
+		    UserCtrl.all(req, res);
 		});
 
     // on routes that end in /users/:user_id
@@ -293,44 +212,17 @@ module.exports = function (app, express) {
 
 		// get the user with that id
 		.get(function (req, res) {
-		    User.findById(req.params.user_id, function (err, user) {
-		        if (err) res.send(err);
-
-		        // return that user
-		        res.json(user);
-		    });
+		    UserCtrl.findById(req, res);
 		})
 
 		// update the user with this id
 		.put(function (req, res) {
-		    User.findById(req.params.user_id, function (err, user) {
-		        if (err) res.send(err);
-		        // set the new user information if it exists in the request
-		        if (req.body.firstname) user.firstname = req.body.firstname;
-		        if (req.body.lastname) user.lastname = req.body.lastname;
-		        if (req.body.username) user.username = req.body.username;
-		        if (req.body.password) user.password = req.body.password;
-		        if (req.body.isadmin) user.password = req.body.isadmin;
-		        if (req.body.isactive) user.isactive = req.body.isactive;
-		        // save the user
-		        user.save(function (err) {
-		            if (err) res.send(err);
-		            // return a message
-		            res.json({ message: 'User updated!' });
-		        });
-
-		    });
+		    Use.update(req, res);
 		})
 
 		// delete the user with this id
 		.delete(function (req, res) {
-		    User.remove({
-		        _id: req.params.user_id
-		    }, function (err, user) {
-		        if (err) res.send(err);
-
-		        res.json({ message: 'Successfully deleted' });
-		    });
+		    User.delete(req, res);
 		});
 
 
@@ -339,7 +231,6 @@ module.exports = function (app, express) {
     apiRouter.route('/clients')
 		// create a client (accessed at POST http://localhost:8080/api/clients)
 		.post(function (req, res) {
-		    console.log(res);
 		    Client.create(req, res);
 		})
 
@@ -352,7 +243,6 @@ module.exports = function (app, express) {
     // on routes that end in /activeClients
     // ----------------------------------------------------
     apiRouter.route('/activeClients')
-
 		// get all the active clients (accessed at GET http://localhost:8080/api/activeClients)
 		.get(function (req, res) {
 		    Client.allActive(req, res);
@@ -369,7 +259,6 @@ module.exports = function (app, express) {
 
 		 //update the client with this id
 		.put(function (req, res) {
-
 		    Client.update(req, res);
 		})
 
@@ -398,7 +287,6 @@ module.exports = function (app, express) {
 		    Image.all(req, res);
 		});
 
-
     // on routes that end in /activeImages
     // ----------------------------------------------------
     apiRouter.route('/activeImages')
@@ -411,7 +299,6 @@ module.exports = function (app, express) {
     // on routes that end in /images/:image_name
     // ----------------------------------------------------
     apiRouter.route('/images/:client_id')
-
 		// get the image with that id
 		.get(function (req, res) {
 		    Image.findByClient(req, res);
@@ -423,7 +310,6 @@ module.exports = function (app, express) {
 		});
 
     apiRouter.route('/images/:image_id')
-
       // get the client with that id
       .get(function (req, res) {
           Image.findById(req, res);
@@ -436,63 +322,12 @@ module.exports = function (app, express) {
 
     //forgotPassword
     apiRouter.post('/forgotPassword', function (req, res) {
-        // find the user
-        User.findOne({
-            username: req.body.username
-        }).select('_id name username password emailid').exec(function (err, user) {
-
-            if (err) throw err;
-
-            // no user with that username was found
-            if (!user) {
-                res.json({
-                    success: false,
-                    message: 'Authentication failed. User not found.'
-                });
-            } else if (user) {
-                User.findById(req.params.user_id, function (err, user) {
-
-                    if (err) res.send(err);
-                    // set the new user information if it exists in the request
-                    if (req.body.firstname) user.firstname = req.body.firstname;
-                    if (req.body.lastname) user.lastname = req.body.lastname;
-                    if (req.body.username) user.username = req.body.username;
-                    if (req.body.password) user.password = req.body.password;
-                    if (req.body.isactive) user.isactive = req.body.isactive;
-                    // save the user
-                    user.save(function (err) {
-                        if (err) res.send(err);
-
-                        // return a message
-                        res.json({ message: 'User updated!' });
-                    });
-
-                });
-            }
-        });
+        UserCtrl.forgetPassword(req, res);
     });
 
     //change Password
     apiRouter.put('/changePassword', function (req, res) {
-        User.findOne({
-            username: req.body.username
-        }).select('_id firstname username password emailid isdefault').exec(function (err, user) {
-            console.log("user Data" + user);
-            if (err) res.send(err);
-            // set the new user information if it exists in the request
-            if (req.body.firstname) user.firstname = req.body.firstname;
-            if (req.body.lastname) user.lastname = req.body.lastname;
-            if (req.body.username) user.username = req.body.username;
-            if (req.body.email) user.email = req.body.email;
-            if (req.body.password) user.password = req.body.password;
-            user.isdefault = false;
-            // save the user
-            user.save(function (err) {
-                if (err) res.send(err);
-                // return a message
-                res.json({ message: 'Password updated!' });
-            });
-        })
+        UserCtrl.changePassword(req, res);
     });
 
     //For Dashboard

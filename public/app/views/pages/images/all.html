@@ -7,10 +7,10 @@
         </a>
     </h1>
 </div>
-<div class="jumbotron text-center" ng-show="image.processing" ng-init="image.getImages(main.user.clientid)">
+<!--<div class="jumbotron text-center" ng-show="image.processing" ng-init="image.getImages(main.user.clientid)">
     <span class="glyphicon glyphicon-repeat spinner"></span>
     <p>Loading Images...</p>
-</div>
+</div>-->
 <table class="table table-bordered table-striped" ng-show="image.images">
     <thead>
         <tr>
@@ -54,9 +54,10 @@
             <td>
                 <div ng-controller="ShowHideCtrl">
 
-                    <input type="button" value="{{btnText}} " ng-click="ShowHide()" />
+                    <input type="button" value="{{btnText}} " ng-click="ShowHide()" 
+                           class="btn btn-success" />
                     <div ng-show="IsVisible">
-                        <img data-ng-src="{{im.byte}}" data-err-src="images/png/avatar.png" height="200" width="200" />
+                        <img data-ng-src="{{im.byte}}" data-err-src="images/png/avatar.png" height="auto" width="100%" style="max-width:300px;" />
                     </div>
                 </div>
             </td>

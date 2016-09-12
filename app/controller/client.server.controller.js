@@ -65,7 +65,7 @@ exports.update = function (request, response) {
         if (request.body.state) Client.state = request.body.state;
         if (request.body.zip) Client.zip = request.body.zip;
         if (request.body.country) Client.country = request.body.country;
-        if (request.body.isActive) Client.isActive = request.body.isActive;
+        Client.isActive = request.body.isActive;
         // save the client
         Client.save(function (err) {
             if (err) {

@@ -2,9 +2,10 @@
     <h1>Add Image</h1>
 
 </div>
-<div class="jumbotron text-center" ng-show="image.processing">
-    <span class="glyphicon glyphicon-repeat spinner"></span>
-    <p>Uploading Image...</p>
+<div class="jumbotron text-center-new" ng-show="image.processing">
+    <!--<span class="glyphicon glyphicon-repeat spinner"></span>
+    <p>Uploading Image...</p>-->
+    <div class="loader"></div>
 </div>
 <form class="form-horizontal" ng-submit="image.saveImage(main.user.clientid,main.user.UserId)">
     <div class="form-group">
@@ -41,7 +42,50 @@
             <button type="submit" class="btn btn-success btn-lg btn-block">Add Image</button>
         </div>
     </div>
-
 </form>
+
+<style>
+    .jumbotron text-center-new {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background: #ccc;
+        z-index: 999;
+        top: 0;
+        margin: 0;
+        text-align: center;
+    }
+    .loader {
+        margin: 15% auto;
+        border: 5px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 5px solid blue;
+        border-bottom: 5px solid blue;
+        width: 80px;
+        height: 80px;
+        -webkit-animation: spin 1s linear infinite;
+        animation: spin 2s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
 
 

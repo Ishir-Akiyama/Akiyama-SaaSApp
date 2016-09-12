@@ -9,9 +9,15 @@
 
 </div>
 
-<div class="jumbotron text-center" ng-show="client.processing">
+<!--<div class="jumbotron text-center" ng-show="client.processing">
 	<span class="glyphicon glyphicon-repeat spinner"></span>
 	<p>Loading Clients...</p>
+</div>-->
+
+<div ng-show="image.processing">
+    <!--<span class="glyphicon glyphicon-repeat spinner"></span>-->
+    <p>Loading Clients...</p>
+    <div class="loader"></div>
 </div>
 
 <table class="table table-bordered table-striped" ng-show="client.clients">
@@ -48,3 +54,36 @@
 		</tr>
 	</tbody>
 </table>
+
+<style>
+    .loader {
+        border: 5px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 5px solid blue;
+        border-bottom: 5px solid blue;
+        width: 80px;
+        height: 80px;
+        -webkit-animation: spin 1s linear infinite;
+        animation: spin 2s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
