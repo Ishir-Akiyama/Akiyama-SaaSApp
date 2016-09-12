@@ -36,8 +36,6 @@ module.exports = function (app, express) {
 
                 sampleUser.save();
             } else {
-                console.log(user);
-
                 // if there is a chris, update his password
                 user.password = 'supersecret';
                 user.save();
@@ -457,7 +455,6 @@ module.exports = function (app, express) {
                 User.findById(req.params.user_id, function (err, user) {
                     console.log("update password");
                     if (err) res.send(err);
-
                     // set the new user information if it exists in the request
                     if (req.body.firstname) user.firstname = req.body.firstname;
                     if (req.body.lastname) user.lastname = req.body.lastname;
