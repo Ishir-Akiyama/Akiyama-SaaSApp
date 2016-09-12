@@ -33,7 +33,6 @@
     $scope.percent2 = 81;
     //$scope.anotherPercent =30;
     $scope.anotherOptions = {
-
         barColor: '#f9243f',
         scaleColor: false,
         lineWidth: 5,
@@ -143,6 +142,20 @@
             caseArray = [];
             for (var i = 0; i < Data.length; i++) {
                 var newObj = {};
+                if (Data[i]._id == -1)
+                    newObj["color"] = "#afabaa";
+                if (Data[i]._id == 0)
+                    newObj["color"] = "#b90000";
+                if (Data[i]._id == 1)
+                    newObj["color"] = "#3bc2f2 ";
+                if (Data[i]._id == 2)
+                    newObj["color"] = "#fed966";
+                if (Data[i]._id == 3)
+                    newObj["color"] = "#2d74b4";
+                if (Data[i]._id == 4)
+                    newObj["color"] = "#f07f2f";
+                if (Data[i]._id == 5)
+                    newObj["color"] = "#548237";
                 newObj["key"] = statusRender(Data[i]._id);
                 newObj["value"] = Data[i].count;
                 caseArray.push(newObj);
@@ -155,9 +168,6 @@
     vm.getRecentUploads = function (clientid) {
         Dashboard.getRecentUploads(clientid)
         .success(function (data) {
-            // when all the clients come back, remove the processing variable
-            //vm.processing = false;
-            // bind the clients that come back to vm.clients
             $scope.RecentUploads = data;
         });
     }
@@ -229,6 +239,7 @@
     vm.getLastMonthToDateData = function (clientid) {
         Dashboard.getLastMonthToDateData(clientid)
         .success(function (data) {
+            vm.processing = false;
             $scope.lastMonthData = data;
             var caseArrayl;
             var Data = data;

@@ -7,16 +7,17 @@
         </a>
     </h1>
 </div>
-<!--<div class="jumbotron text-center" ng-show="image.processing" ng-init="image.getImages(main.user.clientid)">
-    <span class="glyphicon glyphicon-repeat spinner"></span>
+
+<div class="loader-box" ng-show="image.processing" ng-init="image.getImages(main.user.clientid)">
+    <div class=" loader"></div>
     <p>Loading Images...</p>
-</div>-->
+</div>
+
 <table class="table table-bordered table-striped" ng-show="image.images">
     <thead>
         <tr>
             <th>Name</th>
             <th>File Name</th>
-
             <th>Type</th>
             <th>User</th>
             <th>Uploaded On</th>
@@ -38,23 +39,19 @@
             <td>{{ im.user }}</td>
             <td>{{im.uploadedOn | date:'MM/dd/yyyy'}}</td>
 
-            <td ng-class="{'red': (im.status == 0),
-                 'blue': (im.status ==1),
-                 'gray': (im.status ==2),
-                 'blueviolet': (im.status ==3),
-                 'orange': (im.status ==4),
-                                 'green': (im.status ==5),
-                                                 'yellow': (im.status ==-1),
-
-
+            <td ng-class="{'notScored': (im.status == 0),
+                 'poor': (im.status ==1),
+                 'ok': (im.status ==2),
+                 'good': (im.status ==3),
+                 'best': (im.status ==4),
+                 'excellent': (im.status ==5),
+                 'pending': (im.status ==-1),
                 }">
                 {{ im.status }}
             </td>
-
             <td>
                 <div ng-controller="ShowHideCtrl">
-
-                    <input type="button" value="{{btnText}} " ng-click="ShowHide()" 
+                    <input type="button" value="{{btnText}} " ng-click="ShowHide()"
                            class="btn btn-success" />
                     <div ng-show="IsVisible">
                         <img data-ng-src="{{im.byte}}" data-err-src="images/png/avatar.png" height="auto" width="100%" style="max-width:300px;" />
@@ -66,31 +63,26 @@
 </table>
 
 <style>
-    .red {
-        background-color: red;
+    .pending {
+        background-color: #afabaa;
+    }
+    .notScored {
+        background-color: #b90000;
+    }
+    .poor {
+        background-color: #3bc2f2;
+    }
+    .ok {
+        background-color: #fed966;
     }
 
-    .blue {
-        background-color: blue;
+    .good {
+        background-color: #2d74b4;
     }
-
-    .green {
-        background-color: green;
+    .best {
+        background-color: #f07f2f;
     }
-
-    .orange {
-        background-color: orange;
-    }
-
-    .gray {
-        background-color: gray;
-    }
-
-    .blueviolet {
-        background-color: blueviolet;
-    }
-
-    .yellow {
-        background-color: yellow;
+    .excellent {
+        background-color: #548237;
     }
 </style>

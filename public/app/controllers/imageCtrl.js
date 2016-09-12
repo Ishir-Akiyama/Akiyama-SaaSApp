@@ -2,7 +2,6 @@ agGrid.initialiseAgGridWithAngular1(angular);
 angular.module('imageCtrl', ['imageService', 'commonService'])
 .controller('imageController', function (Image, Auth) {
     var vm = this;
-
     // set a processing variable to show loading things
     vm.processing = true;
     vm.type = 'get';
@@ -18,15 +17,14 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
        .success(function (data) {
            // when all the clients come back, remove the processing variable
            vm.processing = false;
-
            // bind the clients that come back to vm.clients
            vm.images = data;
            vm.putScores(temp);
-
-       });
-        //.error(function (data, status) {
-        //    vm.message = data.message;
-        //})
+       })
+        .error(function (data, status) {
+            vm.processing = false;
+            vm.message = data.message;
+        });
     };
 
     vm.putScores = function (temp) {
