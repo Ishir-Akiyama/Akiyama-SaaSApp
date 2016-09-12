@@ -46,9 +46,12 @@
     <div class="form-group" id="cash" ng-hide="user.userData.isadmin">
         <label class="col-sm-2 control-label">Client List</label>
         <div class="col-sm-6">
-            <select ng-model="user.userData.clientid" class="form-control">
+            <!--<select ng-model="user.userData.clientid" class="form-control">
                 <option value="">--Select--</option>
                 <option data-ng-repeat="data in user.clients" value="{{data.ClientId}}">{{data.name}}</option>
+            </select>-->
+            <select class="form-control" id="ddlClients" ng-model="user.userData.clientid">
+                <option id="{{data.ClientId}}" data-ng-repeat="data in user.clients" value="{{data.ClientId}}" ng-selected="$first">{{data.name}}</option>
             </select>
         </div>
     </div>
