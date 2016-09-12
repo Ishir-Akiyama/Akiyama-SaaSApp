@@ -1,5 +1,4 @@
 angular.module('userCtrl', ['userService', 'commonService'])
-
 .controller('userController', function (User, Client) {
     var i = 0;
     var vm = this;
@@ -7,15 +6,23 @@ angular.module('userCtrl', ['userService', 'commonService'])
     // set a processing variable to show loading things
     vm.processing = true;
 
-    //grab all client list
-     Client.all()
-		.success(function(data) {
-		    // when all the clients come back, remove the processing variable
-		    vm.processing = false;
+    var columnDefs = [
+         { headerName: "User", field: "name", cellStyle: { color: 'darkred' }, width: 130 },
+        { headerName: "First Name", field: "filename", cellRenderer: imageRender, width: 220 },
+        { headerName: "Last Name", field: "type", width: 130 },
+        { headerName: "Uploaded On", field: "uploadedOn", width: 220, cellRenderer: dateRender },
+        { headerName: "Status", field: "status", width: 120, cellRenderer: statusRender }
+    ];
 
-		    // bind the clients that come back to vm.clients
-		    vm.clients = data;
-		});
+    //grab all client list
+    Client.all()
+       .success(function (data) {
+           // when all the clients come back, remove the processing variable
+           vm.processing = false;
+
+           // bind the clients that come back to vm.clients
+           vm.clients = data;
+       });
 
     // grab all the users at page load
     User.all()
@@ -25,15 +32,15 @@ angular.module('userCtrl', ['userService', 'commonService'])
 
 		    // bind the users that come back to vm.users
 		    vm.users = data;
-            //show client name
-             angular.forEach(vm.users, function (value, key) {
-                angular.forEach(vm.clients, function (cvalue, key) {
-                    if (cvalue.ClientId == value.clientid) {
-                        vm.users[i].clientname = cvalue.name;
-                    }               
-                });              
-            i++;
-            });
+		    //show client name
+		    angular.forEach(vm.users, function (value, key) {
+		        angular.forEach(vm.clients, function (cvalue, key) {
+		            if (cvalue.ClientId == value.clientid) {
+		                vm.users[i].clientname = cvalue.name;
+		            }
+		        });
+		        i++;
+		    });
 		    vm.users = data;
 		});
 
@@ -57,6 +64,64 @@ angular.module('userCtrl', ['userService', 'commonService'])
     };
 
 })
+
+//.controller('userController', function (User, Client) {
+//    var i = 0;
+//    var vm = this;
+
+//    // set a processing variable to show loading things
+//    vm.processing = true;
+
+//    //grab all client list
+//     Client.all()
+//		.success(function(data) {
+//		    // when all the clients come back, remove the processing variable
+//		    vm.processing = false;
+
+//		    // bind the clients that come back to vm.clients
+//		    vm.clients = data;
+//		});
+
+//    // grab all the users at page load
+//    User.all()
+//		.success(function (data) {
+//		    // when all the users come back, remove the processing variable
+//		    vm.processing = false;
+
+//		    // bind the users that come back to vm.users
+//		    vm.users = data;
+//            //show client name
+//             angular.forEach(vm.users, function (value, key) {
+//                angular.forEach(vm.clients, function (cvalue, key) {
+//                    if (cvalue.ClientId == value.clientid) {
+//                        vm.users[i].clientname = cvalue.name;
+//                    }               
+//                });              
+//            i++;
+//            });
+//		    vm.users = data;
+//		});
+
+//    // function to delete a user
+//    vm.deleteUser = function (id) {
+//        vm.processing = true;
+
+//        User.delete(id)
+//			.success(function (data) {
+
+//			    // get all users to update the table
+//			    // you can also set up your api 
+//			    // to return the list of users with the delete call
+//			    User.all()
+//					.success(function (data) {
+//					    vm.processing = false;
+//					    vm.users = data;
+//					});
+
+//			});
+//    };
+
+//})
 
 // controller applied to user creation page
 .controller('userCreateController', function (User, Common, $location) {
