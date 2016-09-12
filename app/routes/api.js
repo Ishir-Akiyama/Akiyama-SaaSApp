@@ -217,7 +217,7 @@ module.exports = function (app, express) {
 
 		// update the user with this id
 		.put(function (req, res) {
-		    Use.update(req, res);
+		    UserCtrl.update(req, res);
 		})
 
 		// delete the user with this id

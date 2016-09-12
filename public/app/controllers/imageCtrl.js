@@ -325,9 +325,19 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                        createNewDatasource();
                        $scope.gridOptions.api.setRowData(data);
                        $scope.gridOptions.api.refreshView();
-
-                   });
+                   })
+                 .error(function (data, status) {
+                     debugger;
+                     if (data != null)
+                     {
+                         vm.Error = 'Please select values of dates and clients';
+                         vm.message = data.message;
+                     }
+                     
+                 })
+                   //});
                 };
+                
             }
             else {
                 var temp = '';

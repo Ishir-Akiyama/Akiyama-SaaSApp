@@ -51,8 +51,15 @@
                 <option data-ng-repeat="data in user.clients" value="{{data.ClientId}}">{{data.name}}</option>
             </select>-->
             <select class="form-control" id="ddlClients" ng-model="user.userData.clientid">
-                <option id="{{data.ClientId}}" data-ng-repeat="data in user.clients" value="{{data.ClientId}}" ng-selected="$first">{{data.name}}</option>
+                <option id="{{data.ClientId}}" data-ng-repeat="data in user.clients" value="{{data.ClientId}}" ng-selected="$first" required>{{data.name}}</option>
             </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Is Active</label>
+        <div class="col-sm-6">
+            <input type="checkbox" ng-model="user.userData.isactive">
         </div>
     </div>
     <div class="form-group">
