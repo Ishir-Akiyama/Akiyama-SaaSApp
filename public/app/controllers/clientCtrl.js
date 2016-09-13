@@ -49,7 +49,8 @@ angular.module('clientCtrl', ['clientService', 'commonService'])
         // use the create function in the clientService
         Client.create(vm.clientData)
 			.success(function (data) {
-			    vm.processing = false;			    
+			    vm.processing = false;
+			   
 			    if (data.message != "Client created!")
 			        vm.message = data.message;
 			    else {
@@ -83,14 +84,15 @@ angular.module('clientCtrl', ['clientService', 'commonService'])
         // call the clientService function to update 
         Client.update($routeParams.client_id, vm.clientData)
 			.success(function (data) {
-			    vm.processing = false;
-			    // clear the form
-			    vm.clientData = {};
+			    vm.processing = false;			   			   
 			    // bind the message from our API to vm.message
 			    if (data.message != "Client updated!")
 			        vm.message = data.message;
-			    else
+			    else {
+			        // clear the form
+			        vm.clientData = {};
 			        $location.path('/clients');
+			    }
 			});
     };
 
