@@ -75,8 +75,8 @@
                 </ul>
                 <div class="tobCls text-right">
                     <ul>
-                        <li ng-class="{active: $routeProvider.current.activetab == 'dashboard'}"><a href="/dashboard"><i class="glyphicon glyphicon-dashboard"></i>Dashboard</a></li>
-                        <li ng-class="{active: $routeProvider.current.activetab == 'client'}" ng-show="main.user.isadmin"><a href="/clients"><i class="glyphicon glyphicon-user"></i> Client Management</a></li>
+                        <li ng-class="getclass('/dashboard')"><a href="/dashboard"><i class="glyphicon glyphicon-dashboard"></i>Dashboard</a></li>
+                        <li ng-class="getclass('/clients')" ng-show="main.user.isadmin"><a href="/clients"><i class="glyphicon glyphicon-user"></i> Client Management</a></li>
                         <li ng-class="{active: $routeProvider.current.activetab == 'user'}" ng-show="main.user.isadmin"><a href="/users"><i class="fa fa-users" aria-hidden="true"></i> User Management</a></li>
                         <li ng-class="{active: $routeProvider.current.activetab == 'image'}" ng-show="!main.user.isadmin"><a href="/images"><i class="glyphicon glyphicon-picture"></i> Upload Images</a></li>
                         <li ng-class="{active: $routeProvider.current.activetab == 'report'}"><a href="/report"><i class="glyphicon glyphicon-edit"></i>Reports</a></li>

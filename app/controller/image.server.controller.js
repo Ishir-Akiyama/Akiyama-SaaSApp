@@ -16,6 +16,7 @@ var sch_obj = new mongoose.Schema({
     status: { type: Number, default: -1 },
 });
 
+
 var clientId;
 exports.create = function (request, response) {
     clientId = request.body.clientId;
@@ -153,7 +154,6 @@ exports.create = function (request, response) {
     }
     //console.log(response);
 };
-
 
 //Get all clients
 exports.all = function (request, response) {
