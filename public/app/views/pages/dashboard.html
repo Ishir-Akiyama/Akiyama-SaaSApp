@@ -4,7 +4,7 @@
 
             <div class="client-select col-sm-6 col-lg-4 col-xs-8 pull-right">
                 <div class="col-xs-4">
-                    <label class="control-label pull-left text-right">Client List</label>
+                    <label class="control-label pull-left text-right">Select Client</label>
                 </div>
                 <div class="col-xs-8">
                     <select class="form-control pull-left" id="ddlClients" ng-model="dashboard.clientId" ng-change="dashboard.GetDashboardData(dashboard.clientId)">
@@ -85,7 +85,7 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="cl in RecentUploads" class="teble-td">
-                                <td>{{ cl.filename }}</td>
+                                <td>{{ cl.name }}</td>
                                 <td>{{ cl.uploadedOn | date:'MM/dd/yyyy'}}</td>
                                 <td>
                                     <div class="progress">
