@@ -37,8 +37,7 @@
             <td>{{ person.username }}</td>
             <td>{{person.email}}</td>
             <td>{{ person.clientname }}</td>
-            <td ng-show="{{person.isadmin}}==true">Yes</td>
-            <td ng-show="{{person.isadmin}}==false">No</td>
+            <td><input type="checkbox" ng-model="person.isadmin" disabled></td>
             <td><input type="checkbox" ng-model="person.isactive" disabled></td>
             <td class="col-sm-1">
                 <a ng-href="/users/{{ person._id }}" class="btn btn-danger">Edit</a>
