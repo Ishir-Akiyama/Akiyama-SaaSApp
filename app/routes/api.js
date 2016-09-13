@@ -159,7 +159,6 @@ module.exports = function (app, express) {
 
         // decode token
         if (token) {
-
             // verifies secret and checks exp
             jwt.verify(token, superSecret, function (err, decoded) {
 
@@ -175,7 +174,6 @@ module.exports = function (app, express) {
                     next(); // make sure we go to the next routes and don't stop here
                 }
             });
-
         } else {
 
             // if there is no token
