@@ -80,11 +80,14 @@ angular.module('userCtrl', ['userService', 'commonService'])
         User.create(vm.userData)
 			.success(function (data) {
 			    vm.processing = false;
-			    vm.userData = {};
+			    //vm.userData = {};
 			    if (data.message != "User created!")
 			        vm.message = data.message;
 			    else
+			    {
+			        vm.userData = {};
 			        $location.path('/users');
+			    }
 			});
     };
 

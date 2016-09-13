@@ -12,19 +12,18 @@
                                     <div class="padding-5 col-sm-6">
                                         <datepicker date-format="yyyy/MM/dd" selector="form-control">
                                             <div class="input-group">
-                                                <input id="txt1" class="new-input form-control" placeholder="from date" data-ng-model="report.fromdate" name="fromDate" ng-required="true" />
+                                                <input id="txt1" class="new-input form-control" placeholder="from date" data-ng-model="report.fromdate" name="fromDate" ng-required="true" data-ng-change="report.Error=''" />
                                                 <span class="input-group-addon" style="cursor: pointer; background: none; position: absolute; right: 5px; top: 7px;">
                                                     <i class="fa fa-lg fa-calendar"></i>
                                                 </span>
                                             </div>
                                         </datepicker>
                                     </div>
-                                    <span ng-show="report.fromDate.$error.required">Start date is required.</span>
 
                                     <div class="padding-5 col-sm-6">
                                         <datepicker date-format="yyyy/MM/dd" selector="form-control">
                                             <div class="input-group">
-                                                <input id="txt1" class="new-input form-control" placeholder="to date" data-ng-model="report.todate" />
+                                                <input id="txt1" class="new-input form-control" placeholder="to date" data-ng-model="report.todate" name="todate" ng-required="true" data-ng-change="report.Error=''" />
                                                 <span class="input-group-addon" style="cursor: pointer; background: none; position: absolute; right: 5px; top: 7px;">
                                                     <i class="fa fa-lg fa-calendar"></i>
                                                 </span>
@@ -34,7 +33,7 @@
                                     </div>
                                     </div>
                                     <div class="padding-5 col-sm-3" ng-show="report.adminvalue==true">
-                                        <select ng-model="report.clientId" class="new-input form-control">
+                                        <select ng-model="report.clientId" class="new-input form-control" ng-required="true" data-ng-change="report.Error=''">
                                             <option value="">--Select Client--</option>
                                             <option data-ng-repeat="data in report.clients" value="{{data.ClientId}}">{{data.name}}</option>
                                         </select>
@@ -54,10 +53,10 @@
                                 </div>
                         </div>
                         <div class="col-sm-3">
-                            <input class="new-input form-control" placeholder="Search..." type="text" data-ng-model="this.value"
-                                   data-ng-keydown="onFilterChanged(this.value)"
+                            <input class="new-input form-control" placeholder="Search..." type="text" data-ng-model="this.value" data-ng-change="onFilterChanged(this.value)" />
+                                   <!--data-ng-keydown="onFilterChanged(this.value)"
                                    data-ng-keyup="onFilterChanged(this.value)"
-                                   data-ng-change="onFilterChanged(this.value)" />
+                                   data-ng-change="onFilterChanged(this.value)" />-->
                         </div>
 
                         <div class="col-sm-12"><div class="text-center col-sm-12 alert alert-danger" style="font-size:14px; padding:7px; margin-top:10px; margin-bottom: 0;" ng-if="report.Error">{{ report.Error }}</div></div>
