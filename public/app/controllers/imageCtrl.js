@@ -187,7 +187,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
         { headerName: "Image", field: "filename", cellRenderer: imageRender, width: 220 },
         { headerName: "Type", field: "type", width: 130},
         { headerName: "Uploaded On", field: "uploadedOn", width: 220, cellRenderer: dateRender },
-        { headerName: "Status", field: "status", width: 120, cellRenderer: statusRender }
+        { headerName: "Status", field: "status", width: 120 } //, cellRenderer: statusRender
     ];
 
     //Ag grid setting
@@ -212,17 +212,6 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
         return "<img data-ng-src='{{imageData}}' data-err-src='images/png/avatar.png' height='500px' width='500px' />";
     }
 
-    //show status according to it's value
-    function statusRender(params) {
-        var list = Common.GetStatusList();
-        angular.forEach(list, function (value, key) {
-            if (params.data.status == value.Statusvalue) {
-                params.$scope.statusRender = value.StatusName;
-            }
-        });
-        return params.$scope.statusRender;
-    }
-
     //for date format
     function dateRender(params) {
         var a = params.data.uploadedOn;
@@ -236,60 +225,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
     //for filter
     $scope.onFilterChanged = function (Passvalue) {
         var list = Common.GetStatusList();
-        var SValue = '';
-        var params = {};
-        var i = 0;
-        if (Passvalue != undefined && Passvalue!='')
-        {
-            angular.forEach(list, function (value, key) {
-                //alert(value.StatusName);
-                if (value.StatusName == Passvalue) {
-                    var a = value.Statusvalue;
-                    angular.forEach($scope.gridOptions.api.rowModel.rowsToDisplay, function (gvalue, key) {                        
-                        $scope.gridOptions.api.rowModel.rowsToDisplay[i].data.status = value.Statusvalue;
-                    });
-                    i++;
-                    $scope.gridOptions.api.setQuickFilter(Passvalue);
-                }
-                else {
-                    var a = null;
-                }
-                //if (value.StatusName == 'Pending') {
-                //    params.data = value.Statusvalue;
-                //    $scope.gridOptions.api.setQuickFilter(params.data);
-                //}
-                //else if (value.StatusName == 'Not Scored')
-                //{
-                //    params.data = value.Statusvalue;
-                //    $scope.gridOptions.api.setQuickFilter(params.data);
-                //}
-                //else if (value.StatusName == 'Poor') {
-                //    params.data = value.Statusvalue;
-                //    $scope.gridOptions.api.setQuickFilter(params.data);
-                //}
-                //else if (value.StatusName == 'Ok') {
-                //    params.data = value.Statusvalue;
-                //    $scope.gridOptions.api.setQuickFilter(params.data);
-                //}
-                //else if (value.StatusName == 'Good') {
-                //    params.data = value.Statusvalue;
-                //    $scope.gridOptions.api.setQuickFilter(params.data);
-                //}
-
-                //else if (value.StatusName == 'Best') {
-                //    params.data = value.Statusvalue;
-                //    $scope.gridOptions.api.setQuickFilter(params.data);
-                //}
-                //else if (value.StatusName == 'Excellent') {
-                //    params.data = value.Statusvalue;
-                //    $scope.gridOptions.api.setQuickFilter(params.data);
-                //}
-                //else
-                //{
-                //    return false;
-                //}
-            });
-        }
+        $scope.gridOptions.api.setQuickFilter(Passvalue);
         //get status name according to status value
      
     }
@@ -339,21 +275,10 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
     //ag-grid export data
     $scope.onBtExport = function () {
         var i = 0;
-        var params = {};
-        var list = Common.GetStatusList();
-        //get status name according to status value
-        angular.forEach($scope.gridOptions.api.rowModel.rowsToDisplay, function (value, key) {
-            angular.forEach(list, function (lvalue, key) {
-                if (lvalue.Statusvalue == value.data.status) {
-                    $scope.gridOptions.api.rowModel.rowsToDisplay[i].data.status = lvalue.StatusName;
-                }
-            });
-            i++;
-        });
-
+        var params={};
         //change date format at export to csv 
         angular.forEach($scope.gridOptions.api.rowModel.rowsToDisplay, function (value, key) {
-            alert(value.data.uploadedOn);
+
             var date = new Date(value.data.uploadedOn);
             var mm = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : "0" + (date.getMonth() + 1);
             var dd = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
@@ -376,6 +301,8 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                    vm.clients = data;
                });
                 vm.filterGrid = function (clientId, fromdate, todate) {
+                    var i = 0;
+                    var list = Common.GetStatusList();
                     if (fromdate == undefined) {
                         vm.Error = '';
                         vm.Error = 'Please select start date';
@@ -404,6 +331,15 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                        vm.images = data;
                        allOfTheData = data;
                        createNewDatasource();
+                       //show status according to it's value
+                       angular.forEach(data, function (value, key) {
+                           angular.forEach(list, function (lvalue, key) {
+                               if (lvalue.Statusvalue == value.status) {
+                                   data[i].status = lvalue.StatusName;
+                               }
+                           });
+                           i++;
+                       });
                        $scope.gridOptions.api.setRowData(data);
                        $scope.gridOptions.api.refreshView();
                    });
@@ -414,9 +350,16 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
             else {
                 var temp = '';
                 vm.filterGrid = function (temp, fromdate, todate) {
-                    if (fromdate == undefined && todate == undefined) {
+                    var i = 0;
+                    var list = Common.GetStatusList();
+                    if (fromdate == undefined) {
                         vm.Error = '';
-                        vm.Error = 'Please select start date and end date';
+                        vm.Error = 'Please select start date';
+                        return false;
+                    }
+                    if (todate == undefined) {
+                        vm.Error = '';
+                        vm.Error = 'Please select end date';
                         return false;
                     }
                     vm.Error = '';
@@ -432,6 +375,15 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                        vm.images = data;
                        allOfTheData = data;
                        createNewDatasource();
+                       //show status according to it's value
+                       angular.forEach(data, function (value, key) {
+                           angular.forEach(list, function (lvalue, key) {
+                               if (lvalue.Statusvalue == value.status) {
+                                   data[i].status = lvalue.StatusName;
+                               }
+                           });
+                           i++;
+                       });
                        $scope.gridOptions.api.setRowData(data);
                        $scope.gridOptions.api.refreshView();
                    });
