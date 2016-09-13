@@ -184,7 +184,8 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
 
     var columnDefs = [
          { headerName: "Name", field: "name", cellStyle: { color: 'darkred' }, width: 130 },
-        { headerName: "Image", field: "filename", cellRenderer: imageRender, width: 220 },
+        { headerName: "Image Name", field: "filename", cellRenderer: imageRender, width: 220 },
+        { headerName: "Image", field: "byte", width: 130 ,hide:true},
         { headerName: "Type", field: "type", width: 130 },
         { headerName: "Uploaded On", field: "uploadedOn", width: 220, cellRenderer: dateRender },
         { headerName: "Status", field: "status", width: 120 } //, cellRenderer: statusRender
@@ -204,6 +205,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
         angularCompileRows: true,
         paginationPageSize: 10,
         rowModelType: 'pagination'
+
     };
 
     //get image
@@ -275,7 +277,10 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
     //ag-grid export data
     $scope.onBtExport = function () {
         var i = 0;
-        var params = {};
+        var params = {
+            allColumns:true
+        };
+
         //change date format at export to csv 
         angular.forEach($scope.gridOptions.api.rowModel.rowsToDisplay, function (value, key) {
 
@@ -287,6 +292,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
             value.data.uploadedOn = newDate;
         });
         i++;
+
         $scope.gridOptions.api.exportDataAsCsv(params);
     };
 
@@ -340,6 +346,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                            });
                            i++;
                        });
+
                        $scope.gridOptions.api.setRowData(data);
                        $scope.gridOptions.api.refreshView();
                    });
@@ -384,6 +391,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                            });
                            i++;
                        });
+
                        $scope.gridOptions.api.setRowData(data);
                        $scope.gridOptions.api.refreshView();
                    });
