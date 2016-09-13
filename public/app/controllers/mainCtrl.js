@@ -15,7 +15,11 @@ angular.module('mainCtrl', [])
 			});
     });
 
-   
+
+    $("#myid li").click(function () {
+        $scope.currentId = this.id;
+    });
+
 
     // function to handle login form
     vm.doLogin = function () {
@@ -23,7 +27,7 @@ angular.module('mainCtrl', [])
 
         // clear the error
         vm.error = '';
-     
+
         Auth.login(vm.loginData.username, vm.loginData.password)
 			.success(function (data) {
 			    vm.processing = false;
@@ -32,14 +36,14 @@ angular.module('mainCtrl', [])
 			        if (data.isdefault)
 			            $location.path('/changePassword');
 			        else {
-			           
+
 			            $location.path('/dashboard');
 			        }
 			    }
 			    else
 			        vm.error = data.message;
 			});
-        
+
     };
 
     // function to handle logging out
@@ -67,16 +71,14 @@ angular.module('mainCtrl', [])
             //if (data.success)
             //    vm.error = data.message;
             if (data.message != null && data.message != undefined)
-                if (data.message == 'User not exist.')
-                {
-                    vm.success="";
+                if (data.message == 'User not exist.') {
+                    vm.success = "";
                     vm.error = data.message;
                 }
-                else
-                {
+                else {
                     vm.error = "";
-                    vm.success = data.message;                  
-                }                
+                    vm.success = data.message;
+                }
         });
     };
 
