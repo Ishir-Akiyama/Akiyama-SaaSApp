@@ -40,11 +40,10 @@ exports.create = function (request, response) {
             output: fileAddress + ".json"
         }, function (err, result) {
             if (err) {
-
-                console.error(err);
-                throw ex;
+                //console.error(err);
+                //throw ex;
+                response.send(err);
             } else {
-
                 var content;
                 // First I want to read the file
                 fs.readFile(fileAddress + '.json', function read(err, data) {
@@ -145,7 +144,7 @@ exports.create = function (request, response) {
                 // duplicate entry
                 //if (err.code == 11000) 
                 //    return res.json({ success: false, message: 'A user with that username already exists. '});
-                //else 
+                //else
                 return response.send(err);
             }
             // return a message
