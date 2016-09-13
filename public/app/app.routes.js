@@ -20,31 +20,27 @@ angular.module('app.routes', ['ngRoute'])
 		.when('/dashboard', {
 		    templateUrl: 'app/views/pages/dashboard.html',
 		    controller: 'dashboardController',
-		    controllerAs: 'dashboard',
-		    activetab: 'dashboard'
+		    controllerAs: 'dashboard'
 		})
 
         .when('/dashboard/:client_id', {
             templateUrl: 'app/views/pages/dashboard.html',
             controller: 'dashboardController',
-            controllerAs: 'dashboard',
-            activetab: 'dashboard'
+            controllerAs: 'dashboard'
         })
 
         // for report
 		.when('/report', {
 		    templateUrl: 'app/views/pages/reports.html',
 		    controller: 'reportController',
-		    controllerAs: 'report',
-		    activetab: 'report'
+		    controllerAs: 'report'
 		})
 
 		// show all users
 		.when('/users', {
 		    templateUrl: 'app/views/pages/users/all.html',
 		    controller: 'userController',
-		    controllerAs: 'user',
-		    activetab: 'user'
+		    controllerAs: 'user'
 		})
 
 		// form to create a new user
@@ -52,24 +48,21 @@ angular.module('app.routes', ['ngRoute'])
 		.when('/users/create', {
 		    templateUrl: 'app/views/pages/users/single.html',
 		    controller: 'userCreateController',
-		    controllerAs: 'user',
-		    activetab: 'user'
+		    controllerAs: 'user'
 		})
 
 		// page to edit a user
 		.when('/users/:user_id', {
 		    templateUrl: 'app/views/pages/users/single.html',
 		    controller: 'userEditController',
-		    controllerAs: 'user',
-		    activetab: 'user'
+		    controllerAs: 'user'
 		})
 
     // show all clients
 	.when('/clients', {
 	    templateUrl: 'app/views/pages/clients/all.html',
 	    controller: 'clientController',
-	    controllerAs: 'client',
-	    activetab: 'client'
+	    controllerAs: 'client'
 	})
 
     // form to create a new client
@@ -77,16 +70,14 @@ angular.module('app.routes', ['ngRoute'])
     .when('/clients/create', {
         templateUrl: 'app/views/pages/clients/single.html',
         controller: 'clientCreateController',
-        controllerAs: 'client',
-        activetab: 'client'
+        controllerAs: 'client'
     })
 
     // page to edit a client
     .when('/clients/:client_id', {
         templateUrl: 'app/views/pages/clients/single.html',
         controller: 'clientEditController',
-        controllerAs: 'client',
-        activetab: 'client'
+        controllerAs: 'client'
     })
 
     //for forgot password
@@ -99,16 +90,14 @@ angular.module('app.routes', ['ngRoute'])
     .when('/images', {
         templateUrl: 'app/views/pages/images/all.html',
         controller: 'imageController',
-        controllerAs: 'image',
-        activetab: 'image'
+        controllerAs: 'image'
     })
 
     // form to create a new image
     .when('/images/create', {
         templateUrl: 'app/views/pages/images/single.html',
         controller: 'imageCreateController',
-        controllerAs: 'image',
-        activetab: 'image'
+        controllerAs: 'image'
     })
 
     // login page
