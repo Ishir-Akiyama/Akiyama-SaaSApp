@@ -234,8 +234,59 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
         return params.$scope.dateRender = newDate;
     }
     //for filter
-    $scope.onFilterChanged = function (value) {
-        $scope.gridOptions.api.setQuickFilter(value);
+    $scope.onFilterChanged = function (Passvalue) {
+        var list = Common.GetStatusList();
+        var SValue = '';
+        var params = {};
+        if (Passvalue != undefined && Passvalue!='')
+        {
+            angular.forEach(list, function (value, key) {
+                //alert(value.StatusName);
+                if (value.StatusName == Passvalue) {
+                    var a = value.Statusvalue;
+                    $scope.gridOptions.api.setQuickFilter(a);
+                }
+                else {
+                    var a = null;
+                }
+                //if (value.StatusName == 'Pending') {
+                //    params.data = value.Statusvalue;
+                //    $scope.gridOptions.api.setQuickFilter(params.data);
+                //}
+                //else if (value.StatusName == 'Not Scored')
+                //{
+                //    params.data = value.Statusvalue;
+                //    $scope.gridOptions.api.setQuickFilter(params.data);
+                //}
+                //else if (value.StatusName == 'Poor') {
+                //    params.data = value.Statusvalue;
+                //    $scope.gridOptions.api.setQuickFilter(params.data);
+                //}
+                //else if (value.StatusName == 'Ok') {
+                //    params.data = value.Statusvalue;
+                //    $scope.gridOptions.api.setQuickFilter(params.data);
+                //}
+                //else if (value.StatusName == 'Good') {
+                //    params.data = value.Statusvalue;
+                //    $scope.gridOptions.api.setQuickFilter(params.data);
+                //}
+
+                //else if (value.StatusName == 'Best') {
+                //    params.data = value.Statusvalue;
+                //    $scope.gridOptions.api.setQuickFilter(params.data);
+                //}
+                //else if (value.StatusName == 'Excellent') {
+                //    params.data = value.Statusvalue;
+                //    $scope.gridOptions.api.setQuickFilter(params.data);
+                //}
+                //else
+                //{
+                //    return false;
+                //}
+            });
+        }
+        //get status name according to status value
+     
     }
     // when json gets loaded, it's put here, and  the datasource reads in from here.
     // in a real application, the page will be got from the server.
@@ -308,12 +359,21 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                    vm.clients = data;
                });
                 vm.filterGrid = function (clientId, fromdate, todate) {
-                    if (clientId == undefined && fromdate == undefined && todate == undefined)
-                    {
+                    if (fromdate == undefined) {
                         vm.Error = '';
-                        vm.Error = 'Please select start date,end date and client';
+                        vm.Error = 'Please select start date';
                         return false;
                     }
+                    if (todate == undefined) {
+                        vm.Error = '';
+                        vm.Error = 'Please select end date';
+                        return false;
+                    }
+                    if (clientId == undefined) {
+                        vm.Error = '';
+                        vm.Error = 'Please select client';
+                        return false;
+                    }                                     
                     vm.Error = '';
                     vm.processing = true;
                     vm.message = '';

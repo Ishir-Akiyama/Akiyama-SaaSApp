@@ -13,7 +13,7 @@ var UserSchema = new Schema({
     email: String,
     password: String,
     isadmin: { type: Boolean, required: true },
-    isactive: { type: Boolean, required: true },
+    isactive: { type: Boolean },
     clientid: Number,
     clientname :String,
     createdOn: { type: Date, default: Date.now },
