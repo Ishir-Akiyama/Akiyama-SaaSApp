@@ -100,8 +100,7 @@ module.exports = function (app, express) {
         // find the user
         User.findOne({
             username: req.body.username
-        }).select('_id username password isadmin email firstname lastname isdefault clientid UserId').exec(function (err, user) {
-
+        }).select('_id username password isadmin email firstname lastname isdefault clientid UserId isactive').exec(function (err, user) {
             if (err) throw err;
 
             // no user with that username was found
@@ -110,14 +109,20 @@ module.exports = function (app, express) {
                     success: false,
                     message: 'Authentication failed. User not found.'
                 });
-            } else if (user) {
-
+            }
+            else if (user) {
                 // check if password matches
                 var validPassword = user.comparePassword(req.body.password);
                 if (!validPassword) {
                     res.json({
                         success: false,
                         message: 'Authentication failed. Wrong password.'
+                    });
+                }
+                else if (!user.isactive) {
+                    res.json({
+                        success: false,
+                        message: 'Authentication failed. User not active.'
                     });
                 } else {
                     // if user is found and password is right
