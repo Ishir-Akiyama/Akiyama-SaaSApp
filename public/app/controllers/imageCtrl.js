@@ -238,13 +238,18 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
         var list = Common.GetStatusList();
         var SValue = '';
         var params = {};
+        var i = 0;
         if (Passvalue != undefined && Passvalue!='')
         {
             angular.forEach(list, function (value, key) {
                 //alert(value.StatusName);
                 if (value.StatusName == Passvalue) {
                     var a = value.Statusvalue;
-                    $scope.gridOptions.api.setQuickFilter(a);
+                    angular.forEach($scope.gridOptions.api.rowModel.rowsToDisplay, function (gvalue, key) {                        
+                        $scope.gridOptions.api.rowModel.rowsToDisplay[i].data.status = value.Statusvalue;
+                    });
+                    i++;
+                    $scope.gridOptions.api.setQuickFilter(Passvalue);
                 }
                 else {
                     var a = null;
@@ -345,6 +350,18 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
             });
             i++;
         });
+
+        //change date format at export to csv 
+        angular.forEach($scope.gridOptions.api.rowModel.rowsToDisplay, function (value, key) {
+            alert(value.data.uploadedOn);
+            var date = new Date(value.data.uploadedOn);
+            var mm = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : "0" + (date.getMonth() + 1);
+            var dd = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
+            var yyyy = date.getFullYear();
+            var newDate = dd + "/" + mm + "/" + yyyy;
+            value.data.uploadedOn = newDate;           
+        });
+        i++;
         $scope.gridOptions.api.exportDataAsCsv(params);
     };
 
