@@ -115,21 +115,43 @@ angular.module('userCtrl', ['userService', 'commonService'])
     vm.saveUser = function () {
         vm.processing = true;
         vm.message = '';
-        // call the userService function to update 
-        User.update($routeParams.user_id, vm.userData)
-			.success(function (data) {
-			    vm.processing = false;
-			    // clear the form
-			    vm.userData = {};
-
-			    if (data.message != "User updated!")
-			        vm.message = data.message;
-			    else
-			        $location.path('/users');
-			    // bind the message from our API to vm.message
-			    //vm.message = data.message;
-			    //$location.path('/users');
-			});
+        if (vm.userData.isadmin == false)
+        {
+            if(vm.userData.clientid != '' && vm.userData.clientid != undefined)
+            {
+                // call the userService function to update 
+                User.update($routeParams.user_id, vm.userData)
+                    .success(function (data) {
+                        vm.processing = false;
+                        // clear the form
+                        vm.userData = {};
+                        debugger;
+                        if (data.message != "User updated!")
+                            vm.message = data.message;
+                        else
+                            $location.path('/users');
+                    });
+            }
+            else
+            {
+                vm.userData.Error = '';
+                vm.userData.Error = 'Please select client';
+                return false;
+            }
+        }
+        else
+        {
+            User.update($routeParams.user_id, vm.userData)
+                 .success(function (data) {
+                     vm.processing = false;
+                     // clear the form
+                     vm.userData = {};
+                     if (data.message != "User updated!")
+                         vm.message = data.message;
+                     else
+                         $location.path('/users');
+                 });
+        }
 
     };
 
