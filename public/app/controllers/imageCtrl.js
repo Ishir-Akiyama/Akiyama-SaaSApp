@@ -185,7 +185,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
     var columnDefs = [
          { headerName: "Name", field: "name", cellStyle: { color: 'darkred' }, width: 130 },
         { headerName: "Image", field: "filename", cellRenderer: imageRender, width: 220 },
-        { headerName: "Type", field: "type", width: 130},
+        { headerName: "Type", field: "type", width: 130 },
         { headerName: "Uploaded On", field: "uploadedOn", width: 220, cellRenderer: dateRender },
         { headerName: "Status", field: "status", width: 120 } //, cellRenderer: statusRender
     ];
@@ -197,7 +197,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
         enableColResize: false,
         enableSorting: false,
         groupHeaders: true,
-        suppressMovableColumns:true,
+        suppressMovableColumns: true,
         rowHeight: 22,
         suppressRowClickSelection: true,
         enableFilter: false,
@@ -227,7 +227,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
         var list = Common.GetStatusList();
         $scope.gridOptions.api.setQuickFilter(Passvalue);
         //get status name according to status value
-     
+
     }
     // when json gets loaded, it's put here, and  the datasource reads in from here.
     // in a real application, the page will be got from the server.
@@ -275,7 +275,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
     //ag-grid export data
     $scope.onBtExport = function () {
         var i = 0;
-        var params={};
+        var params = {};
         //change date format at export to csv 
         angular.forEach($scope.gridOptions.api.rowModel.rowsToDisplay, function (value, key) {
 
@@ -284,7 +284,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
             var dd = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
             var yyyy = date.getFullYear();
             var newDate = dd + "/" + mm + "/" + yyyy;
-            value.data.uploadedOn = newDate;           
+            value.data.uploadedOn = newDate;
         });
         i++;
         $scope.gridOptions.api.exportDataAsCsv(params);
@@ -317,7 +317,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                         vm.Error = '';
                         vm.Error = 'Please select client';
                         return false;
-                    }                                     
+                    }
                     vm.Error = '';
                     vm.processing = true;
                     vm.message = '';
@@ -343,9 +343,9 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                        $scope.gridOptions.api.setRowData(data);
                        $scope.gridOptions.api.refreshView();
                    });
-                
+
                 };
-                
+
             }
             else {
                 var temp = '';
