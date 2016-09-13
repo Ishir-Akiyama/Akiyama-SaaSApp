@@ -49,12 +49,13 @@ angular.module('clientCtrl', ['clientService', 'commonService'])
         // use the create function in the clientService
         Client.create(vm.clientData)
 			.success(function (data) {
-			    vm.processing = false;
-			    vm.clientData = {};
+			    vm.processing = false;			    
 			    if (data.message != "Client created!")
 			        vm.message = data.message;
-			    else
+			    else {
+			        vm.clientData = {};
 			        $location.path('/clients');
+			    }
 			});
     };
 
