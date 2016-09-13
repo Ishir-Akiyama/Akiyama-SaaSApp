@@ -126,13 +126,14 @@ angular.module('userCtrl', ['userService', 'commonService'])
                 User.update($routeParams.user_id, vm.userData)
                     .success(function (data) {
                         vm.processing = false;
-                        // clear the form
-                        vm.userData = {};
-                        debugger;
                         if (data.message != "User updated!")
                             vm.message = data.message;
                         else
+                        {
+                            // clear the form
+                            vm.userData = {};
                             $location.path('/users');
+                        }
                     });
             }
             else
@@ -147,12 +148,13 @@ angular.module('userCtrl', ['userService', 'commonService'])
             User.update($routeParams.user_id, vm.userData)
                  .success(function (data) {
                      vm.processing = false;
-                     // clear the form
-                     vm.userData = {};
                      if (data.message != "User updated!")
                          vm.message = data.message;
-                     else
+                     else {
+                         // clear the form
+                         vm.userData = {};
                          $location.path('/users');
+                     }
                  });
         }
 
