@@ -67,7 +67,16 @@ angular.module('mainCtrl', [])
             //if (data.success)
             //    vm.error = data.message;
             if (data.message != null && data.message != undefined)
-                vm.error = data.message;
+                if (data.message == 'User not exist.')
+                {
+                    vm.success="";
+                    vm.error = data.message;
+                }
+                else
+                {
+                    vm.error = "";
+                    vm.success = data.message;                  
+                }                
         });
     };
 

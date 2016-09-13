@@ -1,5 +1,5 @@
 ﻿var User = require('../models/user.server.model');
-
+var mail = require('../sendmail');
 //create new user
 exports.create = function (req, res) {
 	var user = new User();          // create a new instance of the User model
@@ -21,9 +21,9 @@ exports.create = function (req, res) {
 		user.clientid = req.body.clientid;
 	}
 	else {
-		user.clientname = "";
+	    user.clientid = "";
 	}
-	user.isactive = true;
+	user.isactive = req.body.isactive;
 	user.isdefault = true;
 
 	user.save(function (err) {
@@ -79,9 +79,23 @@ exports.update = function (req, res) {
 		if (req.body.firstname) user.firstname = req.body.firstname;
 		if (req.body.lastname) user.lastname = req.body.lastname;
 		if (req.body.username) user.username = req.body.username;
+		if (req.body.email) user.email = req.body.email;
 		if (req.body.password) user.password = req.body.password;
-		if (req.body.isadmin) user.password = req.body.isadmin;
-		if (req.body.isactive) user.isactive = req.body.isactive;
+		user.isactive = req.body.isactive;
+		user.isadmin = req.body.isadmin;
+		if (user.isadmin == true) {
+		    user.isadmin = true;
+		}
+		else {
+		    user.isadmin = false;
+		}
+		if (user.isadmin == false) {
+		    user.clientid = req.body.clientid;
+		}
+		else {
+		    user.clientid = "";
+		}
+
 		// save the user
 		user.save(function (err) {
 			if (err) res.send(err);

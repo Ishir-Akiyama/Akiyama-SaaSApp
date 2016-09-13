@@ -308,7 +308,13 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                    vm.clients = data;
                });
                 vm.filterGrid = function (clientId, fromdate, todate) {
-
+                    if (clientId == undefined && fromdate == undefined && todate == undefined)
+                    {
+                        vm.Error = '';
+                        vm.Error = 'Please select start date,end date and client';
+                        return false;
+                    }
+                    vm.Error = '';
                     vm.processing = true;
                     vm.message = '';
                     vm.reportparam = {};
@@ -323,13 +329,20 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                        createNewDatasource();
                        $scope.gridOptions.api.setRowData(data);
                        $scope.gridOptions.api.refreshView();
-
                    });
+                
                 };
+                
             }
             else {
                 var temp = '';
                 vm.filterGrid = function (temp, fromdate, todate) {
+                    if (fromdate == undefined && todate == undefined) {
+                        vm.Error = '';
+                        vm.Error = 'Please select start date and end date';
+                        return false;
+                    }
+                    vm.Error = '';
                     vm.processing = true;
                     vm.message = '';
                     vm.reportparam = {};
@@ -348,6 +361,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                 };
             }
         });
+
 });
 
 
