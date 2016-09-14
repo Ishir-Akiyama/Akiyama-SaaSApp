@@ -45,6 +45,7 @@
         vm.getYesterdayToDateData(clientid);
         vm.getMonthdayToDateData(clientid);
         vm.getLastMonthToDateData(clientid);
+        vm.triggerImageScoreScheduler(clientid);
     }
 
     //show status according to it's value
@@ -169,6 +170,14 @@
         Dashboard.getRecentUploads(clientid)
         .success(function (data) {
             $scope.RecentUploads = data;
+        });
+    }
+
+    //// Get Recent uploads data on page load
+    vm.triggerImageScoreScheduler = function (clientid) {
+        Dashboard.scoreImageSchduler(clientid)
+        .success(function (data) {
+           // need to do nothing...
         });
     }
 
