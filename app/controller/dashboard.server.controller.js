@@ -5,7 +5,6 @@ var now = new Date();
 var sch_obj = new mongoose.Schema({
     name: { type: String, default: "" },
     filename: { type: String, default: "" },
-    size: { type: String, default: 0 },
     type: { type: String, default: "" },
     byte: { type: String, contentType: String, default: "" },
     user: { type: String, default: "" },
@@ -132,7 +131,6 @@ exports.scoreImageSchduler = function (req, res) {
     cron.scheduleJob('1 * * * * *', function () {
 
         var temp = req.params.client_id;
-        module.exports = mongoose.model('Images_' + temp, sch_obj);
         var Image = mongoose.model('Images_' + temp);
         Image.find({}, function (err, Image) {
             if (err) response.send(err);
