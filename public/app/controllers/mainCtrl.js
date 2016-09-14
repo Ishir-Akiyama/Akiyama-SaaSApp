@@ -15,7 +15,7 @@ angular.module('mainCtrl', [])
 			});
     });
 
-
+    $scope.currentId = 1;
     $("#myid li").click(function () {
         $scope.currentId = this.id;
     });
