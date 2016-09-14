@@ -17,7 +17,11 @@
              User = data.data;
              if (!User.isadmin) {
                  clientid = User.clientid;
+
                  vm.GetDashboardData(clientid);
+                 if (!User.isadmin)
+                     vm.triggerImageScoreScheduler(clientid);
+
              }
              else {
                  Common.GetClientList()
@@ -45,7 +49,6 @@
         vm.getYesterdayToDateData(clientid);
         vm.getMonthdayToDateData(clientid);
         vm.getLastMonthToDateData(clientid);
-        vm.triggerImageScoreScheduler(clientid);
     }
 
     //show status according to it's value
@@ -177,7 +180,7 @@
     vm.triggerImageScoreScheduler = function (clientid) {
         Dashboard.scoreImageSchduler(clientid)
         .success(function (data) {
-           // need to do nothing...
+            // need to do nothing...
         });
     }
 
