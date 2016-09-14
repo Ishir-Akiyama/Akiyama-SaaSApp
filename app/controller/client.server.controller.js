@@ -1,5 +1,6 @@
 ﻿var Client = require('../models/client.server.model');
 
+
 //create new client
 exports.create = function (request, response) {
     var entry = new Client({

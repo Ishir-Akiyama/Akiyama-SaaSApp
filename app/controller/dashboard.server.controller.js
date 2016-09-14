@@ -5,7 +5,6 @@ var now = new Date();
 var sch_obj = new mongoose.Schema({
     name: { type: String, default: "" },
     filename: { type: String, default: "" },
-    size: { type: String, default: 0 },
     type: { type: String, default: "" },
     byte: { type: String, contentType: String, default: "" },
     user: { type: String, default: "" },
@@ -122,6 +121,31 @@ exports.getLastMonthToDateData = function (req, response) {
         if (err) response.send(err);       
         response.json(results);
     })
+}
+
+exports.scoreImageSchduler = function (req, res) {
+
+    var cron = require('node-schedule');
+    /* This runs at the 30th mintue of every hour. */
+    cron.scheduleJob('1 * * * * *', function () {
+
+        var temp = req.params.client_id;
+        var Image = mongoose.model('Images_' + temp);
+        Image.find({}, function (err, Image) {
+            if (err) response.send(err);
+
+            for (var i = 0; i < Image.length; i++) {
+                var newImage = Image[i];
+                newImage.status = Math.floor(Math.random() * 5) + 1;
+
+                newImage.save(function (err) {
+                    if (err) { }
+
+                });
+            }
+
+        });
+    });
 }
 
 

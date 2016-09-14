@@ -13,6 +13,12 @@ angular.module('dashboardService', [])
         return $http.get('/api/dashboard/' + clientid);
     };
 
+    // update a client
+    dashboardFactory.scoreImageSchduler = function (clientid) {
+        return $http.post('/api/dashboard/' + clientid);
+    };
+
+
     dashboardFactory.getYearToDateData = function (clientid) {
         return $http.get('/api/dashboardYear/' + clientid);
     };
