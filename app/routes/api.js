@@ -1,5 +1,6 @@
 var bodyParser = require('body-parser'); 	// get body-parser
 var User = require('../models/user.server.model');
+var ClientModel = require('../models/client.server.model');
 var UserCtrl = require('../controller/user.server.controller');
 var Client = require('../controller/client.server.controller');
 var Image = require('../controller/image.server.controller');
@@ -71,9 +72,7 @@ module.exports = function (app, express) {
                     user.isdefault = true;
                     // save the user
                     user.save(function (err) {
-                        console.log(err)
                         if (err) {
-
                             res.send(err);
                         }
                         var smtp = new mail();
@@ -124,7 +123,47 @@ module.exports = function (app, express) {
                         success: false,
                         message: 'Authentication failed. User not active.'
                     });
-                } else {
+                }
+                else if (!user.isadmin) {
+                    var query = ClientModel.findOne({
+                        ClientId: user.clientid
+                    }).select('_id name city state clientid isActive');
+                    query.exec(function (err, clien) {
+                        if (err) throw err;
+                        if (!clien.isActive) {
+                            res.json({
+                                success: false,
+                                message: 'Authentication failed. User not active.'
+                            });
+                        }
+                        else {
+                            // if user is found and password is right
+                            // create a token
+                            var token = jwt.sign({
+                                username: user.username,
+                                email: user.email,
+                                clientid: user.clientid,
+                                UserId: user.UserId,
+                                firstname: user.firstname,
+                                lastname: user.lastname,
+                                isadmin: user.isadmin,
+                                _id: user._id
+                            },
+                          superSecret, {
+                              expiresIn: '24h' // expires in 24 hours
+                          });
+
+                            // return the information including token as JSON
+                            res.json({
+                                success: true,
+                                message: 'Enjoy your token!',
+                                isdefault: user.isdefault,
+                                token: token
+                            });
+                        }
+                    })
+                }
+                else {
                     // if user is found and password is right
                     // create a token
                     var token = jwt.sign({
