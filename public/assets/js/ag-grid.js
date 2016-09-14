@@ -12600,7 +12600,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.lbRecordCount.innerHTML = this.myToLocaleString(this.rowCount);
 	        }
 	        else {
-	            var moreText = this.gridOptionsWrapper.getLocaleTextFunc()('more', 'more');
+	            var TotalNoOfCount = document.getElementById("hiddenID").value;
+	            var moreText = this.gridOptionsWrapper.getLocaleTextFunc()('more', TotalNoOfCount);
 	            this.lbTotal.innerHTML = moreText;
 	            this.lbRecordCount.innerHTML = moreText;
 	        }
@@ -12720,7 +12721,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    PaginationController.prototype.isZeroPagesToDisplay = function () {
 	        return this.foundMaxRow && this.totalPages === 0;
 	    };
-	    PaginationController.prototype.enableOrDisableButtons = function () {
+	    PaginationController.prototype.enableOrDisableButtons = function () { 
 	        var disablePreviousAndFirst = this.currentPage === 0;
 	        this.btPrevious.disabled = disablePreviousAndFirst;
 	        this.btFirst.disabled = disablePreviousAndFirst;
@@ -12746,7 +12747,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    PaginationController.prototype.getGui = function () {
 	        return this.eGui;
 	    };
-	    PaginationController.prototype.setupComponents = function () {
+	    PaginationController.prototype.setupComponents = function () { 
 	        this.eGui = utils_1.Utils.loadTemplate(this.createTemplate());
 	        this.btNext = this.eGui.querySelector('#btNext');
 	        this.btPrevious = this.eGui.querySelector('#btPrevious');
