@@ -142,7 +142,6 @@ exports.scoreImageSchduler = function (req, res) {
 
                 newImage.save(function (err) {
                     if (err) { }
-                    console.log("XXXXXXXXXXXXXXXXXXXXXXX");
 
                 });
             }
