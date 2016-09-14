@@ -305,11 +305,6 @@ module.exports = function (app, express) {
 		// get the image with that id
 		.get(function (req, res) {
 		    Image.findByClient(req, res);
-		})
-
-    // get the image with that id
-		.post(function (req, res) {
-		    Image.scoreImageSchduler(req, res);
 		});
 
     apiRouter.route('/images/:image_id')
@@ -337,7 +332,12 @@ module.exports = function (app, express) {
     apiRouter.route('/dashboard/:client_id')
         .get(function (req, res) {
             Dashboard.getRecentUploads(req, res);
-        });
+        })
+
+     // get the image with that id
+		.post(function (req, res) {
+		    Dashboard.scoreImageSchduler(req, res);
+		});
 
     apiRouter.route('/dashboardchart/:client_id')
         .get(function (req, res) {
