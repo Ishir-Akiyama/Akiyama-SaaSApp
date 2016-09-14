@@ -19,8 +19,7 @@ angular.module('mainCtrl', [])
     $("#myid li").click(function () {
         $scope.currentId = this.id;
     });
-
-
+    
     // function to handle login form
     vm.doLogin = function () {
         vm.processing = true;
