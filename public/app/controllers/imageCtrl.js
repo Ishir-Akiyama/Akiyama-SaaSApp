@@ -183,7 +183,8 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
         { headerName: "Image", field: "byte", width: 130 ,hide:true},
         { headerName: "Type", field: "type", width: 130 },
         { headerName: "Uploaded On", field: "uploadedOn", width: 220, cellRenderer: dateRender },
-        { headerName: "Status", field: "status", width: 120 } //, cellRenderer: statusRender
+        { headerName: "Status", field: "status", width: 120 },
+        { headerName: "total", field: "total", width: 120, hide: true }//, cellRenderer: statusRender
     ];
 
     //Ag grid setting
@@ -330,6 +331,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                    .success(function (data) {
                        vm.processing = false;
                        vm.images = data;
+                       document.getElementById('hiddenID').value = data.length;
                        allOfTheData = data;
                        createNewDatasource();
                        //show status according to it's value
@@ -340,14 +342,11 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                                }
                            });
                            i++;
-                       });
-
+                       });                       
                        $scope.gridOptions.api.setRowData(data);
                        $scope.gridOptions.api.refreshView();
                    });
-
                 };
-
             }
             else {
                 var temp = '';
@@ -375,6 +374,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                    .success(function (data) {
                        vm.processing = false;
                        vm.images = data;
+                       document.getElementById('hiddenID').value = data.length;
                        allOfTheData = data;
                        createNewDatasource();
                        //show status according to it's value
@@ -386,7 +386,6 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                            });
                            i++;
                        });
-
                        $scope.gridOptions.api.setRowData(data);
                        $scope.gridOptions.api.refreshView();
                    });
