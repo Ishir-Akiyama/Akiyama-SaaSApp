@@ -56,7 +56,8 @@ exports.getYearToDateData = function (req, response) {
         }
     }).count()
     query.exec(function (err, results) {
-        if (err) response.send(err);      
+        if (err) response.send(err);
+        console.log(results);
         response.json(results);
     })
 }

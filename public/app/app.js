@@ -1,4 +1,4 @@
-angular.module('userApp', ['ngAnimate', 'app.routes', 'authService', 'mainCtrl', 'userCtrl', 'userService', 'clientCtrl', 'clientService', 'imageCtrl', 'imageService', 'commonService', 'agGrid', 'dashboardCtrl', 'dashboardService', '720kb.datepicker'])
+angular.module('userApp', ['ngAnimate', 'app.routes', 'authService', 'mainCtrl', 'userCtrl', 'userService', 'clientCtrl', 'clientService', 'imageCtrl', 'imageService', 'commonService', 'agGrid', 'dashboardCtrl', 'dashboardService', '720kb.datepicker', 'ngCookies'])
 
 // application configuration to integrate token into requests
 .config(function($httpProvider) {
