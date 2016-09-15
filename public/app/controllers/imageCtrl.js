@@ -183,7 +183,6 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
         { headerName: "Type", field: "type", width: 130 },
         { headerName: "Uploaded On", field: "uploadedOn", width: 220, cellRenderer: dateRender },
         { headerName: "Status", field: "status", width: 120 },
-        { headerName: "total", field: "total", width: 120, hide: true },
         { headerName: "Image", field: "byte", width: 130, hide: true }
     ];
 

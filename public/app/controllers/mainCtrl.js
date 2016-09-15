@@ -16,11 +16,8 @@ angular.module('mainCtrl', [])
 			});
     });
 
-    $scope.currentId = 1;
-    $("#myid li").click(function () {
-        $scope.currentId = this.id;
-    });
-    
+
+
     // function to handle login form
     vm.doLogin = function () {
         vm.processing = true;
@@ -37,7 +34,7 @@ angular.module('mainCtrl', [])
             $cookieStore.remove('CookieUserName');
             $cookieStore.remove('CookiePassword');
         }
-       
+
         Auth.login(vm.loginData.username, vm.loginData.password)
 			.success(function (data) {
 			    vm.processing = false;
@@ -46,15 +43,21 @@ angular.module('mainCtrl', [])
 			        if (data.isdefault)
 			            $location.path('/changePassword');
 			        else {
-
 			            $location.path('/dashboard');
 			        }
 			    }
 			    else
 			        vm.error = data.message;
 			});
-
     };
+
+    /// function to active tab
+
+    $scope.currentId = 1;
+
+    $("#myid li").click(function () {
+        $scope.currentId = this.id;
+    });
 
     // function to handle logging out
     vm.doLogout = function () {
