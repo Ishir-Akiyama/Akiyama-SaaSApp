@@ -190,6 +190,7 @@ angular.module('userCtrl', ['userService', 'commonService'])
 			    vm.userData = {};
 			    // bind the message from our API to vm.message
 			    vm.message = data.message;
+			    //localStorage.setItem('tempCurrenttabId',1);
 			    $location.path('/dashboard');
 			});
     };

@@ -13,6 +13,7 @@ angular.module('mainCtrl', [])
 			.then(function (data) {
 			    vm.user = data.data;
 			    $window.localStorage.setItem('tempclientId', vm.user.clientid);
+			    $scope.currentId = localStorage.getItem('tempCurrenttabId');
 			});
     });
 
@@ -40,9 +41,12 @@ angular.module('mainCtrl', [])
 			    vm.processing = false;
 			    // if a user successfully logs in, redirect to users page
 			    if (data.success) {
-			        if (data.isdefault)
+			        if (data.isdefault) {
+			            //$window.localStorage.setItem('tempCurrenttabId', 0);
 			            $location.path('/changePassword');
+			        }
 			        else {
+			            $window.localStorage.setItem('tempCurrenttabId', 1);
 			            $location.path('/dashboard');
 			        }
 			    }
@@ -53,10 +57,11 @@ angular.module('mainCtrl', [])
 
     /// function to active tab
 
-    $scope.currentId = 1;
+    //$window.localStorage.setItem('tempCurrenttabId', 1);
+
 
     $("#myid li").click(function () {
-        $scope.currentId = this.id;
+        localStorage.setItem('tempCurrenttabId', this.id);
     });
 
     // function to handle logging out
