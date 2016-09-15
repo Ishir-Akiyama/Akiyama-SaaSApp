@@ -180,11 +180,11 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
     var columnDefs = [
          { headerName: "Name", field: "name", cellStyle: { color: 'darkred' }, width: 130 },
         { headerName: "Image Name", field: "filename", cellRenderer: imageRender, width: 220 },
-        { headerName: "Image", field: "byte", width: 130 ,hide:true},
         { headerName: "Type", field: "type", width: 130 },
         { headerName: "Uploaded On", field: "uploadedOn", width: 220, cellRenderer: dateRender },
         { headerName: "Status", field: "status", width: 120 },
-        { headerName: "total", field: "total", width: 120, hide: true }//, cellRenderer: statusRender
+        { headerName: "total", field: "total", width: 120, hide: true },
+        { headerName: "Image", field: "byte", width: 130, hide: true }
     ];
 
     //Ag grid setting
@@ -200,7 +200,8 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
         enableFilter: false,
         angularCompileRows: true,
         paginationPageSize: 10,
-        rowModelType: 'pagination'
+        rowModelType: 'pagination',
+        debug: true,
 
     };
 
@@ -251,7 +252,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                 console.log('asking for ' + params.startRow + ' to ' + params.endRow);
                 setTimeout(function () {
                     // take a chunk of the array, matching the start and finish times
-
+                    debugger
                     //var dataAfterSortingAndFiltering = sortAndFilter(params.sortModel, params.filterModel);
                     var rowsThisPage = allOfTheData.slice(params.startRow, params.endRow);
                     // see if we have come to the last page. if we have, set lastRow to
@@ -266,7 +267,10 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                 }, 500);
             }
         };
-
+        document.addEventListener('DOMContentLoaded', function () {
+            var gridDiv = document.querySelector('#myGrid');
+            new agGrid.Grid(gridDiv, gridOptions);
+        });
         $scope.gridOptions.api.setDatasource(dataSource);
     }
 
@@ -303,6 +307,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                    vm.clients = data;
                });
                 vm.filterGrid = function (clientId, fromdate, todate) {
+                    document.getElementById('myGrid').style.display = "block";
                     var i = 0;
                     var list = Common.GetStatusList();
                     if (fromdate == undefined) {
@@ -333,6 +338,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                        vm.images = data;
                        document.getElementById('hiddenID').value = data.length;
                        allOfTheData = data;
+                       debugger
                        createNewDatasource();
                        //show status according to it's value
                        angular.forEach(data, function (value, key) {
