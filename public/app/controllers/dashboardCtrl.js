@@ -63,8 +63,6 @@
         return status;
     }
 
-
-
     /////// Pie chart ///////
     $scope.plainoptions = {
         chart: {
@@ -180,7 +178,7 @@
     vm.triggerImageScoreScheduler = function (clientid) {
         Dashboard.scoreImageSchduler(clientid)
         .success(function (data) {
-            // need to do nothing...
+           // need to do nothing...
         });
     }
 
@@ -195,9 +193,16 @@
             var Data = data;
             caseArrayYear = [];
             var newObj = {};
+            if (data == 0) {
+                newObj["color"] = "#d8d8d8";
+                newObj["key"] = "Count";
+                newObj["value"] = 100;
+            }
+            else {
             newObj["color"] = "#f5626a";
             newObj["key"] = "Count";
             newObj["value"] = Data;
+            }
             caseArrayYear.push(newObj);
             $scope.year = caseArrayYear;
         });
@@ -210,7 +215,16 @@
             $scope.yesterdayData = data;
             var caseArray;
             var Data = data;
+            if (data == 0) {
             caseArray = [];
+                var obj = {};
+                obj["color"] = "#d8d8d8";
+                obj["key"] = "Count";
+                obj["value"] = 100;
+                caseArray.push(obj);
+            }
+            else {
+                caseArray = [];
             var newObj = {};
             newObj["color"] = "#f5626a";
             newObj["key"] = "Count";
@@ -221,6 +235,7 @@
             newObj1["key"] = "Count";
             newObj1["value"] = totalyear - Data;
             caseArray.push(newObj1);
+            }
             $scope.yesterday = caseArray;
         });
     }
@@ -232,6 +247,15 @@
             $scope.monthData = data;
             var caseArrayMonth;
             var Data = data;
+            if (data == 0) {
+                caseArrayMonth = [];
+                var obj = {};
+                obj["color"] = "#d8d8d8";
+                obj["key"] = "Count";
+                obj["value"] = 100;
+                caseArrayMonth.push(obj);
+            }
+            else {
             caseArrayMonth = [];
             var newObj = {};
             newObj["color"] = "#f5626a";
@@ -243,6 +267,7 @@
             newObj1["key"] = "Count";
             newObj1["value"] = totalyear - Data;
             caseArrayMonth.push(newObj1);
+            }
             $scope.month = caseArrayMonth;
         });
     }
@@ -255,6 +280,15 @@
             $scope.lastMonthData = data;
             var caseArrayl;
             var Data = data;
+            if (data == 0) {
+                caseArrayl = [];
+                var obj = {};
+                obj["color"] = "#d8d8d8";
+                obj["key"] = "Count";
+                obj["value"] = 100;
+                caseArrayl.push(obj);
+            }
+            else {
             caseArrayl = [];
             var newObj = {};
             newObj["color"] = "#f5626a";
@@ -266,6 +300,7 @@
             newObj1["key"] = "Count";
             newObj1["value"] = totalyear - Data;
             caseArrayl.push(newObj1);
+            }
             $scope.lastmonth = caseArrayl;
         });
     }

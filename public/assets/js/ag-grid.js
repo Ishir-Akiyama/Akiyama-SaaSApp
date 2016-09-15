@@ -12721,7 +12721,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    PaginationController.prototype.isZeroPagesToDisplay = function () {
 	        return this.foundMaxRow && this.totalPages === 0;
 	    };
-	    PaginationController.prototype.enableOrDisableButtons = function () { 
+	    PaginationController.prototype.enableOrDisableButtons = function () {
 	        var disablePreviousAndFirst = this.currentPage === 0;
 	        this.btPrevious.disabled = disablePreviousAndFirst;
 	        this.btFirst.disabled = disablePreviousAndFirst;
