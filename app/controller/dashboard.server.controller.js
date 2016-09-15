@@ -63,7 +63,7 @@ exports.getYearToDateData = function (req, response) {
 
 exports.getYesterdayToDateData = function (req, response) {
     var now = new Date();
-    var n= now.setDate(now.getDate() - 1);// Today!
+    var n = now.setDate(now.getDate() - 1);// Today!
     var yesterDay = now.setDate(now.getDate() - 1);
     clientId = req.params.client_id;
     module.exports = mongoose.model('images_' + clientId, sch_obj);
@@ -116,7 +116,7 @@ exports.getLastMonthToDateData = function (req, response) {
         }
     }).count()
     query.exec(function (err, results) {
-        if (err) response.send(err);       
+        if (err) response.send(err);
         response.json(results);
     })
 }
@@ -126,20 +126,29 @@ exports.scoreImageSchduler = function (req, res) {
     var cron = require('node-schedule');
     /* This runs at the 30th mintue of every hour. */
     cron.scheduleJob('1 * * * * *', function () {
-
+        var Image;
         var temp = req.params.client_id;
-        var Image = mongoose.model('Images_' + temp);
+        try {
+            Image = mongoose.model('Images_' + temp);
+        } catch (e) {
+            module.exports = mongoose.model('Images_' + temp, sch_obj);
+            Image = mongoose.model('Images_' + temp);
+        }
+
         Image.find({}, function (err, Image) {
             if (err) response.send(err);
 
             for (var i = 0; i < Image.length; i++) {
                 var newImage = Image[i];
-                newImage.status = Math.floor(Math.random() * 5) + 1;
 
-                newImage.save(function (err) {
-                    if (err) { }
+                if (newImage.status == "-1") {
+                    newImage.status = Math.floor(Math.random() * 5) + 1;
 
-                });
+                    newImage.save(function (err) {
+                        if (err) { }
+                    });
+                }
+
             }
 
         });
