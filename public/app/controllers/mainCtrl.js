@@ -13,14 +13,12 @@ angular.module('mainCtrl', [])
 			.then(function (data) {
 			    vm.user = data.data;
 			    $window.localStorage.setItem('tempclientId', vm.user.clientid);
+			    $scope.currentId = localStorage.getItem('tempCurrenttabId');
 			});
     });
 
-    $scope.currentId = 1;
-    $("#myid li").click(function () {
-        $scope.currentId = this.id;
-    });
-    
+
+
     // function to handle login form
     vm.doLogin = function () {
         vm.processing = true;
@@ -37,24 +35,34 @@ angular.module('mainCtrl', [])
             $cookieStore.remove('CookieUserName');
             $cookieStore.remove('CookiePassword');
         }
-       
+
         Auth.login(vm.loginData.username, vm.loginData.password)
 			.success(function (data) {
 			    vm.processing = false;
 			    // if a user successfully logs in, redirect to users page
 			    if (data.success) {
-			        if (data.isdefault)
+			        if (data.isdefault) {
+			            //$window.localStorage.setItem('tempCurrenttabId', 0);
 			            $location.path('/changePassword');
+			        }
 			        else {
-
+			            $window.localStorage.setItem('tempCurrenttabId', 1);
 			            $location.path('/dashboard');
 			        }
 			    }
 			    else
 			        vm.error = data.message;
 			});
-
     };
+
+    /// function to active tab
+
+    //$window.localStorage.setItem('tempCurrenttabId', 1);
+
+
+    $("#myid li").click(function () {
+        localStorage.setItem('tempCurrenttabId', this.id);
+    });
 
     // function to handle logging out
     vm.doLogout = function () {

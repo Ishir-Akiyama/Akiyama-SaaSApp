@@ -191,14 +191,18 @@
             var caseArrayYear;
             totalyear = data;
             var Data = data;
-            caseArrayYear = [];
-            var newObj = {};
+          
             if (data == 0) {
-                newObj["color"] = "#d8d8d8";
-                newObj["key"] = "Count";
-                newObj["value"] = 100;
+                caseArrayYear = [];
+                var newObj = {};
+                Obj["color"] = "#d8d8d8";
+                Obj["key"] = "Count";
+                Obj["value"] = 100;
+                caseArrayYear.push(obj);
             }
             else {
+                caseArrayYear = [];
+                var newObj = {};
             newObj["color"] = "#f5626a";
             newObj["key"] = "Count";
             newObj["value"] = Data;
