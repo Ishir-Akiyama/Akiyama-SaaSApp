@@ -17,6 +17,7 @@ var app = express();
 var randonPassword = "";
 // super secret for creating tokens
 var superSecret = config.secret;
+var expiresIn = config.expiresIn;
 
 module.exports = function (app, express) {
 
@@ -150,7 +151,7 @@ module.exports = function (app, express) {
                                 _id: user._id
                             },
                           superSecret, {
-                              expiresIn: '24h' // expires in 24 hours
+                              expiresIn: expiresIn // expires in is configured in config.js
                           });
 
                             // return the information including token as JSON
