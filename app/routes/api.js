@@ -321,14 +321,51 @@ module.exports = function (app, express) {
     apiRouter.route('/images')
 		// create a image (accessed at POST http://localhost:8080/api/images)
 		.post(function (req, res) {
-		    Image.create(req, res);
+		    if (req.body.clientId = 'undefined') {
+		        // check header or url parameters or post parameters for token
+		        var token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+		        // decode token
+		        if (token) {
+		            // verifies secret and checks exp
+		            jwt.verify(token, superSecret, function (err, decoded) {
+
+		                if (err) {
+		                    res.status(403).send({
+		                        success: false,
+		                        message: 'Failed to authenticate token.'
+		                    });
+		                } else {
+		                    // if everything is good, save to request for use in other routes
+		                    //req.decoded = decoded;
+
+		                    req.body.clientId = decoded.clientid;
+		                    req.body.userid = decoded.UserId;
+
+		                    Image.create(req, res);
+
+		                }
+		            });
+		        } else {
+
+		            // if there is no token
+		            // return an HTTP response of 403 (access forbidden) and an error message
+		            res.status(403).send({
+		                success: false,
+		                message: 'No token provided.'
+		            });
+		        }
+		    }
+		    else {
+		        Image.create(req, res);
+		    }
 		})
 
 		// get all the images (accessed at GET http://localhost:8080/api/images)
 		.get(function (req, res) {
 		    Image.all(req, res);
 		});
-
+        
     // on routes that end in /activeImages
     // ----------------------------------------------------
     apiRouter.route('/activeImages')

@@ -70,13 +70,12 @@ exports.create = function (request, response) {
                             // return a message
                         });
                     }
-                    response.json({ message: 'Excel imported!' });
+                    response.json({ message: 'Excel imported successfully!' });
                 });
             }
         });
     }
     else if (request.body.type.indexOf("application/vnd.ms-excel") > -1) {
-
         var bitmap = new Buffer(request.body.file.replace("data:application/vnd.ms-excel;base64", ""), 'base64');
         // write buffer to file
         var fs = require('fs');
@@ -116,14 +115,14 @@ exports.create = function (request, response) {
                             filename: request.body.filename,
                             type: getType,
                             byte: imagesInExcel[i].Image,
-                            user: request.body.user,
+                            user: request.body.userid,
                         });
                         entry.save(function (err) {
                             if (err) { }
                             // return a message
                         });
                     }
-                    response.json({ message: 'Csv imported!' });
+                    response.json({ message: 'Csv imported successfully!' });
                 });
             }
         });
@@ -135,8 +134,7 @@ exports.create = function (request, response) {
             filename: request.body.filename,
             type: request.body.type,
             byte: request.body.file,
-            user: request.body.user,
-            status: '-1'
+            user: request.body.userid
         });
         entry.save(function (err) {
 
@@ -148,7 +146,7 @@ exports.create = function (request, response) {
                 return response.send(err);
             }
             // return a message
-            response.json({ message: 'Image created!' });
+            response.json({ message: 'Image created successfully!' });
         });
     }
     //console.log(response);
