@@ -183,7 +183,6 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
         { headerName: "Type", field: "type", width: 130 },
         { headerName: "Uploaded On", field: "uploadedOn", width: 220, cellRenderer: dateRender },
         { headerName: "Status", field: "status", width: 120 },
-        { headerName: "total", field: "total", width: 120, hide: true },
         { headerName: "Image", field: "byte", width: 130, hide: true }
     ];
 
@@ -312,12 +311,12 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                     var list = Common.GetStatusList();
                     if (fromdate == undefined) {
                         vm.Error = '';
-                        vm.Error = 'Please select from date';
+                        vm.Error = 'Please select start date';
                         return false;
                     }
                     if (todate == undefined) {
                         vm.Error = '';
-                        vm.Error = 'Please select to date';
+                        vm.Error = 'Please select end date';
                         return false;
                     }
                     if (clientId == undefined) {
@@ -361,12 +360,12 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                     var list = Common.GetStatusList();
                     if (fromdate == undefined) {
                         vm.Error = '';
-                        vm.Error = 'Please select from date';
+                        vm.Error = 'Please select start date';
                         return false;
                     }
                     if (todate == undefined) {
                         vm.Error = '';
-                        vm.Error = 'Please select to date';
+                        vm.Error = 'Please select end date';
                         return false;
                     }
                     vm.Error = '';
