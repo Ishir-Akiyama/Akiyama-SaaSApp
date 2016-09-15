@@ -178,7 +178,7 @@ module.exports = function (app, express) {
                         _id: user._id
                     },
                   superSecret, {
-                      expiresIn: '24h' // expires in 24 hours
+                      expiresIn: expiresIn // expires in 24 hours
                   });
 
                     // return the information including token as JSON
