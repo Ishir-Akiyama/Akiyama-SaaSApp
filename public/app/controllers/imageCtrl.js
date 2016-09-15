@@ -312,12 +312,12 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                     var list = Common.GetStatusList();
                     if (fromdate == undefined) {
                         vm.Error = '';
-                        vm.Error = 'Please select start date';
+                        vm.Error = 'Please select from date';
                         return false;
                     }
                     if (todate == undefined) {
                         vm.Error = '';
-                        vm.Error = 'Please select end date';
+                        vm.Error = 'Please select to date';
                         return false;
                     }
                     if (clientId == undefined) {
@@ -361,12 +361,12 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                     var list = Common.GetStatusList();
                     if (fromdate == undefined) {
                         vm.Error = '';
-                        vm.Error = 'Please select start date';
+                        vm.Error = 'Please select from date';
                         return false;
                     }
                     if (todate == undefined) {
                         vm.Error = '';
-                        vm.Error = 'Please select end date';
+                        vm.Error = 'Please select to date';
                         return false;
                     }
                     vm.Error = '';

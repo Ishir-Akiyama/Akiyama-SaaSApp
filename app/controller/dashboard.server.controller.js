@@ -33,7 +33,6 @@ exports.getRecentUploads = function (req, response) {
     module.exports = mongoose.model('images_' + clientId, sch_obj);
     var Image = mongoose.model('images_' + clientId);
     var query = Image.find().sort({ _id: -1 }).limit(10);
-    console.log(query);
     query.exec(function (err, results) {
         if (err) response.send(err);
         response.json(results);
@@ -56,7 +55,7 @@ exports.getYearToDateData = function (req, response) {
         }
     }).count()
     query.exec(function (err, results) {
-        if (err) response.send(err);      
+        if (err) response.send(err);
         response.json(results);
     })
 }
@@ -75,7 +74,6 @@ exports.getYesterdayToDateData = function (req, response) {
             '$lt': new Date(n)
         }
     }).count()
-    console.log(query);
     query.exec(function (err, results) {
         if (err) response.send(err);
         response.json(results);

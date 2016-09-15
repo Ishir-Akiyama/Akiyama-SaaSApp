@@ -17,7 +17,11 @@
              User = data.data;
              if (!User.isadmin) {
                  clientid = User.clientid;
+
                  vm.GetDashboardData(clientid);
+                 if (!User.isadmin)
+                     vm.triggerImageScoreScheduler(clientid);
+
              }
              else {
                  Common.GetClientList()
@@ -45,7 +49,6 @@
         vm.getYesterdayToDateData(clientid);
         vm.getMonthdayToDateData(clientid);
         vm.getLastMonthToDateData(clientid);
-        vm.triggerImageScoreScheduler(clientid);
     }
 
     //show status according to it's value
@@ -59,8 +62,6 @@
         });
         return status;
     }
-
-
 
     /////// Pie chart ///////
     $scope.plainoptions = {
@@ -192,9 +193,16 @@
             var Data = data;
             caseArrayYear = [];
             var newObj = {};
+            if (data == 0) {
+                newObj["color"] = "#d8d8d8";
+                newObj["key"] = "Count";
+                newObj["value"] = 100;
+            }
+            else {
             newObj["color"] = "#f5626a";
             newObj["key"] = "Count";
             newObj["value"] = Data;
+            }
             caseArrayYear.push(newObj);
             $scope.year = caseArrayYear;
         });
@@ -207,7 +215,16 @@
             $scope.yesterdayData = data;
             var caseArray;
             var Data = data;
+            if (data == 0) {
             caseArray = [];
+                var obj = {};
+                obj["color"] = "#d8d8d8";
+                obj["key"] = "Count";
+                obj["value"] = 100;
+                caseArray.push(obj);
+            }
+            else {
+                caseArray = [];
             var newObj = {};
             newObj["color"] = "#f5626a";
             newObj["key"] = "Count";
@@ -218,6 +235,7 @@
             newObj1["key"] = "Count";
             newObj1["value"] = totalyear - Data;
             caseArray.push(newObj1);
+            }
             $scope.yesterday = caseArray;
         });
     }
@@ -229,6 +247,15 @@
             $scope.monthData = data;
             var caseArrayMonth;
             var Data = data;
+            if (data == 0) {
+                caseArrayMonth = [];
+                var obj = {};
+                obj["color"] = "#d8d8d8";
+                obj["key"] = "Count";
+                obj["value"] = 100;
+                caseArrayMonth.push(obj);
+            }
+            else {
             caseArrayMonth = [];
             var newObj = {};
             newObj["color"] = "#f5626a";
@@ -240,6 +267,7 @@
             newObj1["key"] = "Count";
             newObj1["value"] = totalyear - Data;
             caseArrayMonth.push(newObj1);
+            }
             $scope.month = caseArrayMonth;
         });
     }
@@ -252,6 +280,15 @@
             $scope.lastMonthData = data;
             var caseArrayl;
             var Data = data;
+            if (data == 0) {
+                caseArrayl = [];
+                var obj = {};
+                obj["color"] = "#d8d8d8";
+                obj["key"] = "Count";
+                obj["value"] = 100;
+                caseArrayl.push(obj);
+            }
+            else {
             caseArrayl = [];
             var newObj = {};
             newObj["color"] = "#f5626a";
@@ -263,6 +300,7 @@
             newObj1["key"] = "Count";
             newObj1["value"] = totalyear - Data;
             caseArrayl.push(newObj1);
+            }
             $scope.lastmonth = caseArrayl;
         });
     }
