@@ -26,6 +26,10 @@
              else {
                  Common.GetClientList()
               .success(function (data) {
+                  if(data=="")
+                  {
+                      vm.processing = false;
+                  }
                   vm.clients = data;
                   clientid = vm.clients[0].ClientId;
                   vm.GetDashboardData(clientid);

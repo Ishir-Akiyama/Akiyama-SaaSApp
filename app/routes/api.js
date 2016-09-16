@@ -40,7 +40,16 @@ module.exports = function (app, express) {
                 sampleUser.isdefault = false;
                 sampleUser.isactive = true;
                 sampleUser.createdOn = new Date();
-                sampleUser.save();
+                sampleUser.save(function (err) {
+                    if (err) {
+                        return res.send(err);
+                    }
+                    // return a message
+                    res.json({
+                        success: true,
+                        message: 'User Created!!!'
+                    });
+                });
             } else {
                 // if there is a chris, update his password
                 user.password = 'supersecret';
@@ -49,7 +58,10 @@ module.exports = function (app, express) {
                         return res.send(err);
                     }
                     // return a message
-                    res.json({ message: 'User created!' });
+                    res.json({
+                        success: true,
+                        message: 'User Created!!!'
+                    });
                 });
             }
         });
