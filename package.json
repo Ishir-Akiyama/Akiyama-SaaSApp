@@ -1,5 +1,5 @@
 {
-  "name": "node-api",
+  "name": "akiyama",
   "main": "server.js",
   "dependencies": {
     "angularjs-datepicker": "^2.1.6",
