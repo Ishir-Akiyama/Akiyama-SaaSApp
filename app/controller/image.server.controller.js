@@ -23,7 +23,7 @@ exports.create = function (request, response) {
     module.exports = mongoose.model('Images_' + request.body.clientId, sch_obj);
     var Image = mongoose.model('Images_' + request.body.clientId);
 
-    try{
+    try {
         if (request.body.type.indexOf("application/vnd.openxmlformats") > -1) {
             var bitmap = new Buffer(request.body.file.replace("data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64", ""), 'base64');
             // write buffer to file
@@ -52,13 +52,27 @@ exports.create = function (request, response) {
                         }
                         content = data;
                         var imagesInExcel = JSON.parse(content);
+                        var keys = Object.keys(imagesInExcel[0]);
+                        var matchedName = false;
+                        for (var i = 0; i < keys.length; i++) {
+                            if (keys[i] == "name") {
+                                matchedName = true;
+                                break;
+                            }
+                        }
 
-                        if (!imagesInExcel.name){
+                        if (!matchedName) {
                             response.json({ message: 'Failed:Incorrect file.' });
                             return;
                         }
-                            
-                        else if (!imagesInExcel.Image) {
+                        var matchedImage = false;
+                        for (var i = 0; i < keys.length; i++) {
+                            if (keys[i] == "Image") {
+                                matchedImage = true;
+                                break;
+                            }
+                        }
+                        if (!matchedImage) {
                             response.json({ message: 'Failed:Incorrect file.' });
                             return;
                         }
@@ -116,15 +130,33 @@ exports.create = function (request, response) {
                         content = data;
 
                         var imagesInExcel = JSON.parse(content);
-                        if (!imagesInExcel.name) {
+
+                        var keys = Object.keys(imagesInExcel[0]);
+                        var matchedName = false;
+                        for (var i = 0; i < keys.length; i++) {
+                            if (keys[i] == "name") {
+                                matchedName = true;
+                                break;
+                            }
+                        }
+
+                        if (!matchedName) {
+                            response.json({ message: 'Failed:Incorrect file.' });
+                            return;
+                        }
+                        var matchedImage = false;
+                        for (var i = 0; i < keys.length; i++) {
+                            if (keys[i] == "Image") {
+                                matchedImage = true;
+                                break;
+                            }
+                        }
+                        if (!matchedImage) {
                             response.json({ message: 'Failed:Incorrect file.' });
                             return;
                         }
 
-                        else if (!imagesInExcel.Image) {
-                            response.json({ message: 'Failed:Incorrect file.' });
-                            return;
-                        }
+                      
                         for (var i = 0; i < imagesInExcel.length; i++) {
                             var getType = imagesInExcel[i].Image.toString().substr(5, 20);
                             getType = getType.substr(0, getType.indexOf(";"));
@@ -170,7 +202,7 @@ exports.create = function (request, response) {
             });
         }
         else {
-            response.json({ message: 'Failed: Inavlid file.' });
+            response.json({ message: 'Failed: Invalid file.' });
         }
     }
     catch (e) {
