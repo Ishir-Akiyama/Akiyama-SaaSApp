@@ -191,7 +191,6 @@
             var caseArrayYear;
             totalyear = data;
             var Data = data;
-            alert(data);
             if (data == 0) {
                 caseArrayYear = [];
                 var Obj = {};
