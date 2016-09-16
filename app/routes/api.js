@@ -27,23 +27,31 @@ module.exports = function (app, express) {
     apiRouter.post('/sample', function (req, res) {
 
         // look for the user named chris
-        User.findOne({ 'username': 'chris' }, function (err, user) {
-
+        User.findOne({ 'username': 'admin' }, function (err, user) {
             // if there is no chris user, create one
             if (!user) {
                 var sampleUser = new User();
-
-                sampleUser.name = 'Chris';
-                sampleUser.username = 'chris';
+                sampleUser.firstname = 'Admin';
+                sampleUser.username = 'admin';
+                sampleUser.lastname = 'admin';
                 sampleUser.password = 'supersecret';
-
+                sampleUser.email = 'sgarg@ishir.com';
+                sampleUser.isadmin = true;
+                sampleUser.isdefault = false;
+                sampleUser.isactive = true;
+                sampleUser.createdOn = new Date();
                 sampleUser.save();
             } else {
                 // if there is a chris, update his password
                 user.password = 'supersecret';
-                user.save();
+                user.save(function (err) {
+                    if (err) {
+                        return res.send(err);
+                    }
+                    // return a message
+                    res.json({ message: 'User created!' });
+                });
             }
-
         });
     });
 
@@ -366,7 +374,7 @@ module.exports = function (app, express) {
 		.get(function (req, res) {
 		    Image.all(req, res);
 		});
-        
+
     // on routes that end in /activeImages
     // ----------------------------------------------------
     apiRouter.route('/activeImages')
