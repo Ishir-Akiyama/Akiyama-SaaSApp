@@ -178,7 +178,7 @@
     vm.triggerImageScoreScheduler = function (clientid) {
         Dashboard.scoreImageSchduler(clientid)
         .success(function (data) {
-           // need to do nothing...
+            // need to do nothing...
         });
     }
 
@@ -191,23 +191,23 @@
             var caseArrayYear;
             totalyear = data;
             var Data = data;
-          
+            alert(data);
             if (data == 0) {
                 caseArrayYear = [];
-                var newObj = {};
+                var Obj = {};
                 Obj["color"] = "#d8d8d8";
                 Obj["key"] = "Count";
                 Obj["value"] = 100;
-                caseArrayYear.push(obj);
+                caseArrayYear.push(Obj);
             }
             else {
                 caseArrayYear = [];
                 var newObj = {};
-            newObj["color"] = "#f5626a";
-            newObj["key"] = "Count";
-            newObj["value"] = Data;
+                newObj["color"] = "#f5626a";
+                newObj["key"] = "Count";
+                newObj["value"] = Data;
+                caseArrayYear.push(newObj);
             }
-            caseArrayYear.push(newObj);
             $scope.year = caseArrayYear;
         });
     }
@@ -220,7 +220,7 @@
             var caseArray;
             var Data = data;
             if (data == 0) {
-            caseArray = [];
+                caseArray = [];
                 var obj = {};
                 obj["color"] = "#d8d8d8";
                 obj["key"] = "Count";
@@ -229,16 +229,16 @@
             }
             else {
                 caseArray = [];
-            var newObj = {};
-            newObj["color"] = "#f5626a";
-            newObj["key"] = "Count";
-            newObj["value"] = Data;
-            caseArray.push(newObj);
-            var newObj1 = {};
-            newObj1["color"] = "#d8d8d8";
-            newObj1["key"] = "Count";
-            newObj1["value"] = totalyear - Data;
-            caseArray.push(newObj1);
+                var newObj = {};
+                newObj["color"] = "#f5626a";
+                newObj["key"] = "Count";
+                newObj["value"] = Data;
+                caseArray.push(newObj);
+                var newObj1 = {};
+                newObj1["color"] = "#d8d8d8";
+                newObj1["key"] = "Count";
+                newObj1["value"] = totalyear - Data;
+                caseArray.push(newObj1);
             }
             $scope.yesterday = caseArray;
         });
@@ -260,17 +260,17 @@
                 caseArrayMonth.push(obj);
             }
             else {
-            caseArrayMonth = [];
-            var newObj = {};
-            newObj["color"] = "#f5626a";
-            newObj["key"] = "Count";
-            newObj["value"] = Data;
-            caseArrayMonth.push(newObj);
-            var newObj1 = {};
-            newObj1["color"] = "#d8d8d8";
-            newObj1["key"] = "Count";
-            newObj1["value"] = totalyear - Data;
-            caseArrayMonth.push(newObj1);
+                caseArrayMonth = [];
+                var newObj = {};
+                newObj["color"] = "#f5626a";
+                newObj["key"] = "Count";
+                newObj["value"] = Data;
+                caseArrayMonth.push(newObj);
+                var newObj1 = {};
+                newObj1["color"] = "#d8d8d8";
+                newObj1["key"] = "Count";
+                newObj1["value"] = totalyear - Data;
+                caseArrayMonth.push(newObj1);
             }
             $scope.month = caseArrayMonth;
         });
@@ -293,17 +293,17 @@
                 caseArrayl.push(obj);
             }
             else {
-            caseArrayl = [];
-            var newObj = {};
-            newObj["color"] = "#f5626a";
-            newObj["key"] = "Count";
-            newObj["value"] = Data;
-            caseArrayl.push(newObj);
-            var newObj1 = {};
-            newObj1["color"] = "#d8d8d8";
-            newObj1["key"] = "Count";
-            newObj1["value"] = totalyear - Data;
-            caseArrayl.push(newObj1);
+                caseArrayl = [];
+                var newObj = {};
+                newObj["color"] = "#f5626a";
+                newObj["key"] = "Count";
+                newObj["value"] = Data;
+                caseArrayl.push(newObj);
+                var newObj1 = {};
+                newObj1["color"] = "#d8d8d8";
+                newObj1["key"] = "Count";
+                newObj1["value"] = totalyear - Data;
+                caseArrayl.push(newObj1);
             }
             $scope.lastmonth = caseArrayl;
         });
