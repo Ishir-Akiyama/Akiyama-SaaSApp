@@ -5,9 +5,9 @@
 <!--<div class="jumbotron text-center-new" ng-show="image.processing">
     <span class="glyphicon glyphicon-repeat spinner"></span>
     <p>Uploading Image...</p>-->
-    <div class="loader-box" ng-show="image.processing">
-        <div class="loader"></div>
-    </div>
+<div class="loader-box" ng-show="image.processing">
+    <div class="loader"></div>
+</div>
 
 <form class="form-horizontal" ng-submit="image.saveImage(main.user.clientid,main.user.UserId)">
     <div class="form-group">
@@ -34,23 +34,24 @@
             <img class="thumb" ng-src="{{step}}" />
             <input type='file' required ng-model-instant onchange="angular.element(this).scope().imageUpload(event)" />
         </div>
-        <div class="row show-hide-message" ng-show="image.message">
-            <div class="col-sm-6 col-sm-offset-2">
-                <div class="alert alert-info">
-                    {{ image.message }}
-                </div>
-            </div>
-        </div>
+
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-6">
             <button type="submit" class="btn btn-success btn-lg btn-block">Add Image</button>
         </div>
     </div>
+    <div class="row show-hide-message" ng-show="image.message">
+        <div class="col-sm-6 col-sm-offset-2">
+            <div class="alert alert-danger">
+                {{ image.message }}
+            </div>
+        </div>
+    </div>
 </form>
 
 <style>
-    
+
 </style>
 
 
