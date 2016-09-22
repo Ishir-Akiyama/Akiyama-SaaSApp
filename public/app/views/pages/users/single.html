@@ -33,23 +33,19 @@
             <input type="email" class="form-control" ng-model="user.userData.email" required>
         </div>
     </div>
-
     <div class="form-group">
         <label class="col-sm-2 control-label">Is Admin</label>
         <div class="col-sm-6">
             <input type="checkbox" ng-model="user.userData.isadmin">
+            <span ng-if="user.userData.isadmin!=true" ng-init="user.userData.isadmin=false"></span>
         </div>
     </div>
 
     <div class="form-group" id="cash" ng-hide="user.userData.isadmin">
         <label class="col-sm-2 control-label">Client List</label>
         <div class="col-sm-6">
-            <!--<select ng-model="user.userData.clientid" class="form-control">
-                <option value="">--Select--</option>
-                <option data-ng-repeat="data in user.clients" value="{{data.ClientId}}">{{data.name}}</option>
-            </select>-->
-            <select class="form-control" id="ddlClients" ng-model="user.userData.clientid" ng-change="user.userData.Error=''">
-                <option id="{{data.ClientId}}" data-ng-repeat="data in user.clients" value="{{data.ClientId}}" ng-selected="$first" required>{{data.name}}</option>
+            <select class="form-control" id="ddlClients" ng-model="user.userData.clientid">
+                <option id="{{data.ClientId}}" data-ng-repeat="data in user.clients" value="{{data.ClientId}}" required>{{data.name}}</option>
             </select>
         </div>
     </div>

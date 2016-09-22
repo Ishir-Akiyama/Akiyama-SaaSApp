@@ -161,7 +161,7 @@ exports.changePassword=function(req, res)
 	User.findOne({
 		username: req.body.username
 	}).select('_id firstname username password emailid isdefault').exec(function (err, user) {
-		console.log("user Data" + user);
+		//console.log("user Data" + user);
 		if (err) res.send(err);
 		// set the new user information if it exists in the request
 		if (req.body.firstname) user.firstname = req.body.firstname;

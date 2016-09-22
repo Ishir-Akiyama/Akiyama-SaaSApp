@@ -75,22 +75,40 @@ angular.module('userCtrl', ['userService', 'commonService'])
     vm.saveUser = function () {
         vm.processing = true;
         vm.message = '';
-
-        // use the create function in the userService
-        User.create(vm.userData)
-			.success(function (data) {
-			    vm.processing = false;
-			    //vm.userData = {};
-			    if (data.message != "User created!")
-			        vm.message = data.message;
-			    else
-			    {
-			        vm.userData = {};
-			        $location.path('/users');
-			    }
-			});
+        if (vm.userData.isadmin == false) {
+            if (vm.userData.clientid != '' && vm.userData.clientid != undefined) {
+                // call the userService function to update 
+                User.create(vm.userData)
+                     .success(function (data) {
+                         vm.processing = false;
+                         if (data.message != "User created!")
+                             vm.message = data.message;
+                         else {
+                             vm.userData = {};
+                             $location.path('/users');
+                         }
+                     });
+            }
+            else {
+                vm.userData.Error = '';
+                vm.userData.Error = 'Please select client';
+                return false;
+            }
+        }
+        else {
+            User.create(vm.userData)
+              .success(function (data) {
+                  vm.processing = false;
+                  //vm.userData = {};
+                  if (data.message != "User created!")
+                      vm.message = data.message;
+                  else {
+                      vm.userData = {};
+                      $location.path('/users');
+                  }
+              });
+        }
     };
-
 })
 
 // controller applied to user edit page

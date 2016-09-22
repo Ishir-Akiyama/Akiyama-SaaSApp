@@ -31,34 +31,33 @@
                                         </datepicker>
 
                                     </div>
-                                    </div>
-                                    <div class="padding-5 col-sm-3" ng-show="report.adminvalue==true">
-                                        <select ng-model="report.clientId" class="new-input form-control" ng-required="true" data-ng-change="report.Error=''">
-                                            <option value="">--Select Client--</option>
-                                            <option data-ng-repeat="data in report.clients" value="{{data.ClientId}}">{{data.name}}</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="padding-5 col-sm-4 padding-5">
-                                        <label>
-                                            <button id="btn" data-ng-click="report.filterGrid(report.clientId,report.fromdate,report.todate)" class=" btn btn-primary">Generate Report</button>
-                                        </label>
-                                        <label style="margin-left:10px;">
-                                            <button id="btn" data-ng-click="onBtExport()" class="btn btn-primary">Export CSV</button>
-                                        </label>
-                                    </div>
-                                    <div class="col-sm-2">
-
-                                    </div>
                                 </div>
+                                <div class="padding-5 col-sm-3" ng-show="report.adminvalue==true">
+                                    <select ng-model="report.clientId" class="new-input form-control" ng-required="true" data-ng-change="report.Error=''">
+                                        <option value="">--Select Client--</option>
+                                        <option data-ng-repeat="data in report.clients" value="{{data.ClientId}}">{{data.name}}</option>
+                                    </select>
+                                </div>
+
+                                <div class="padding-5 col-sm-4 padding-5">
+                                    <label>
+                                        <button id="btn" data-ng-click="report.filterGrid(report.clientId,report.fromdate,report.todate)" class=" btn btn-primary">Generate Report</button>
+                                    </label>
+                                    <label style="margin-left:10px;">
+                                        <button id="btn" data-ng-click="onBtExport()" class="btn btn-primary">Export CSV</button>
+                                    </label>
+                                </div>
+                                <div class="col-sm-2">
+                                </div>
+                            </div>
                         </div>
                         <div class="col-sm-3">
                             <input class="new-input form-control" placeholder="Search..." type="text" data-ng-model="this.value" data-ng-change="onFilterChanged(this.value)" />
-                                   <!--data-ng-keydown="onFilterChanged(this.value)"
-                                   data-ng-keyup="onFilterChanged(this.value)"
-                                   data-ng-change="onFilterChanged(this.value)" />-->
+                            <!--data-ng-keydown="onFilterChanged(this.value)"
+                            data-ng-keyup="onFilterChanged(this.value)"
+                            data-ng-change="onFilterChanged(this.value)" />-->
                         </div>
-                        <input id="hiddenID" type="hidden"  />
+                        <input id="hiddenID" type="hidden" />
                         <div class="col-sm-12"><div class="text-center col-sm-12 alert alert-danger" style="font-size:14px; padding:7px; margin-top:10px; margin-bottom: 0;" ng-if="report.Error">{{ report.Error }}</div></div>
 
                         <div class="col-lg-12 col-sm-12 col-xs-12">

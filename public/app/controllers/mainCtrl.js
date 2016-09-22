@@ -6,15 +6,23 @@ angular.module('mainCtrl', [])
     $scope.UserNameCookie = $cookieStore.get('CookieUserName');
     $scope.PasswordCookie = $cookieStore.get('CookiePassword');
     // check to see if a user is logged in on every request
-    $rootScope.$on('$routeChangeStart', function () {
+    $rootScope.$on('$routeChangeStart', function (event, next, current) {
         vm.loggedIn = Auth.isLoggedIn();
-        // get user information on page load
-        Auth.getUser()
-			.then(function (data) {
-			    vm.user = data.data;
-			    $window.localStorage.setItem('tempclientId', vm.user.clientid);
-			    $scope.currentId = localStorage.getItem('tempCurrenttabId');
-			});
+        if (vm.loggedIn) {
+            // get user information on page load
+            Auth.getUser()
+                .then(function (data) {
+                    vm.user = data.data;
+                    $window.localStorage.setItem('tempclientId', vm.user.clientid);
+                    $scope.currentId = localStorage.getItem('tempCurrenttabId');
+                });
+        }
+        else
+        {
+            if (!(next.templateUrl == "app/views/pages/home.html" || next.templateUrl == "app/views/pages/forgotPassword.html")) {
+                $location.path("/login");
+            }
+        }
     });
 
 
@@ -57,9 +65,7 @@ angular.module('mainCtrl', [])
 
     /// function to active tab
 
-    //$window.localStorage.setItem('tempCurrenttabId', 1);
-
-
+    $window.localStorage.setItem('tempCurrenttabId', 1);
     $("#myid li").click(function () {
         localStorage.setItem('tempCurrenttabId', this.id);
     });
@@ -68,6 +74,7 @@ angular.module('mainCtrl', [])
     vm.doLogout = function () {
         Auth.logout();
         vm.user = {};
+        $window.localStorage.setItem('tempCurrenttabId', 0);
         $window.location.reload();
         $location.path('/login');
     };

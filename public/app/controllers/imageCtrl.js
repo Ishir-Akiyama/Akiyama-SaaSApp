@@ -320,8 +320,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                    vm.adminvalue = vm.user.isadmin;
                    vm.clients = data;
                });
-                vm.filterGrid = function (clientId, fromdate, todate) {
-                    document.getElementById('myGrid').style.display = "block";
+                vm.filterGrid = function (clientId, fromdate, todate) {                   
                     var i = 0;
                     var list = Common.GetStatusList();
                     if (fromdate == undefined) {
@@ -339,6 +338,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                         vm.Error = 'Please select client';
                         return false;
                     }
+                    document.getElementById('myGrid').style.display = "block";
                     vm.Error = '';
                     vm.processing = true;
                     vm.message = '';
@@ -352,7 +352,6 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                        vm.images = data;
                        document.getElementById('hiddenID').value = data.length;
                        allOfTheData = data;
-                       debugger
                        createNewDatasource();
                        //show status according to it's value
                        angular.forEach(data, function (value, key) {
@@ -371,7 +370,6 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
             else {
                 var temp = '';
                 vm.filterGrid = function (temp, fromdate, todate) {
-                    document.getElementById('myGrid').style.display = "block";
                     var i = 0;
                     var list = Common.GetStatusList();
                     if (fromdate == undefined) {
@@ -384,6 +382,7 @@ angular.module('imageCtrl', ['imageService', 'commonService'])
                         vm.Error = 'Please select end date';
                         return false;
                     }
+                    document.getElementById('myGrid').style.display = "block";
                     vm.Error = '';
                     vm.processing = true;
                     vm.message = '';
