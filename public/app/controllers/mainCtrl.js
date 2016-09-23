@@ -49,8 +49,9 @@ angular.module('mainCtrl', [])
 			    vm.processing = false;
 			    // if a user successfully logs in, redirect to users page
 			    if (data.success) {
-			        if (data.isdefault) {
-			            //$window.localStorage.setItem('tempCurrenttabId', 0);
+			        $window.localStorage.setItem('tempCurrenttabId', 1);
+			        if (data.isdefault) {			            
+			            $window.localStorage.setItem('tempCurrenttabId', 0);
 			            $location.path('/changePassword');
 			        }
 			        else {
@@ -65,7 +66,7 @@ angular.module('mainCtrl', [])
 
     /// function to active tab
 
-    $window.localStorage.setItem('tempCurrenttabId', 1);
+   // $window.localStorage.setItem('tempCurrenttabId', 1);
     $("#myid li").click(function () {
         localStorage.setItem('tempCurrenttabId', this.id);
     });

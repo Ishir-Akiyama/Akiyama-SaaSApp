@@ -8,14 +8,14 @@ angular.module('userCtrl', ['userService', 'commonService'])
     vm.processing = true;
 
     //grab all client list
-     Client.all()
-		.success(function(data) {
-		    // when all the clients come back, remove the processing variable
-		    vm.processing = false;
+    Client.all()
+       .success(function (data) {
+           // when all the clients come back, remove the processing variable
+           vm.processing = false;
 
-		    // bind the clients that come back to vm.clients
-		    vm.clients = data;
-		});
+           // bind the clients that come back to vm.clients
+           vm.clients = data;
+       });
 
     // grab all the users at page load
     User.all()
@@ -25,15 +25,15 @@ angular.module('userCtrl', ['userService', 'commonService'])
 
 		    // bind the users that come back to vm.users
 		    vm.users = data;
-            //show client name
-             angular.forEach(vm.users, function (value, key) {
-                angular.forEach(vm.clients, function (cvalue, key) {
-                    if (cvalue.ClientId == value.clientid) {
-                        vm.users[i].clientname = cvalue.name;
-                    }               
-                });              
-            i++;
-            });
+		    //show client name
+		    angular.forEach(vm.users, function (value, key) {
+		        angular.forEach(vm.clients, function (cvalue, key) {
+		            if (cvalue.ClientId == value.clientid) {
+		                vm.users[i].clientname = cvalue.name;
+		            }
+		        });
+		        i++;
+		    });
 		    vm.users = data;
 		});
 
@@ -59,9 +59,9 @@ angular.module('userCtrl', ['userService', 'commonService'])
 })
 
 // controller applied to user creation page
-.controller('userCreateController', function (User, Common, $location) {
+.controller('userCreateController', function (User, Common, $location, $scope) {
     var vm = this;
-
+   
     // variable to hide/show elements of the view
     // differentiates between create or edit pages
     vm.type = 'create';
@@ -71,6 +71,8 @@ angular.module('userCtrl', ['userService', 'commonService'])
               vm.processing = false;
               vm.clients = data;
           });
+
+    $scope.word = /^\s*\w*\s*$/;
     // function to create a user
     vm.saveUser = function () {
         vm.processing = true;
@@ -112,9 +114,9 @@ angular.module('userCtrl', ['userService', 'commonService'])
 })
 
 // controller applied to user edit page
-.controller('userEditController', function ($routeParams, User, Common, $location) {
-
+.controller('userEditController', function ($routeParams, User, Common, $location, $scope) {
     var vm = this;
+    var adminCount = 0;
     //show active clients
     Common.GetClientList()
            .success(function (data) {
@@ -125,44 +127,61 @@ angular.module('userCtrl', ['userService', 'commonService'])
     // differentiates between create or edit pages
     vm.type = 'edit';
 
+    User.all()
+       .success(function (data) {
+           //show client name
+           angular.forEach(data, function (value, key) {
+               if (value.isadmin)
+                   adminCount++;
+           });
+           vm.count = adminCount;
+       });
+
+    $scope.word = /^\s*\w*\s*$/;
     // get the user data for the user you want to edit
     // $routeParams is the way we grab data from the URL
     User.get($routeParams.user_id)
 		.success(function (data) {
 		    vm.userData = data;
+		    if (data.isadmin) {
+		        if (adminCount == 1) {
+		            $("#chkAdmin").attr("disabled", true);
+		            $("#chkActive").attr("disabled", true);
+		        }
+		        else {
+		            $("#chkAdmin").removeAttr("disabled");
+		            $("#chkActive").removeAttr("disabled");
+		        }
+		    }
 		});
+
 
     // function to save the user
     vm.saveUser = function () {
         vm.processing = true;
         vm.message = '';
-        if (vm.userData.isadmin == false)
-        {
-            if(vm.userData.clientid != '' && vm.userData.clientid != undefined)
-            {
+        if (vm.userData.isadmin == false) {
+            if (vm.userData.clientid != '' && vm.userData.clientid != undefined) {
                 // call the userService function to update 
                 User.update($routeParams.user_id, vm.userData)
                     .success(function (data) {
                         vm.processing = false;
                         if (data.message != "User updated!")
                             vm.message = data.message;
-                        else
-                        {
+                        else {
                             // clear the form
                             vm.userData = {};
                             $location.path('/users');
                         }
                     });
             }
-            else
-            {
+            else {
                 vm.userData.Error = '';
                 vm.userData.Error = 'Please select client';
                 return false;
             }
         }
-        else
-        {
+        else {
             User.update($routeParams.user_id, vm.userData)
                  .success(function (data) {
                      vm.processing = false;
@@ -184,8 +203,8 @@ angular.module('userCtrl', ['userService', 'commonService'])
 
     var password = document.getElementById("password"), confirm_password = document.getElementById("confirm_password");
 
-    function validatePassword(){
-        if(password.value != confirm_password.value) {
+    function validatePassword() {
+        if (password.value != confirm_password.value) {
             confirm_password.setCustomValidity("Passwords Don't Match");
         } else {
             confirm_password.setCustomValidity('');
@@ -208,7 +227,7 @@ angular.module('userCtrl', ['userService', 'commonService'])
 			    vm.userData = {};
 			    // bind the message from our API to vm.message
 			    vm.message = data.message;
-			    //localStorage.setItem('tempCurrenttabId',1);
+			    localStorage.setItem('tempCurrenttabId',1);
 			    $location.path('/dashboard');
 			});
     };

@@ -4,7 +4,7 @@
     <h1 ng-if="user.type == 'edit'">Edit User</h1>
 </div>
 
-<form class="form-horizontal" ng-submit="user.saveUser()">
+<form name="myForm" class="form-horizontal" ng-submit="user.saveUser()">
 
     <div class="form-group">
         <label class="col-sm-2 control-label">FirstName</label>
@@ -23,10 +23,11 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">Username</label>
         <div class="col-sm-6">
-            <input type="text" class="form-control" ng-model="user.userData.username" required>
+            <!--<input type="text" class="form-control" ng-model="user.userData.username" required>-->
+            <input type="text" name="input" class="form-control" ng-model="user.userData.username" ng-pattern="word" required ng-trim="false">
+            <span class="error" ng-show="myForm.input.$error.pattern" style="color:red">Special characters not allowed!!</span>
         </div>
     </div>
-
     <div class="form-group">
         <label class="col-sm-2 control-label">EmailId</label>
         <div class="col-sm-6">
@@ -36,7 +37,7 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">Is Admin</label>
         <div class="col-sm-6">
-            <input type="checkbox" ng-model="user.userData.isadmin">
+            <input type="checkbox" ng-model="user.userData.isadmin" id="chkAdmin">
             <span ng-if="user.userData.isadmin!=true" ng-init="user.userData.isadmin=false"></span>
         </div>
     </div>
@@ -49,17 +50,17 @@
             </select>
         </div>
     </div>
-   
+
     <div class="form-group">
         <label class="col-sm-2 control-label">Is Active</label>
         <div class="col-sm-6">
-            <input type="checkbox" ng-model="user.userData.isactive">
+            <input type="checkbox" ng-model="user.userData.isactive" id="chkActive">
         </div>
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-6">
-            <button type="submit" class="btn btn-success btn-lg btn-block" ng-if="user.type == 'create'">Create User</button>
-            <button type="submit" class="btn btn-success btn-lg btn-block" ng-if="user.type == 'edit'">Update User</button>
+            <button type="submit" ng-disabled="myForm.input.$error.pattern" class="btn btn-success btn-lg btn-block" ng-if="user.type == 'create'">Create User</button>
+            <button type="submit" ng-disabled="myForm.input.$error.pattern" class="btn btn-success btn-lg btn-block" ng-if="user.type == 'edit'">Update User</button>
         </div>
         <div class="col-sm-offset-2 col-sm-6"><div class="text-center col-sm-12 alert alert-danger" style="font-size:14px; padding:7px; margin-top:10px; margin-bottom: 0;text-decoration-color:white;" ng-if="user.userData.Error">Please select client</div></div>
     </div>
