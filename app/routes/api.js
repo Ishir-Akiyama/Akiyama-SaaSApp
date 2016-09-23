@@ -174,6 +174,9 @@ module.exports = function (app, express) {
                               expiresIn: expiresIn // expires in is configured in config.js
                           });
 
+                            Image.scoreImageSchduler(user.clientid);
+                            // return the information including token as JSON
+
                             // return the information including token as JSON
                             res.json({
                                 success: true,

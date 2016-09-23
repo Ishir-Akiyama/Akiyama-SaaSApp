@@ -116,7 +116,7 @@ exports.create = function (request, response) {
                 if (err) {
 
                     console.error(err);
-                    throw ex;
+                   // throw ex;
                 } else {
 
                     fs.writeFileSync(fileAddress + '.json', JSON.stringify(result));
@@ -156,7 +156,7 @@ exports.create = function (request, response) {
                             return;
                         }
 
-                      
+
                         for (var i = 0; i < imagesInExcel.length; i++) {
                             var getType = imagesInExcel[i].Image.toString().substr(5, 20);
                             getType = getType.substr(0, getType.indexOf(";"));
@@ -274,25 +274,34 @@ exports.findByParam = function (request, response) {
 
 exports.scoreImageSchduler = function (req, res) {
 
+
     var cron = require('node-schedule');
     /* This runs at the 30th mintue of every hour. */
     cron.scheduleJob('1 * * * * *', function () {
+        var Image;
+        var temp = req;
 
-        var temp = req.params.client_id;
-        module.exports = mongoose.model('Images_' + temp, sch_obj);
-        var Image = mongoose.model('Images_' + temp);
+        try {
+            Image = mongoose.model('Images_' + temp);
+        } catch (e) {
+            module.exports = mongoose.model('Images_' + temp, sch_obj);
+            Image = mongoose.model('Images_' + temp);
+        }
+
         Image.find({}, function (err, Image) {
             if (err) response.send(err);
 
             for (var i = 0; i < Image.length; i++) {
                 var newImage = Image[i];
-                newImage.status = Math.floor(Math.random() * 5) + 1;
 
-                newImage.save(function (err) {
-                    if (err) { }
-                    // return a message
+                if (newImage.status == "-1") {
+                    newImage.status = Math.floor(Math.random() * 5) + 1;
 
-                });
+                    newImage.save(function (err) {
+                        if (err) { }
+                    });
+                }
+
             }
 
         });
